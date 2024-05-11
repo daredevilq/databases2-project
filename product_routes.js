@@ -1,8 +1,8 @@
 const express = require("express");
 const productRoutes = express.Router();
 const Product = require("./models/product");
-
-
+const aggregationPipelines = require("./aggregation_pipelines")
+const Comments =  require("./models/comment")
 productRoutes.get("/allproducts", (req, res) => {
   Product.find()
     .then((result) => {
@@ -74,5 +74,24 @@ productRoutes.post("/addproduct", async (req, res) => {
       .json({ message: "Wystąpił błąd serwera podczas tworzenia produktu" });
   }
 });
+
+
+productRoutes.get("/products/:productId/allreviews", async (req, res) => {
+  const { productId } = req.params;
+
+  try {
+    const aggregationPipeline =
+      aggregationPipelines.matchAllProductsWithGivenID(productId);
+    
+    console.log(aggregationPipeline);
+    const result = await Comments.aggregate(aggregationPipeline);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Wystąpił błąd serwera" });
+  }
+});
+
+
 
 module.exports = productRoutes;
