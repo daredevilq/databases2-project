@@ -33,6 +33,7 @@ app.get('/', (request, response) =>{
 
 app.use("/", userRoutes);
 app.use("/", productRoutes);
+
 app.listen(PORT, ()=>{
     console.log(`Local server opened on http://localhost:${PORT}/`);
 });
