@@ -1,6 +1,9 @@
 const express = require("express");
 const userRoutes = express.Router();
 const User = require("./models/user");
+const Basket = require("./models/basket");
+
+const aggregationPipelines = require("./aggregation_pipelines");
 
 userRoutes.get("/allusers", (req, res) => {
   User.find()
@@ -33,5 +36,20 @@ userRoutes.get("/searchuser", (req, res) => {
       res.status(500).send("Wystąpił błąd podczas wyszukiwania użytkowników.");
     });
 });
+
+userRoutes.get("/userbaskets/:userId", async (req, res) => {
+  const { userId } = req.params;
+  console.log(userId);
+  try {
+    const aggregationPipeline =
+      aggregationPipelines.matchAllBasketsWithGivenUserID(userId);
+    
+    const result = await Basket.aggregate(aggregationPipeline);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Wystąpił błąd serwera" });
+  }
+})
 
 module.exports = userRoutes;
