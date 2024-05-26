@@ -54,61 +54,77 @@ userRoutes.get("/userbaskets/:userId", async (req, res) => {
 });
 
 
+userRoutes.get("/userbasketsdetails", async (req, res) => {
+  const {
+    userId,
+    mintotalvalue,
+    maxtotalvalue,
+    numberofproducts,
+    deliverystatus,
+    status,
+    timestamp,
+    title,
+    brand,
+    category,
+  } = req.query;
 
+  let pipeline = aggregationPipelines.matchAllBasketsDetailed(userId, title, brand, category);
 
-// userRoutes.get("/userbaskets/:userId", async (req, res) => {
-//   const { userId } = req.params;
-//   try {
-//     // Znajdź użytkownika po userId
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-
-//     // Znajdź wszystkie koszyki dla danego użytkownika
-//     const baskets = await Basket.find({ user_id: userId });
-//     console.log(baskets)
-//     let totalValue = 0;
-
-//     for (const basket of baskets) {
-//       for (const productId of basket.products) {
-//         const product = await Product.findById(productId);
-//         if (product) {
-//           totalValue += product.price;
-//         }
-//       }
-//     }
-
-//     // Tworzenie odpowiedzi
-//     const response = {
-//       user: {
-//         firstname: user.firstname,
-//         lastname: user.lastname,
-//       },
-//       baskets: baskets,
-//       totalValue: totalValue,
-//     };
-
-//     res.json(response);
-//   } catch (err) {
-//     res.status(500).json({ message: err.message });
-//   }
-// });
-
-
-userRoutes.get("/userbaskfhgets/:userId", async (req, res) => {
-  const { userId } = req.params;
-  console.log(userId);
-  try {
-    const aggregationPipeline =
-      aggregationPipelines.matchAllBasketsWithGivenUserID(userId);
-    
-    const result = await Basket.aggregate(aggregationPipeline);
-    res.json(result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Wystąpił błąd serwera" });
+  // Additional filters
+  if (mintotalvalue || maxtotalvalue) {
+    pipeline.push({
+      $match: {
+        totalValue: {
+          ...(mintotalvalue ? { $gte: parseFloat(mintotalvalue) } : {}),
+          ...(maxtotalvalue ? { $lte: parseFloat(maxtotalvalue) } : {})
+        }
+      }
+    });
   }
-})
+  
+  if (numberofproducts) {
+    pipeline.push({
+      $match: {
+        'baskets.products': {
+          $size: parseInt(numberofproducts, 10)
+        }
+      }
+    });
+  }
+  
+  if (deliverystatus) {
+    pipeline.push({
+      $match: {
+        'baskets.delivery_status': deliverystatus
+      }
+    });
+  }
+  
+  if (status) {
+    pipeline.push({
+      $match: {
+        'baskets.transaction.status': status
+      }
+    });
+  }
+  
+  if (timestamp) {
+    const date = new Date(timestamp);
+    pipeline.push({
+      $match: {
+        'transaction.timestamp': { $gte: date }
+      }
+    });
+  }
+  
+  try {
+    const result = await Basket.aggregate(pipeline);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
 
 module.exports = userRoutes;

@@ -43,6 +43,8 @@ brandRoutes.get("/searchbrands", async (req, res) =>{
         } else if (establishedYearMax) {
         searchCriteria.established_year = { $lte: establishedYearMax };
         }
+        
+        console.log(searchCriteria)
         const companies = await Brand.find(searchCriteria);
         res.json(companies);
     } catch (error) {

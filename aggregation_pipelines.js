@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { ObjectId } = require("mongodb");
 
 function matchAllProductsWithGivenID(productID){
     return [
@@ -77,10 +77,103 @@ function matchAllBasketsWithGivenUserID(userID){
 }
 
 
+function matchAllBasketsDetailed(userId, title, brand, category){
+
+
+  const userObjectId = new ObjectId(userId);
+  const productSearchCriteria = [];
+
+  if (title) productSearchCriteria.push({ 'productDetails.title': { $regex: title, $options: "i" } });
+  if (brand) productSearchCriteria.push({ 'productDetails.brand': { $regex: brand, $options: "i" } });
+  if (category) productSearchCriteria.push({ 'productDetails.category': { $regex: category, $options: "i" } });
+
+  const pipeline = [
+    { $match: { user_id: userObjectId } },
+    {
+      $lookup: {
+        from: 'users',
+        localField: 'user_id',
+        foreignField: '_id',
+        as: 'user'
+      }
+    },
+    { $unwind: '$user' },
+    {
+      $lookup: {
+        from: 'products',
+        localField: 'products',
+        foreignField: '_id',
+        as: 'productDetails'
+      }
+    },
+    {
+      $addFields: {
+        totalValue: { $sum: '$productDetails.price' },
+        matchingProducts: {
+          $filter: {
+            input: '$productDetails',
+            as: 'product',
+            cond: {
+              $or: productSearchCriteria.length > 0
+                ? productSearchCriteria.map(criteria => ({
+                    $regexMatch: {
+                      input: `$$product.${Object.keys(criteria)[0].split('.')[1]}`,
+                      regex: Object.values(criteria)[0].$regex,
+                      options: Object.values(criteria)[0].$options
+                    }
+                  }))
+                : [true] // No filtering if no search criteria
+            }
+          }
+        }
+      }
+    },
+    {
+      $match: {
+        $expr: {
+          $gt: [{ $size: '$matchingProducts' }, 0]
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        firstname: '$user.firstname',
+        lastname: '$user.lastname',
+        baskets: {
+          _id: '$_id',
+          date_time: '$date_time',
+          products: {
+            $map: {
+              input: '$productDetails',
+              as: 'product',
+              in: {
+                _id: '$$product._id',
+                title: '$$product.title',
+                price: '$$product.price',
+                brand: '$$product.brand',
+                category: '$$product.category'
+              }
+            }
+          },
+          transaction: '$transaction',
+          delivery_status: '$delivery_status'
+        },
+        totalValue: 1
+      }
+    }
+  ];
+
+  return pipeline;
+}
+
+
+
 
 
 module.exports = {
   matchAllProductsWithGivenID,
   matchAllBasketsWithGivenUserID,
+  matchAllBasketsDetailed
 };
 

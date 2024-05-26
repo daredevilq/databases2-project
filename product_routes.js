@@ -52,6 +52,7 @@ productRoutes.get("/searchproducts", async (req, res) => {
     if (maxStock) searchCriteria.stock = { $lte: maxStock };
 
     const products = await Product.find(searchCriteria);
+    
     res.json(products);
   } catch (error) {
     console.error(error);
