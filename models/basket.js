@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const transactionSchema = new mongoose.Schema({
@@ -21,7 +22,7 @@ const transactionSchema = new mongoose.Schema({
 
 const basketSchema = new mongoose.Schema({
   user_id: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   date_time: {
@@ -30,7 +31,7 @@ const basketSchema = new mongoose.Schema({
   },
   products: [
     {
-      type: String,
+      type: ObjectId,
       required: true,
     },
   ],
