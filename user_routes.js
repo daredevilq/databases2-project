@@ -126,5 +126,73 @@ userRoutes.get("/userbasketsdetails", async (req, res) => {
 });
 
 
+userRoutes.post("/createbasket/:userId", async (req, res) => {
+  // format for sending products is: products:id_1;id_2;id_2
+  // as you see we are using const productIds = products.split(';');
+  const { userId } = req.params;
+  const {products, currency, payment_method,status, delivery_status } = req.body;
+  const productsArr = products.split(';');
+  try {
+    const newBasket = new Basket({
+      user_id: new mongoose.Types.ObjectId(userId),
+      date_time: new Date(),
+      products: productsArr.map(productId => new mongoose.Types.ObjectId(productId)),
+      transaction: {
+        currency,
+        payment_method,
+        status,
+        timestamp: new Date(),
+      },
+      delivery_status,
+    });
+
+    const savedBasket = await newBasket.save();
+    res.status(201).json(savedBasket);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Wystąpił błąd serwera" });
+  }
+});
+
+
+
+
+
+userRoutes.put("/updatebasket/:basketId", async (req, res) => {
+  const { basketId } = req.params;
+  const { products, delivery_status, transaction_status } = req.body;
+
+  try {
+    const basketObjectId = new mongoose.Types.ObjectId(basketId)
+    const basket = await Basket.findById(basketObjectId);
+
+
+    if (!basket) {
+      return res.status(404).json({ message: "Koszyk nie został znaleziony" });
+    }
+
+    if (products) {
+      const productsArray = products.split(';');
+      basket.products = [...basket.products, ...productsArray.map(productId => new mongoose.Types.ObjectId(productId))];
+    }
+
+    if (delivery_status) {
+      basket.delivery_status = delivery_status;
+    }
+
+    if (transaction_status) {
+      basket.transaction.status = transaction_status;
+      basket.transaction.timestamp = new Date();
+    }
+
+    const updatedBasket = await basket.save();
+    res.status(200).json(updatedBasket);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Wystąpił błąd serwera" });
+  }
+});
+
+
 
 module.exports = userRoutes;
