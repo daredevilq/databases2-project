@@ -13,6 +13,7 @@ const userRoutes = require("./user_routes");
 const productRoutes = require("./product_routes");
 const brandRoutes = require("./brand_routes");
 const commentRoutes = require('./comment_routes');
+const adminRoutes = require('./admin_reports_routes');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -40,6 +41,8 @@ app.use("/", userRoutes);
 app.use("/", productRoutes);
 app.use("/", brandRoutes);
 app.use("/", commentRoutes)
+app.use("/", adminRoutes)
+
 
 app.listen(PORT, ()=>{
     console.log(`Local server opened on http://localhost:${PORT}/`);

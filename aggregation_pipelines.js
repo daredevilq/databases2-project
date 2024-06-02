@@ -292,11 +292,64 @@ function searchAllUserComments(userId){
 }
 
 
+function financialReportUsers(){
+  const pipeline = [
+    
+    { $unwind: "$products" },
+    {
+      $lookup: {
+        from: "products",
+        localField: "products",
+        foreignField: "_id",
+        as: "productInfo"
+      }
+    },
+    
+    { $unwind: "$productInfo" },
+    
+    {
+      $group: {
+        _id: "$user_id",
+        totalAmount: { $sum: "$productInfo.price" }
+      }
+    },
+    
+    {
+      $lookup: {
+        from: "users",
+        localField: "_id",
+        foreignField: "_id",
+        as: "userInfo"
+      }
+    },
+    
+    // Rozpakowanie tablicy userInfo
+    { $unwind: "$userInfo" },
+    
+    // Projektowanie końcowego wyniku
+    {
+      $project: {
+        _id: 0,
+        userId: "$_id",
+        firstname: "$userInfo.firstname",
+        lastname: "$userInfo.lastname",
+        totalAmount: "$totalAmount"
+      }
+    }
+  ];
+
+  return pipeline
+}
+
+
+
+
 module.exports = {
   matchAllProductsWithGivenID,
   matchAllBasketsWithGivenUserID,
   matchAllBasketsDetailed,
   matchAllComents,
-  searchAllUserComments
+  searchAllUserComments,
+  financialReportUsers
 };
 
