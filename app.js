@@ -12,6 +12,7 @@ const dbURI = `mongodb+srv://piotrsmialek:haslo123@cluster0.wsew7st.mongodb.net/
 const userRoutes = require("./user_routes");
 const productRoutes = require("./product_routes");
 const brandRoutes = require("./brand_routes");
+const commentRoutes = require('./comment_routes');
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -38,6 +39,7 @@ app.get('/', (request, response) =>{
 app.use("/", userRoutes);
 app.use("/", productRoutes);
 app.use("/", brandRoutes);
+app.use("/", commentRoutes)
 
 app.listen(PORT, ()=>{
     console.log(`Local server opened on http://localhost:${PORT}/`);

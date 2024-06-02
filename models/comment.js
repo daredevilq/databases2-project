@@ -1,8 +1,9 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const commentSchema = new mongoose.Schema({
   userid: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   comment: {
@@ -13,11 +14,11 @@ const commentSchema = new mongoose.Schema({
 
 const commentsSchema = new mongoose.Schema({
   product_id: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   customer_id: {
-    type: String,
+    type: ObjectId,
     required: true,
   },
   rating: {
@@ -36,3 +37,5 @@ const commentsSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Comments", commentsSchema);
+
+

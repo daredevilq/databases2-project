@@ -168,12 +168,135 @@ function matchAllBasketsDetailed(userId, title, brand, category){
 }
 
 
+function matchAllComents(userId ){
 
+  const userObjectId = new ObjectId(userId);
+
+  return [
+    { $unwind: "$comments" },
+    { $match: { "comments.userid": { $oid: userId } } },
+    {
+        $lookup: {
+            from: "users",
+            localField: "comments.userid",
+            foreignField: "_id",
+            as: "user_info"
+        }
+    },
+    { $unwind: "$user_info" },
+    {
+        $project: {
+            _id: 0,
+            product_id: 1,
+            review: 1,
+            "comment": "$comments.comment",
+            "user_firstname": "$user_info.firstname",
+            "user_lastname": "$user_info.lastname"
+        }
+    }
+]
+}
+
+
+function searchAllUserComments2(userId){
+
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+
+  return [
+    {
+      $unwind: "$comments"
+    },
+    {
+      $match: {
+        "comments.userid": userObjectId 
+      }
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "product_info"
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "comments.userid",
+        foreignField: "_id",
+        as: "user_info"
+      }
+    },
+    {
+      $unwind: "$product_info"
+    },
+    {
+      $unwind: "$user_info"
+    },
+    {
+      $project: {
+        _id: 0,
+        comment: "$comments.comment",
+        product_title: "$product_info.title",
+        firstname: "$user_info.firstname",
+        lastname: "$user_info.lastname"
+      }
+    }
+  ]
+}
+
+
+function searchAllUserComments(userId){
+
+  const userObjectId = new mongoose.Types.ObjectId(userId)
+
+  return [
+    {
+      $match: {
+        customer_id: userObjectId 
+      }
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "product_info"
+      }
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "customer_id",
+        foreignField: "_id",
+        as: "user_info"
+      }
+    },
+    {
+      $unwind: "$product_info"
+    },
+    {
+      $unwind: "$user_info"
+    },
+    {
+      $project: {
+        "_id": 0,
+        firstname: "$user_info.firstname",
+        lastname: "$user_info.lastname",
+        product_title: "$product_info.title",
+        review: "$review",
+        date: "$date"
+      }
+    }
+  ]
+}
 
 
 module.exports = {
   matchAllProductsWithGivenID,
   matchAllBasketsWithGivenUserID,
-  matchAllBasketsDetailed
+  matchAllBasketsDetailed,
+  matchAllComents,
+  searchAllUserComments
 };
 
