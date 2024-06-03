@@ -342,6 +342,82 @@ function financialReportUsers(){
 }
 
 
+function countCoustomersInCountries(){
+  return [
+    {
+      $group: {
+        _id: "$address.country",
+        userCount: { $sum: 1 }
+      }
+    },
+    {
+      $sort: { userCount: -1 }
+    },{
+      $project:{
+        country: "$_id",
+        _id:0,
+        userCount: "$userCount"
+      }
+    }
+  ]
+}
+
+
+function ordersWeekly(){
+  return [
+    {
+      "$addFields": {
+        "date_time": {
+          "$cond": {
+            "if": {
+              "$eq": [
+                {
+                  "$type": "$date_time"
+                },
+                "date"
+              ]
+            },
+            "then": "$date_time",
+            "else": null
+          }
+        }
+      }
+    },
+    {
+      "$addFields": {
+        "dayOfWeek": {
+          "$add": [
+            {
+              "$dayOfWeek": "$date_time"
+            },
+            -1
+          ]
+        }
+      }
+    },
+    {
+      "$group": {
+        "_id": "$dayOfWeek",
+        "numberOfOrders": {
+          "$sum": 1
+        }
+      }
+    },
+    {
+      "$sort": {
+        "_id": 1
+      }
+    },
+    {
+      "$project": {
+        "dayOfWeek": "$_id",
+        "numberOfOrders": 1,
+        "_id": 0
+      }
+    }
+  ];
+}
+
 
 
 module.exports = {
@@ -350,6 +426,8 @@ module.exports = {
   matchAllBasketsDetailed,
   matchAllComents,
   searchAllUserComments,
-  financialReportUsers
+  financialReportUsers,
+  countCoustomersInCountries,
+  ordersWeekly
 };
 
