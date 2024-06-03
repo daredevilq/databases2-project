@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   address: {
+    country: {
+      type: String,
+      required: true
+    },
     street: {
       type: String,
       required: true,

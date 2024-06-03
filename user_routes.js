@@ -3,6 +3,8 @@ const userRoutes = express.Router();
 const User = require("./models/user");
 const Basket = require("./models/basket");
 const mongoose = require('mongoose');
+const helperFunctions = require('./helper_functions')
+
 
 const aggregationPipelines = require("./aggregation_pipelines");
 const { ObjectId } = require("mongodb");
@@ -18,7 +20,7 @@ userRoutes.get("/allusers", (req, res) => {
 });
 
 userRoutes.get("/searchuser", (req, res) => {
-  const { firstname, lastname, username, email, city, zipcode } = req.query;
+  const { firstname, lastname, username, email, city, zipcode, country } = req.query;
 
   const searchCriteria = {};
 
@@ -28,6 +30,7 @@ userRoutes.get("/searchuser", (req, res) => {
   if (email) searchCriteria.email = email;
   if (city) searchCriteria["address.city"] = city;
   if (zipcode) searchCriteria["address.zipcode"] = zipcode;
+  if (country) searchCriteria["address.country"] = country;
 
   User.find(searchCriteria)
     .then((users) => {
@@ -133,6 +136,18 @@ userRoutes.post("/createbasket/:userId", async (req, res) => {
   const {products, currency, payment_method,status, delivery_status } = req.body;
   const productsArr = products.split(';');
   try {
+
+    const productsAvailbility = await helperFunctions.checkWhetherProductsAreAvailable(productsArr) 
+    if(!productsAvailbility){
+      res.status(500).json({ message: "One of the products is not available" });
+    }
+
+    const decreasingResult = await helperFunctions.decreaseProductQuantity(productsArr)
+
+    if(!decreasingResult){
+      res.status(500).json({ message: "Cant decrese products quantity" });
+    }
+
     const newBasket = new Basket({
       user_id: new mongoose.Types.ObjectId(userId),
       date_time: new Date(),
@@ -146,7 +161,9 @@ userRoutes.post("/createbasket/:userId", async (req, res) => {
       delivery_status,
     });
 
+
     const savedBasket = await newBasket.save();
+
     res.status(201).json(savedBasket);
   } catch (error) {
     console.error(error);
@@ -166,13 +183,14 @@ userRoutes.put("/updatebasket/:basketId", async (req, res) => {
     const basketObjectId = new mongoose.Types.ObjectId(basketId)
     const basket = await Basket.findById(basketObjectId);
 
-
+    
     if (!basket) {
       return res.status(404).json({ message: "Koszyk nie został znaleziony" });
     }
 
     if (products) {
       const productsArray = products.split(';');
+      
       basket.products = [...basket.products, ...productsArray.map(productId => new mongoose.Types.ObjectId(productId))];
     }
 
