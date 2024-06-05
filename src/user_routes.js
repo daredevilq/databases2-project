@@ -253,7 +253,7 @@ userRoutes.post('/register-user', async (req, res) => {
       country, street, suite, city, zipcode,
       phone
     } = req.body;
-
+    const role = 'user'
     if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
       return res.status(400).send('All required fields must be provided');
     }
@@ -274,6 +274,7 @@ userRoutes.post('/register-user', async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: role,
       address: {
         country,
         street,
