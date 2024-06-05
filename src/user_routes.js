@@ -4,7 +4,7 @@ const User = require("./models/user");
 const Basket = require("./models/basket");
 const mongoose = require('mongoose');
 const helperFunctions = require('./helper_functions')
-
+const bcrypt = require('bcrypt')
 
 const aggregationPipelines = require("./aggregation_pipelines");
 const { ObjectId } = require("mongodb");
@@ -208,6 +208,87 @@ userRoutes.put("/updatebasket/:basketId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Wystąpił błąd serwera" });
+  }
+});
+
+
+
+userRoutes.post('/change-user-password', async (req, res) =>{
+  try{
+    const { email, newPassword } = req.body;
+
+    if (!email || !newPassword) {
+      return res.status(400).send('Email and password are required');
+    }
+
+    const user = await User.findOne({email: email})
+    
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    
+    const salt = await bcrypt.genSalt()
+    const hashedPassword = await bcrypt.hash(newPassword, salt)
+    
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).send('Password updated successfully');
+  }
+  catch(error){
+    console.error("Error updating password:", error);
+    res.status(500).send('An error occurred while updating the password');
+  }
+})
+
+
+
+userRoutes.post('/register-user', async (req, res) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      country, street, suite, city, zipcode,
+      phone
+    } = req.body;
+
+    if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
+      return res.status(400).send('All required fields must be provided');
+    }
+
+    const existingUser = await User.findOne({ email: email });
+    const existingUserUsername = await User.findOne({username: username})
+    if (existingUser || existingUserUsername) {
+      return res.status(409).send('User with this email already exists');
+    }
+
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      firstname,
+      lastname,
+      username,
+      email,
+      password: hashedPassword,
+      address: {
+        country,
+        street,
+        suite,
+        city,
+        zipcode
+      },
+      phone
+    });
+    await newUser.save();
+
+    res.status(201).send('User created successfully');
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).send('An error occurred while creating the user');
   }
 });
 

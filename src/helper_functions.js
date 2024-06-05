@@ -49,5 +49,6 @@ async function decreaseProductQuantity(productsIDs) {
 
 
 
+
 module.exports = {checkWhetherProductsAreAvailable,
                  decreaseProductQuantity}
