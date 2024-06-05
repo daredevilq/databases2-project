@@ -6,8 +6,9 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const ROLES = require('./roles_list')
 const authenticationRoutes = express.Router();
-
-
+const Logs = require("./models/log");
+const mongoose = require('mongoose');
+const User = require("./models/user");
 
 
 //zrobic logs 
@@ -29,7 +30,18 @@ authenticationRoutes.post('/login', async (req, res) => {
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '20m' }
       );
-  
+      
+      console.log(new Date())
+
+      const newLog = new Logs({
+        user_id: user._id, 
+        action_type: 'login',
+        time: new Date()
+      });
+      
+
+      const savedLog = await newLog.save();
+      console.log(savedLog)
       res.status(201).json({ accessToken: accessToken });
     } catch (error) {
       console.error("Error during login:", error);
@@ -37,19 +49,36 @@ authenticationRoutes.post('/login', async (req, res) => {
     }
   });
   
-
+authenticationRoutes.get('/tttest', async (req, res) =>{
+    res.send(await Logs.find())
+})
 
 
 authenticationRoutes.get('/logout',authenticateToken, async (req, res) => {
     try {
-    console.log(req.user.user)
-      jwt.sign(
+    
+        const denyToken =jwt.sign(
         { user : req.user.user },
-        process.env.ACCESS_TOKEN_SECRET,
+        process.env.DENY_TOKEN_SECRET,
         { expiresIn: '2s' }
       );
-      
-      res.status(201).json(`${req.user.user.firstname}'s logout was successful`);
+
+
+      const newLog = new Logs({
+        user_id: req.user.user._id, 
+        action_type: 'logout',
+        time: new Date()
+      });
+
+
+      const savedLog = await newLog.save()
+
+      const toSend = {
+        logut : savedLog,
+        deny: denyToken
+      }
+
+      res.status(201).send(toSend);
     } catch (error) {
       console.error("Error during logout:", error);
       res.status(500).send('An error occurred during logout');
