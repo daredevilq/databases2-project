@@ -5,11 +5,13 @@ const Basket = require("./models/basket");
 const mongoose = require('mongoose');
 const helperFunctions = require('./helper_functions')
 const bcrypt = require('bcrypt')
+const authorization = require('./authorization')
+const ROLES = require('./roles_list')
 
 const aggregationPipelines = require("./aggregation_pipelines");
 const { ObjectId } = require("mongodb");
 
-userRoutes.get("/allusers", (req, res) => {
+userRoutes.get("/allusers", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), (req, res) => {
   User.find()
     .then((result) => {
       res.send(result);
@@ -18,6 +20,8 @@ userRoutes.get("/allusers", (req, res) => {
       console.log(err);
     });
 });
+
+
 
 userRoutes.get("/searchuser", (req, res) => {
   const { firstname, lastname, username, email, city, zipcode, country } = req.query;
@@ -253,7 +257,7 @@ userRoutes.post('/register-user', async (req, res) => {
       country, street, suite, city, zipcode,
       phone
     } = req.body;
-    const role = 'user'
+    const role = ROLES.CUSTOMER
     if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
       return res.status(400).send('All required fields must be provided');
     }
@@ -292,6 +296,62 @@ userRoutes.post('/register-user', async (req, res) => {
     res.status(500).send('An error occurred while creating the user');
   }
 });
+
+
+
+
+userRoutes.post('/register-admin', async (req, res) => {
+  try {
+    const {
+      firstname,
+      lastname,
+      username,
+      email,
+      password,
+      country, street, suite, city, zipcode,
+      phone
+    } = req.body;
+    const role = ROLES.ADMIN
+    if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
+      return res.status(400).send('All required fields must be provided');
+    }
+
+    const existingUser = await User.findOne({ email: email });
+    const existingUserUsername = await User.findOne({username: username})
+    if (existingUser || existingUserUsername) {
+      return res.status(409).send('User with this email already exists');
+    }
+
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      firstname,
+      lastname,
+      username,
+      email,
+      password: hashedPassword,
+      role: role,
+      address: {
+        country,
+        street,
+        suite,
+        city,
+        zipcode
+      },
+      phone
+    });
+    await newUser.save();
+
+    res.status(201).send('User created successfully');
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).send('An error occurred while creating the user');
+  }
+});
+
+
 
 
 

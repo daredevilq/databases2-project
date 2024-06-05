@@ -8,10 +8,9 @@ const ROLES = require('./roles_list')
 const authenticationRoutes = express.Router();
 const Logs = require("./models/log");
 const mongoose = require('mongoose');
+const authorization = require('./authorization')
 
 
-
-//zrobic logs 
 authenticationRoutes.post('/login', async (req, res) => {
     try {
       const { email, password} = req.body;
@@ -54,7 +53,7 @@ authenticationRoutes.get('/tttest', async (req, res) =>{
 })
 
 
-authenticationRoutes.get('/logout',authenticateToken, async (req, res) => {
+authenticationRoutes.get('/logout',authorization.authenticateToken, async (req, res) => {
     try {
     
         const denyToken =jwt.sign(
@@ -86,33 +85,8 @@ authenticationRoutes.get('/logout',authenticateToken, async (req, res) => {
   });
   
 
-  
-  function authenticateToken(req, res, next){
-    const authHeader = req.headers['authorization']
-    // we split because its: BEARER <token>
-    const token = authHeader && authHeader.split(' ')[1]
-  
-    if(token == null){
-        res.status(400)
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
-      if(err) return res.sendStatus(403)
-  
-      req.user = user;
-      next()
-    })
-  }
-  
-  function authorizeRoles(allowedRoles) {
-    return (req, res, next) => {
-      if (!allowedRoles.includes(req.user.user.role)) {
-        return res.status(403).send('Access forbidden: insufficient rights');
-      }
-      next();
-    }
-  }
-  
-  authenticationRoutes.get('/test', authenticateToken, authorizeRoles([ROLES.CUSTOMER]),(req, res) =>{
+
+  authenticationRoutes.get('/test', authorization.authenticateToken, authorization.authorizeRoles([ROLES.CUSTOMER]),(req, res) =>{
     res.send(req.user)
   })
 

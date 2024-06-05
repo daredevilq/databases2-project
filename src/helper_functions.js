@@ -1,7 +1,9 @@
 const express = require("express");
 const Product = require("./models/product");
 const mongoose = require('mongoose');
-
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const ROLES = require('./roles_list')
 
 
 
@@ -36,7 +38,6 @@ async function decreaseProductQuantity(productsIDs) {
                 console.error(`Product with ID ${productID} is out of stock`);
                 return false;
             }
-
             product.stock -= 1;
             await product.save();
         }
@@ -48,7 +49,6 @@ async function decreaseProductQuantity(productsIDs) {
 }
 
 
-
-
 module.exports = {checkWhetherProductsAreAvailable,
-                 decreaseProductQuantity}
+                 decreaseProductQuantity
+                }
