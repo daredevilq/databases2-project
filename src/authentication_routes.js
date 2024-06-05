@@ -8,7 +8,7 @@ const ROLES = require('./roles_list')
 const authenticationRoutes = express.Router();
 const Logs = require("./models/log");
 const mongoose = require('mongoose');
-const User = require("./models/user");
+
 
 
 //zrobic logs 
