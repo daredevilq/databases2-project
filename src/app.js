@@ -24,19 +24,19 @@ app.use(express.json())
 
 mongoose
   .connect(process.env.DATABASE_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
   })
   .then((result) => {
-    console.log("Connected to MongoDB");
+	console.log("Connected to MongoDB");
   })
   .catch((error) => {
-    console.log(error);
+	console.log(error);
   });
 
 
 app.get('/', (request, response) =>{
-    response.send("WELCOME TO OUR SHOP");
+	response.send("WELCOME TO OUR SHOP");
 })
 
 
@@ -49,5 +49,5 @@ app.use("/", authenticationRoutes)
 
 
 app.listen(PORT, ()=>{
-    console.log(`Local server opened on http://localhost:${PORT}/`);
+	console.log(`Local server opened on http://localhost:${PORT}/`);
 });
