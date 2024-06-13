@@ -18,7 +18,11 @@ const commentRoutes = require('./comment_routes');
 const adminRoutes = require('./admin_reports_routes');
 const authenticationRoutes = require('./authentication_routes')
 
+const bodyParser = require('body-parser');
 
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 

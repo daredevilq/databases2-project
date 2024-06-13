@@ -13,12 +13,12 @@ productRoutes.get("/allproducts", (req, res) => {
 		});
 });
 
-
+//BRAND TO DO
 productRoutes.get("/searchproducts", async (req, res) => {
 	try {
 		const {
 			title,
-			brand,
+			//brand,
 			category,
 			minPrice,
 			maxPrice,
@@ -33,7 +33,7 @@ productRoutes.get("/searchproducts", async (req, res) => {
 		const searchCriteria = {};
 
 		if (title) searchCriteria.title = { $regex: title, $options: "i" };
-		if (brand) searchCriteria.brand = { $regex: brand, $options: "i" };
+		//if (brand) searchCriteria.brand = { $regex: brand, $options: "i" };
 		if (category) searchCriteria.category = { $regex: category, $options: "i" };
 		if (minPrice && maxPrice) {
 			searchCriteria.price = { $gte: minPrice, $lte: maxPrice };

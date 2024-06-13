@@ -1,0 +1,305 @@
+[{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b4"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "date_time": {
+    "$date": "2023-05-01T15:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabe4"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabd9"
+    }
+  ],
+  "transaction": {
+    "currency": "USD",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2023-05-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "delivered"
+},
+{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b5"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "date_time": {
+    "$date": "2020-03-01T15:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabe4"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabd9"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabd5"
+    }
+  ],
+  "transaction": {
+    "currency": "PLN",
+    "payment_method": "PayPal",
+    "status": "in_progress",
+    "timestamp": {
+      "$date": "2023-05-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "order_placed"
+},
+{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b6"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "date_time": {
+    "$date": "2023-05-01T15:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabd7"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabe1"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabcb"
+    }
+  ],
+  "transaction": {
+    "currency": "EUR",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2022-01-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "on_the_way"
+},
+{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b7"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "date_time": {
+    "$date": "2023-05-10T18:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabde"
+    }
+  ],
+  "transaction": {
+    "currency": "USD",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2023-05-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "order_placed"
+},
+{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b8"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "date_time": {
+    "$date": "2023-05-01T15:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabdb"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabdf"
+    }
+  ],
+  "transaction": {
+    "currency": "PLN",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2022-03-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "delivered"
+},
+{
+  "_id": {
+    "$oid": "663fcf269d51de47edb6f0b9"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "date_time": {
+    "$date": "2023-05-01T15:30:00.000Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabcd"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabe3"
+    }
+  ],
+  "transaction": {
+    "currency": "PLN",
+    "payment_method": "Credit Card",
+    "status": "rejected",
+    "timestamp": {
+      "$date": "2023-07-01T15:30:00.000Z"
+    }
+  },
+  "delivery_status": "on_the_way"
+},
+{
+  "_id": {
+    "$oid": "665cdf822f9677f73b91fda9"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "date_time": {
+    "$date": "2024-06-02T21:09:22.721Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabcf"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabe2"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabe4"
+    }
+  ],
+  "transaction": {
+    "currency": "EUR",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2024-06-02T21:09:22.721Z"
+    },
+    "_id": {
+      "$oid": "665cdf822f9677f73b91fdaa"
+    }
+  },
+  "delivery_status": "order_placed",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665ce0612f9677f73b91fdac"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "date_time": {
+    "$date": "2024-06-02T21:13:05.070Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabcf"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabcf"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabcf"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabcf"
+    }
+  ],
+  "transaction": {
+    "currency": "EUR",
+    "payment_method": "Credit Card",
+    "status": "canceled",
+    "timestamp": {
+      "$date": "2024-06-02T21:21:50.047Z"
+    },
+    "_id": {
+      "$oid": "665ce0612f9677f73b91fdad"
+    }
+  },
+  "delivery_status": "order_placed",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "665df61555ac42693b5fe93d"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf4"
+  },
+  "date_time": {
+    "$date": "2024-06-03T16:57:57.069Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabcb"
+    }
+  ],
+  "transaction": {
+    "currency": "PLN",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2024-06-03T16:57:57.069Z"
+    },
+    "_id": {
+      "$oid": "665df61555ac42693b5fe93e"
+    }
+  },
+  "delivery_status": "order_placed",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668b264a8612311e500005c"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "date_time": {
+    "$date": "2024-06-11T20:24:04.039Z"
+  },
+  "products": [
+    {
+      "$oid": "661edcb6a881e0b8999aabe2"
+    },
+    {
+      "$oid": "661edcb6a881e0b8999aabd7"
+    }
+  ],
+  "transaction": {
+    "currency": "USD",
+    "payment_method": "Credit Card",
+    "status": "completed",
+    "timestamp": {
+      "$date": "2024-06-11T20:24:04.039Z"
+    },
+    "_id": {
+      "$oid": "6668b264a8612311e500005d"
+    }
+  },
+  "delivery_status": "order_placed",
+  "__v": 0
+}]

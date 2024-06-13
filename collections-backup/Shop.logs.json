@@ -1,0 +1,666 @@
+[{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f022"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabed"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2021-12-08T15:00:18.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f025"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf2"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2022-12-18T02:28:39.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f027"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabef"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2019-12-20T12:06:25.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f02e"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf2"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2021-09-15T03:58:25.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f032"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2022-08-29T00:32:57.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f037"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf2"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2020-06-19T09:48:26.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f040"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf2"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-02-06T02:45:08.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f042"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabef"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2022-11-19T23:29:36.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f051"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf1"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2021-03-11T20:44:48.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "663fc5499d51de47edb6f053"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf3"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2023-04-10T22:17:17.000Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6660a155c7703897bc3a9e7b"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T17:33:09.023Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a234f51244bed1b06edb"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T17:36:52.228Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a3030359775da3acf75a"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T17:40:19.905Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a34680bac159f6f39399"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T17:41:26.264Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a35d13c4217d53e214a9"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T17:41:49.501Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a915a19d5f4d7e415113"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:06:13.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660a994ab47372f7f0d7733"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:08:20.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660aa25c3d894a63889f539"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:10:45.187Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660aa79cb0309c1c7156206"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:12:09.451Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660aab6a84f87339900f1f3"
+  },
+  "user_id": {
+    "$oid": "00000000a84f87339900f1f2"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:13:10.204Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ab8a1b006f7bdc34f8fd"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:16:42.580Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ac171b006f7bdc34f900"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:19:03.829Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660acd01b006f7bdc34f903"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:22:08.137Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ad031b006f7bdc34f906"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:22:59.700Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ad173cbd4f902603bfbc"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:23:19.653Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ad739e6d7debfdf80aa7"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:24:51.034Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660ae11679010fc90d0ad42"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:27:29.169Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b00028d94ec301e94f8d"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:35:44.346Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b00828d94ec301e94f90"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:35:52.504Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b154db50cca13fad3eb0"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:41:24.212Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b2c9db50cca13fad3eb3"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:47:37.462Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b3d1713603d4b5bc3e99"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:52:01.996Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b413bc2fa6f5ba47bf69"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2024-06-05T18:53:07.106Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b41abc2fa6f5ba47bf6b"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2024-06-05T18:53:14.233Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b4a6ef2129a50a742224"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:55:34.870Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b4f8ef2129a50a742227"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T18:56:56.362Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b638315549cada08c53b"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T19:02:16.728Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660b649315549cada08c53d"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2024-06-05T19:02:33.408Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660bac64398c75d1e4ae5c1"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T19:21:42.606Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660bacd54f0cb7837eddcf9"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T19:21:49.455Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660bbf9b5122924a3b3fa7a"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T19:26:49.225Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660c1f1e621e15a45c34d3c"
+  },
+  "user_id": {
+    "$oid": "6660c095e621e15a45c34d38"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-05T19:52:17.074Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660c265e621e15a45c34d3f"
+  },
+  "user_id": {
+    "$oid": "6660c095e621e15a45c34d38"
+  },
+  "action_type": "logout",
+  "time": {
+    "$date": "2024-06-05T19:54:13.763Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "666898f65935bb3b84294977"
+  },
+  "user_id": {
+    "$oid": "6660c095e621e15a45c34d38"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T18:35:34.459Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66689c1a6a78ffabb68faec6"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T18:48:58.867Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668a01ff21a82fe22b6fd6d"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T19:06:07.175Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668a2a2afc34e295e6e7d17"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T19:16:50.150Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668a8d77fe13e3169f3765f"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T19:43:19.958Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668a8df4bbd35380bea27d1"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T19:43:27.546Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6668b19fa8612311e5000054"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-11T20:20:47.811Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6669899b4635bf72ced15114"
+  },
+  "user_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-12T11:42:19.578Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66698a4d42f7d2ee5091982d"
+  },
+  "user_id": {
+    "$oid": "6660c095e621e15a45c34d38"
+  },
+  "action_type": "login",
+  "time": {
+    "$date": "2024-06-12T11:45:17.619Z"
+  },
+  "__v": 0
+}]

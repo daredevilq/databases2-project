@@ -122,7 +122,7 @@ function matchAllBasketsDetailed(userId, title, brand, category){
 											options: Object.values(criteria)[0].$options
 										}
 									}))
-								: [true] // No filtering if no search criteria
+								: [true] // nie filtrujemy jesli nie ma search criteria 
 						}
 					}
 				}
@@ -420,6 +420,156 @@ function ordersWeekly(){
 
 
 
+function ordersMonthlyPeriodic(){
+	return [
+		{
+		  "$addFields": {
+			"date_time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$date_time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$date_time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$date_time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"x": "$__alias_0",
+			"y": "$__alias_1",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		},
+		{
+			$project:{
+				"month": "$x.month",
+				"quantity": "$y"
+			}
+		}
+	  ]
+}
+
+function ordersMonthly(){
+	return [
+		{
+		  "$addFields": {
+			"date_time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$date_time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$date_time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "year": {
+				"$year": "$date_time"
+			  },
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$date_time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"x": "$__alias_0",
+			"y": "$__alias_1",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.year": 1,
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		}
+	  ]
+}
+
+
+
 module.exports = {
 	matchAllProductsWithGivenID,
 	matchAllBasketsWithGivenUserID,
@@ -428,6 +578,8 @@ module.exports = {
 	searchAllUserComments,
 	financialReportUsers,
 	countCoustomersInCountries,
-	ordersWeekly
+	ordersWeekly,
+	ordersMonthlyPeriodic,
+	ordersMonthly
 };
 

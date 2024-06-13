@@ -1,0 +1,2156 @@
+{
+    "modelName": "New Model",
+    "collections": [
+        {
+            "collectionName": "baskets",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": true,
+                    "GUID": "a080abfb-f749-4a50-8a75-3280d440abc4",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "user_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": false,
+                    "GUID": "1051190c-fb89-4307-8078-e8d40c022ede",
+                    "required": true,
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "foreignField": [
+                        "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                        "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                    ],
+                    "parentRelationship": "bc5ac569-ac8c-4d4e-a44a-7fec3a282985",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "date_time",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "description": "must be a date and is required",
+                    "GUID": "4e75840a-11c6-449f-8d23-d2dd848f22af",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "products",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "objectId",
+                            "GUID": "dcff8b76-6b6f-4c51-9356-2dbd36324b91",
+                            "arrayItem": true,
+                            "description": "each product must be an objectId",
+                            "relationshipType": "Foreign Key",
+                            "foreignCollection": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                            "foreignField": [
+                                "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                                "74181116-707e-4f29-ba98-1be341acace0"
+                            ],
+                            "parentRelationship": "9dfc62f9-b417-475f-9026-b0162645110a",
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "minItems": 1,
+                    "description": "must be an array of objectIds and is required",
+                    "primaryKey": false,
+                    "GUID": "62b89489-5f58-4512-91ba-bca59e0f249f",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "transaction",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "currency",
+                            "isActivated": true,
+                            "type": "string",
+                            "enum": [
+                                "PLN",
+                                "EUR",
+                                "USD"
+                            ],
+                            "description": "can only be one of the enum values and is required",
+                            "primaryKey": false,
+                            "GUID": "7620222f-193d-4e12-bd1b-805e9a6bb1da",
+                            "required": true,
+                            "sample": "USD",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "payment_method",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "129a6165-920c-47a1-9c4a-09f4f2b7f2f9",
+                            "required": true,
+                            "sample": "Credit Card",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "status",
+                            "isActivated": true,
+                            "type": "string",
+                            "enum": [
+                                "rejected",
+                                "completed",
+                                "canceled",
+                                "in_progress"
+                            ],
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "8e26e908-820e-43d7-a293-711cbaf73ddc",
+                            "required": true,
+                            "sample": "completed",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "timestamp",
+                            "isActivated": true,
+                            "type": "date",
+                            "primaryKey": false,
+                            "description": "must be a date and is required",
+                            "GUID": "d316b3c7-2ee0-41ee-bce9-ecbf2623f881",
+                            "required": true,
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "_id",
+                            "isActivated": true,
+                            "type": "objectId",
+                            "primaryKey": false,
+                            "GUID": "206b5e6b-cb3e-4cd9-bfcf-3da060427ca1",
+                            "required": false,
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "description": "must be an object and is required",
+                    "primaryKey": false,
+                    "GUID": "9bf12659-a780-4572-9e5e-5b4d470c652c",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "delivery_status",
+                    "isActivated": true,
+                    "type": "string",
+                    "enum": [
+                        "order_placed",
+                        "delivered",
+                        "on_the_way"
+                    ],
+                    "description": "must be 'order_placed' and is required",
+                    "primaryKey": false,
+                    "GUID": "05dc68b9-5964-47ee-a5c7-1aa9f93860e0",
+                    "required": true,
+                    "sample": "order_placed",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "ab458314-f597-450b-bfdb-ee6fd3af1613",
+                    "required": false,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "68995111-8fa2-4771-892d-c94c585e6bec",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "a080abfb-f749-4a50-8a75-3280d440abc4",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "313d56de-8943-4d99-b312-58e4ecdd4e9d"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "brands",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": true,
+                    "GUID": "1a11d1ea-e6d4-4e45-a3d5-b47c275ffa05",
+                    "required": true,
+                    "childRelationships": [
+                        "caedfec7-5377-4dda-9588-d6fb928673e9"
+                    ],
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "name",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "e370d8b4-f546-4962-8e45-50092521187f",
+                    "required": true,
+                    "sample": "OPPO",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "location",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "country",
+                            "isActivated": true,
+                            "type": "string",
+                            "enum": [
+                                "France",
+                                "Germany",
+                                "Austria",
+                                "Sweden",
+                                "South Korea",
+                                "China",
+                                "Saudi Arabia",
+                                "United States",
+                                "Pakistan",
+                                "Spain",
+                                "Vietnam",
+                                "Poland"
+                            ],
+                            "description": "country must exist",
+                            "primaryKey": false,
+                            "GUID": "52984aeb-6ac7-4dfe-a7bc-67516186da0b",
+                            "required": true,
+                            "sample": "China",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "city",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "84a17b88-cdaa-4eb7-895f-d5bcacfe77b1",
+                            "required": true,
+                            "sample": "Dongguan",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "description": "must be an object with country and city fields",
+                    "primaryKey": false,
+                    "GUID": "1de3b49d-3303-402f-8d7a-90fe95d26b37",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "contact",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "email",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "051d232c-16b6-4e4b-8285-3e42d83cb1b5",
+                            "required": true,
+                            "sample": "contact@oppo.com",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "phone",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "08b3b4bd-6385-48ab-a14b-c01fa93214e9",
+                            "required": true,
+                            "sample": "+86 400 166 6888",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "description": "must be an object with email and phone fields",
+                    "primaryKey": false,
+                    "GUID": "3b24eb51-6461-46ef-ab66-85517c54c114",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "description",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "addd44b6-163f-4984-b932-3125036d5343",
+                    "required": true,
+                    "sample": "OPPO is a global electronics and mobile communications company known for its smartphones and other electronic devices.",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "website",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string",
+                    "primaryKey": false,
+                    "GUID": "19d5ba64-d8b9-4d6e-ae15-7fb6f6288068",
+                    "required": true,
+                    "sample": "https://www.oppo.com",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "established_year",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "mode": "integer32",
+                    "description": "must be an integer and is required",
+                    "primaryKey": false,
+                    "GUID": "de5b71ee-8eb1-44f2-8288-e8914a371084",
+                    "required": true,
+                    "sample": 2021,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "social_media",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "facebook",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string",
+                            "primaryKey": false,
+                            "GUID": "0e0ee4b8-e17d-42c5-a748-cc4de373cc76",
+                            "required": false,
+                            "sample": "https://www.facebook.com/oppo",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "twitter",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string",
+                            "primaryKey": false,
+                            "GUID": "3804ee39-67a0-4621-8680-5a26239c1f11",
+                            "required": false,
+                            "sample": "https://twitter.com/oppo",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "instagram",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "ff72cb1b-66fd-4907-b165-df33523ed211",
+                            "required": false,
+                            "sample": "https://www.instagram.com/oppo",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "linkedin",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "db0cad4b-2e4f-441b-96fb-f2832bf98744",
+                            "required": false,
+                            "sample": "https://www.linkedin.com/company/saafkhaas",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "pinterest",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "ec301094-e013-46f6-b827-d218c8adcba2",
+                            "required": false,
+                            "sample": "https://www.pinterest.com/bohodecor",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "youtube",
+                            "isActivated": true,
+                            "type": "string",
+                            "primaryKey": false,
+                            "GUID": "b5dd21bb-740a-4cc6-b86f-abd011460517",
+                            "required": false,
+                            "sample": "https://www.youtube.com/lorealparis",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "description": "must be an object with optional facebook and twitter fields",
+                    "primaryKey": false,
+                    "GUID": "e0760e7f-b434-40e4-a334-d168f319132a",
+                    "required": true,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "0a27b2a1-fddd-4a8f-930c-7c853cd3abf1",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "1a11d1ea-e6d4-4e45-a3d5-b47c275ffa05",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "92526305-f351-401e-90c4-04a37e3339b1"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "comments",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": true,
+                    "GUID": "18a0e920-edee-4daf-863e-ddbbb13368c0",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "product_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": false,
+                    "GUID": "1c1f0a5c-43a6-47ee-88db-1e9ce76bce86",
+                    "required": true,
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                    "foreignField": [
+                        "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                        "74181116-707e-4f29-ba98-1be341acace0"
+                    ],
+                    "parentRelationship": "24182ab5-a93f-4bcb-a5cf-35b417401e78",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "customer_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": false,
+                    "GUID": "80e6158a-4ac6-46bf-97d4-69f300e466c1",
+                    "required": true,
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "foreignField": [
+                        "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                        "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                    ],
+                    "parentRelationship": "b2e658c1-ee17-4447-a93a-f261200d2248",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "rating",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "must be an integer between 1 and 5 and is required",
+                    "primaryKey": false,
+                    "GUID": "b1e255ae-aeae-4e7c-a1dd-303b5eeb19c9",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 4.5,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "review",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "9c077ee6-d9cf-4784-a70e-fc4ed3cbeb89",
+                    "required": true,
+                    "sample": "Kupilem go ponownie i jakość znacząco spadla względem wcześniejszego zakupu",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "date",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "description": "must be a date and is required",
+                    "GUID": "971868d7-da6f-479e-b418-7cf6ee81024b",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "comments",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "document",
+                            "properties": [
+                                {
+                                    "code": "",
+                                    "name": "userid",
+                                    "isActivated": true,
+                                    "type": "objectId",
+                                    "description": "must be an objectId and is required",
+                                    "primaryKey": false,
+                                    "GUID": "49ee517c-2a0e-4768-aa57-219a82166e6a",
+                                    "required": true,
+                                    "relationshipType": "Foreign Key",
+                                    "foreignCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                                    "foreignField": [
+                                        "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                                        "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                                    ],
+                                    "parentRelationship": "98b93418-2878-434f-a81e-642c0f89976f",
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "comment",
+                                    "isActivated": true,
+                                    "type": "string",
+                                    "description": "must be a string and is required",
+                                    "primaryKey": false,
+                                    "GUID": "0fc3c96d-d340-46f0-abab-402356a55924",
+                                    "required": true,
+                                    "sample": "Też mam ten produkt i polecam go innym!",
+                                    "error": {}
+                                },
+                                {
+                                    "code": "",
+                                    "name": "_id",
+                                    "isActivated": true,
+                                    "type": "objectId",
+                                    "primaryKey": false,
+                                    "GUID": "c6d7c45e-7e16-45da-81ec-94fc5e44f879",
+                                    "required": false,
+                                    "error": {}
+                                }
+                            ],
+                            "additionalProperties": true,
+                            "GUID": "794a4b23-f805-4765-9a81-bd4be1f44834",
+                            "arrayItem": true,
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "description": "must be an array of objects containing userid and comment",
+                    "primaryKey": false,
+                    "GUID": "3f327963-a3f7-41e0-b206-e83493598276",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "b21f0ef4-e37e-4d28-b6b0-9bbbcc8a9744",
+                    "required": false,
+                    "mode": "integer32",
+                    "sample": 2,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "f53f4d1b-af54-44b5-8fe4-dab1f42e824d",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "18a0e920-edee-4daf-863e-ddbbb13368c0",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "c9710324-d3ab-4c9b-93ae-40bd71f747d0"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "logs",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "primaryKey": true,
+                    "GUID": "5a8d4439-27d3-47be-9aa6-76fe327cd2b0",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "user_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": false,
+                    "GUID": "ce05e97d-1184-4399-8995-f95913022685",
+                    "required": true,
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "foreignField": [
+                        "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                        "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                    ],
+                    "parentRelationship": "6f007539-0c7f-4918-a07b-7813d4f1a7db",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "action_type",
+                    "isActivated": true,
+                    "type": "string",
+                    "enum": [
+                        "login",
+                        "logout"
+                    ],
+                    "description": "must be one of the enum values (login/logout) and is required",
+                    "primaryKey": false,
+                    "GUID": "d516bc0e-9a0d-46ea-9554-83e73d65dead",
+                    "required": true,
+                    "sample": "login",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "time",
+                    "isActivated": true,
+                    "type": "date",
+                    "primaryKey": false,
+                    "description": "must be a date and is required",
+                    "GUID": "09c34a4d-74b4-4eac-b474-3c3d2edb44bd",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "a5937724-2cfd-4009-b9ae-a935c1d8cd7b",
+                    "required": false,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "a860085e-d703-4751-b828-aef5fd486794",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "5a8d4439-27d3-47be-9aa6-76fe327cd2b0",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "ff6721b9-d6d4-4388-9f6b-5e6e83ffced7"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "46226dba-34b7-4f59-b8ff-3eabe4891136",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "products",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": true,
+                    "GUID": "74181116-707e-4f29-ba98-1be341acace0",
+                    "required": true,
+                    "childRelationships": [
+                        "9dfc62f9-b417-475f-9026-b0162645110a",
+                        "24182ab5-a93f-4bcb-a5cf-35b417401e78"
+                    ],
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "id",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "mode": "integer32",
+                    "description": "must be an integer and is optional",
+                    "primaryKey": false,
+                    "GUID": "bc6890a2-efe2-452d-bf8f-1943819a2b4c",
+                    "required": true,
+                    "sample": 30,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "title",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "49528b05-1b92-4465-8eb9-14ec5f93b460",
+                    "required": true,
+                    "sample": "HP Pavilion 15-DK1056WM",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "description",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "1ae19051-b2f0-4823-90a2-e63356d9ab46",
+                    "required": true,
+                    "sample": "HP Pavilion 15-DK1056WM Gaming Laptop 10th Gen Core i5, 8GB, 256GB SSD, GTX 1650 4GB, Windows 10",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "price",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "description": "must be an integer or a double and is required",
+                    "primaryKey": false,
+                    "GUID": "9fcc68e0-4d1b-4431-9133-fb57b1a57dbd",
+                    "required": true,
+                    "mode": "integer32",
+                    "sample": 1749,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "discountPercentage",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "description": "must be an integer or a double and is required",
+                    "primaryKey": false,
+                    "GUID": "9498082a-e4ae-48a0-ae29-cabd9e03250c",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 10.58,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "rating",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "description": "must be an integer or a double and is required",
+                    "primaryKey": false,
+                    "GUID": "c643ee20-ca9c-4b1f-8ccc-80fc18e3e20b",
+                    "required": true,
+                    "mode": "double",
+                    "sample": 4.09,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "stock",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "mode": "integer32",
+                    "description": "must be an integer and is required",
+                    "primaryKey": false,
+                    "GUID": "a5c0f5a1-6521-49ab-ad5b-67358fb38e95",
+                    "required": true,
+                    "sample": 146,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "brand",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "6ec0a620-1fd7-4edb-8e5a-12b1e9a9abf8",
+                    "required": true,
+                    "relationshipType": "Foreign Key",
+                    "foreignCollection": "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                    "foreignField": [
+                        "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                        "1a11d1ea-e6d4-4e45-a3d5-b47c275ffa05"
+                    ],
+                    "parentRelationship": "caedfec7-5377-4dda-9588-d6fb928673e9",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "category",
+                    "isActivated": true,
+                    "type": "string",
+                    "enum": [
+                        "smartphones",
+                        "food",
+                        "laptops",
+                        "fragrances",
+                        "skincare",
+                        "groceries",
+                        "home-decoration",
+                        "Example Category"
+                    ],
+                    "description": "must be one of the enum values and is required",
+                    "primaryKey": false,
+                    "GUID": "517db265-19ed-485c-9425-951ab0248605",
+                    "required": true,
+                    "sample": "laptops",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "thumbnail",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is optional",
+                    "primaryKey": false,
+                    "GUID": "9021a070-efb4-4fcc-8b19-23e89ca75cc4",
+                    "required": true,
+                    "sample": "https://cdn.dummyjson.com/product-images/10/thumbnail.jpeg",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "images",
+                    "isActivated": true,
+                    "type": "array",
+                    "properties": [
+                        {
+                            "hackoladeMeta": {},
+                            "isActivated": true,
+                            "type": "string",
+                            "GUID": "c4158b07-03ea-4a2a-b520-4e20fd5f4db8",
+                            "arrayItem": true,
+                            "description": "each image must be a string",
+                            "sample": "https://cdn.dummyjson.com/product-images/5/1.jpg",
+                            "error": {}
+                        }
+                    ],
+                    "additionalItems": true,
+                    "description": "must be an array of strings and is optional",
+                    "primaryKey": false,
+                    "GUID": "ee4493d1-139d-49bd-bb50-dfdf836c1052",
+                    "required": true,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "d02633b9-7f06-43f9-8fda-e9340cb8c52a",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "74181116-707e-4f29-ba98-1be341acace0",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "665c419f-72db-4411-8680-8a6e439c17f5"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        },
+        {
+            "collectionName": "users",
+            "type": "object",
+            "properties": [
+                {
+                    "code": "",
+                    "name": "_id",
+                    "isActivated": true,
+                    "type": "objectId",
+                    "description": "must be an objectId and is required",
+                    "primaryKey": true,
+                    "GUID": "08ba539f-943d-4bcb-8b58-b9bd8ce7975b",
+                    "required": true,
+                    "childRelationships": [
+                        "bc5ac569-ac8c-4d4e-a44a-7fec3a282985",
+                        "b2e658c1-ee17-4447-a93a-f261200d2248",
+                        "98b93418-2878-434f-a81e-642c0f89976f",
+                        "6f007539-0c7f-4918-a07b-7813d4f1a7db"
+                    ],
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "firstname",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "d21f30e3-55eb-435e-bfee-49322561c01f",
+                    "required": true,
+                    "sample": "Piotr",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "lastname",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "4998dd16-9b0a-4e76-bf55-d99fd4fbb09a",
+                    "required": true,
+                    "sample": "Śmiałek",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "username",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "775897e0-fcb7-450e-b423-eb3b40e206bd",
+                    "required": true,
+                    "sample": "admin",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "password",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "469d8e64-853e-40ce-b817-4b213f533eae",
+                    "required": true,
+                    "sample": "$2b$10$N5asukdGBEjKaMOAsX82PODSHfbfpgizgo5mWSOWojiuWNy7/qIxS",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "role",
+                    "isActivated": true,
+                    "type": "string",
+                    "enum": [
+                        "user",
+                        "admin",
+                        "customer"
+                    ],
+                    "description": "it must be user or admin",
+                    "primaryKey": false,
+                    "GUID": "a3d32c29-a0d2-4297-9130-359a6955ee97",
+                    "required": true,
+                    "sample": "admin",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "email",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "pattern": ".*@.*",
+                    "primaryKey": false,
+                    "GUID": "a9f3ff71-5b79-4605-bbc8-14a9983b844a",
+                    "required": true,
+                    "sample": "admin@admin.pl",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "address",
+                    "isActivated": true,
+                    "type": "document",
+                    "properties": [
+                        {
+                            "code": "",
+                            "name": "country",
+                            "isActivated": true,
+                            "type": "string",
+                            "enum": [
+                                "France",
+                                "Germany",
+                                "Austria",
+                                "Sweden",
+                                "South Korea",
+                                "China",
+                                "Saudi Arabia",
+                                "United States",
+                                "Pakistan",
+                                "Spain",
+                                "Vietnam",
+                                "Poland"
+                            ],
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "207726ba-424b-404f-99d8-6a0d8cf9a8d8",
+                            "required": true,
+                            "sample": "Poland",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "street",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "59c1e885-8a11-404f-b022-1d29ae5f5ecc",
+                            "required": true,
+                            "sample": "Bartla",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "suite",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string or null",
+                            "primaryKey": false,
+                            "GUID": "5f5939d6-ec29-4184-a96d-ac636f2d9a5c",
+                            "required": true,
+                            "sample": "80g",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "city",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "959aa8ce-fe36-40ae-8201-f646f27c91b1",
+                            "required": true,
+                            "sample": "Kraków",
+                            "error": {}
+                        },
+                        {
+                            "code": "",
+                            "name": "zipcode",
+                            "isActivated": true,
+                            "type": "string",
+                            "description": "must be a string and is required",
+                            "primaryKey": false,
+                            "GUID": "7c670e76-b200-4f19-9e7b-c099c1dda55c",
+                            "required": true,
+                            "sample": "30-389",
+                            "error": {}
+                        }
+                    ],
+                    "additionalProperties": true,
+                    "description": "must be an object with country, street, city, and zipcode fields",
+                    "primaryKey": false,
+                    "GUID": "ac44c06e-c01a-4d1e-be42-62361598dafe",
+                    "required": true,
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "phone",
+                    "isActivated": true,
+                    "type": "string",
+                    "description": "must be a string and is required",
+                    "primaryKey": false,
+                    "GUID": "f24e29a2-831b-4229-a07e-b1f52bfbfa3a",
+                    "required": true,
+                    "sample": "666-666-666",
+                    "error": {}
+                },
+                {
+                    "code": "",
+                    "name": "__v",
+                    "isActivated": true,
+                    "type": "numeric",
+                    "primaryKey": false,
+                    "GUID": "ca38b93c-a881-4c04-b057-7aa41ff33ff0",
+                    "required": false,
+                    "mode": "integer32",
+                    "sample": 0,
+                    "error": {}
+                }
+            ],
+            "definitions": {
+                "type": "definitions",
+                "GUID": "e7c32cea-4d83-4a5d-b002-d0eb057d04d2",
+                "properties": []
+            },
+            "isActivated": true,
+            "additionalProperties": true,
+            "validationLevel": "Off",
+            "validationAction": "Warn",
+            "storageEngineName": "WiredTiger",
+            "collectionUsers": [],
+            "indexes": [
+                {
+                    "key": [
+                        {
+                            "keyId": "08ba539f-943d-4bcb-8b58-b9bd8ce7975b",
+                            "type": "ascending"
+                        }
+                    ],
+                    "name": "_id_",
+                    "GUID": "b123f646-3f10-49d8-a73c-930ceaf88a10"
+                }
+            ],
+            "collation": {},
+            "sharding": {
+                "unique": true,
+                "collation": "null"
+            },
+            "GUID": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+            "bucketId": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "code": "",
+            "hackoladeMeta": {
+                "validationErrors": {}
+            }
+        }
+    ],
+    "buckets": [
+        {
+            "name": "Shop",
+            "type": "bucket",
+            "collectionIds": [
+                "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                "46226dba-34b7-4f59-b8ff-3eabe4891136",
+                "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                "0d3bf818-6c82-4876-8db1-ad1607186bd0"
+            ],
+            "backgroundColor": {
+                "r": 216,
+                "g": 0,
+                "b": 115,
+                "a": 1
+            },
+            "show": true,
+            "isActivated": true,
+            "GUID": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055",
+            "hackoladeMeta": {},
+            "code": ""
+        }
+    ],
+    "views": [],
+    "relationships": [
+        {
+            "name": "fk users._id to baskets.user_id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                    "1051190c-fb89-4307-8078-e8d40c022ede"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "bc5ac569-ac8c-4d4e-a44a-7fec3a282985",
+            "parentCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+            "childCollection": "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+            "hackoladeStyles": {
+                "GUID": "cd86e2f7-bc4a-4504-81e0-354025cac40b",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1659,
+                        "y": 1991.9999990463257
+                    },
+                    {
+                        "x": 1513.1,
+                        "y": 1991.9999990463257
+                    },
+                    {
+                        "x": 1513.1,
+                        "y": 1594
+                    },
+                    {
+                        "x": 1367.2,
+                        "y": 1594
+                    }
+                ],
+                "sides": [
+                    "left",
+                    "right"
+                ]
+            }
+        },
+        {
+            "name": "fk products._id to baskets.products.0",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                    "74181116-707e-4f29-ba98-1be341acace0"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                    "62b89489-5f58-4512-91ba-bca59e0f249f",
+                    "dcff8b76-6b6f-4c51-9356-2dbd36324b91"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "9dfc62f9-b417-475f-9026-b0162645110a",
+            "parentCollection": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+            "childCollection": "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+            "hackoladeStyles": {
+                "GUID": "74e60685-e9b8-45cf-9df4-557870691b70",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1808.5,
+                        "y": 1859.9999990463257
+                    },
+                    {
+                        "x": 1808.5,
+                        "y": 1795.9999995231628
+                    },
+                    {
+                        "x": 1858.3333333333333,
+                        "y": 1795.9999995231628
+                    },
+                    {
+                        "x": 1858.3333333333333,
+                        "y": 1732
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk products._id to comments.product_id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                    "74181116-707e-4f29-ba98-1be341acace0"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                    "1c1f0a5c-43a6-47ee-88db-1e9ce76bce86"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "24182ab5-a93f-4bcb-a5cf-35b417401e78",
+            "parentCollection": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+            "childCollection": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+            "hackoladeStyles": {
+                "GUID": "3ae81cf5-8a07-4a76-97f8-ee6063ab776b",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1547.75,
+                        "y": 1859.9999990463257
+                    },
+                    {
+                        "x": 1547.75,
+                        "y": 1795.9999995231628
+                    },
+                    {
+                        "x": 1757.3333333333333,
+                        "y": 1795.9999995231628
+                    },
+                    {
+                        "x": 1757.3333333333333,
+                        "y": 1732
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk users._id to comments.customer_id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                    "80e6158a-4ac6-46bf-97d4-69f300e466c1"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "b2e658c1-ee17-4447-a93a-f261200d2248",
+            "parentCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+            "childCollection": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+            "hackoladeStyles": {
+                "GUID": "e731da8c-2a33-44ef-9ea1-935312229cab",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1476.5,
+                        "y": 1859.9999990463257
+                    },
+                    {
+                        "x": 1476.5,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1306.2,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1306.2,
+                        "y": 1744
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk users._id to comments.comments.0.userid",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                    "3f327963-a3f7-41e0-b206-e83493598276",
+                    "794a4b23-f805-4765-9a81-bd4be1f44834",
+                    "49ee517c-2a0e-4768-aa57-219a82166e6a"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "98b93418-2878-434f-a81e-642c0f89976f",
+            "parentCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+            "childCollection": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+            "hackoladeStyles": {
+                "GUID": "cdcb0500-b8ab-4aa9-8f6f-334de22a9aa1",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1405.25,
+                        "y": 1859.9999990463257
+                    },
+                    {
+                        "x": 1405.25,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1245.2,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1245.2,
+                        "y": 1744
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk users._id to logs.user_id",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                    "08ba539f-943d-4bcb-8b58-b9bd8ce7975b"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "46226dba-34b7-4f59-b8ff-3eabe4891136",
+                    "ce05e97d-1184-4399-8995-f95913022685"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "6f007539-0c7f-4918-a07b-7813d4f1a7db",
+            "parentCollection": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+            "childCollection": "46226dba-34b7-4f59-b8ff-3eabe4891136",
+            "hackoladeStyles": {
+                "GUID": "e33b7147-8094-4c2b-b012-f14e8a45b0d5",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1172,
+                        "y": 1859.9999990463257
+                    },
+                    {
+                        "x": 1172,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1184.2,
+                        "y": 1801.9999995231628
+                    },
+                    {
+                        "x": 1184.2,
+                        "y": 1744
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        },
+        {
+            "name": "fk brands._id to products.brand",
+            "relationshipType": "Foreign Key",
+            "parentField": [
+                [
+                    "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                    "1a11d1ea-e6d4-4e45-a3d5-b47c275ffa05"
+                ]
+            ],
+            "parentCardinality": "1",
+            "childField": [
+                [
+                    "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                    "6ec0a620-1fd7-4edb-8e5a-12b1e9a9abf8"
+                ]
+            ],
+            "isActivated": true,
+            "childCardinality": "0..n",
+            "GUID": "caedfec7-5377-4dda-9588-d6fb928673e9",
+            "parentCollection": "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+            "childCollection": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+            "hackoladeStyles": {
+                "GUID": "5b66bc7c-9280-4b68-a713-1c7429064319",
+                "autoPositioning": true,
+                "type": "Orthogonal",
+                "thickness": 2,
+                "color": "#79c4ff",
+                "dataType": "",
+                "shape": [
+                    {
+                        "x": 1807.8333333333333,
+                        "y": 1468
+                    },
+                    {
+                        "x": 1807.8333333333333,
+                        "y": 1404
+                    }
+                ],
+                "sides": [
+                    "top",
+                    "bottom"
+                ]
+            }
+        }
+    ],
+    "users": [],
+    "diagramViews": [
+        {
+            "GUID": "86d72f93-8cf9-44de-ae2b-be3af42d8ca2",
+            "name": "Shop-Database-View",
+            "buckets": [
+                "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055"
+            ],
+            "comments": "",
+            "description": "",
+            "entities": [
+                "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                "46226dba-34b7-4f59-b8ff-3eabe4891136",
+                "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                "0d3bf818-6c82-4876-8db1-ad1607186bd0"
+            ]
+        }
+    ],
+    "idToNameHashTable": {
+        "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055": "Shop",
+        "a080abfb-f749-4a50-8a75-3280d440abc4": "_id",
+        "1051190c-fb89-4307-8078-e8d40c022ede": "user_id",
+        "4e75840a-11c6-449f-8d23-d2dd848f22af": "date_time",
+        "62b89489-5f58-4512-91ba-bca59e0f249f": "products",
+        "9bf12659-a780-4572-9e5e-5b4d470c652c": "transaction",
+        "7620222f-193d-4e12-bd1b-805e9a6bb1da": "currency",
+        "129a6165-920c-47a1-9c4a-09f4f2b7f2f9": "payment_method",
+        "8e26e908-820e-43d7-a293-711cbaf73ddc": "status",
+        "d316b3c7-2ee0-41ee-bce9-ecbf2623f881": "timestamp",
+        "206b5e6b-cb3e-4cd9-bfcf-3da060427ca1": "_id",
+        "05dc68b9-5964-47ee-a5c7-1aa9f93860e0": "delivery_status",
+        "ab458314-f597-450b-bfdb-ee6fd3af1613": "__v",
+        "925ee183-9ff2-45c9-8ab8-11ca140349f8": "baskets",
+        "1a11d1ea-e6d4-4e45-a3d5-b47c275ffa05": "_id",
+        "e370d8b4-f546-4962-8e45-50092521187f": "name",
+        "1de3b49d-3303-402f-8d7a-90fe95d26b37": "location",
+        "52984aeb-6ac7-4dfe-a7bc-67516186da0b": "country",
+        "84a17b88-cdaa-4eb7-895f-d5bcacfe77b1": "city",
+        "3b24eb51-6461-46ef-ab66-85517c54c114": "contact",
+        "051d232c-16b6-4e4b-8285-3e42d83cb1b5": "email",
+        "08b3b4bd-6385-48ab-a14b-c01fa93214e9": "phone",
+        "addd44b6-163f-4984-b932-3125036d5343": "description",
+        "19d5ba64-d8b9-4d6e-ae15-7fb6f6288068": "website",
+        "de5b71ee-8eb1-44f2-8288-e8914a371084": "established_year",
+        "e0760e7f-b434-40e4-a334-d168f319132a": "social_media",
+        "0e0ee4b8-e17d-42c5-a748-cc4de373cc76": "facebook",
+        "3804ee39-67a0-4621-8680-5a26239c1f11": "twitter",
+        "ff72cb1b-66fd-4907-b165-df33523ed211": "instagram",
+        "db0cad4b-2e4f-441b-96fb-f2832bf98744": "linkedin",
+        "ec301094-e013-46f6-b827-d218c8adcba2": "pinterest",
+        "b5dd21bb-740a-4cc6-b86f-abd011460517": "youtube",
+        "452bf444-c3cf-4c33-91c8-5ec7cf625376": "brands",
+        "18a0e920-edee-4daf-863e-ddbbb13368c0": "_id",
+        "1c1f0a5c-43a6-47ee-88db-1e9ce76bce86": "product_id",
+        "80e6158a-4ac6-46bf-97d4-69f300e466c1": "customer_id",
+        "b1e255ae-aeae-4e7c-a1dd-303b5eeb19c9": "rating",
+        "9c077ee6-d9cf-4784-a70e-fc4ed3cbeb89": "review",
+        "971868d7-da6f-479e-b418-7cf6ee81024b": "date",
+        "3f327963-a3f7-41e0-b206-e83493598276": "comments",
+        "49ee517c-2a0e-4768-aa57-219a82166e6a": "userid",
+        "0fc3c96d-d340-46f0-abab-402356a55924": "comment",
+        "c6d7c45e-7e16-45da-81ec-94fc5e44f879": "_id",
+        "b21f0ef4-e37e-4d28-b6b0-9bbbcc8a9744": "__v",
+        "cfa2fda7-5577-4c81-97b0-5e699a009dd6": "comments",
+        "5a8d4439-27d3-47be-9aa6-76fe327cd2b0": "_id",
+        "ce05e97d-1184-4399-8995-f95913022685": "user_id",
+        "d516bc0e-9a0d-46ea-9554-83e73d65dead": "action_type",
+        "09c34a4d-74b4-4eac-b474-3c3d2edb44bd": "time",
+        "a5937724-2cfd-4009-b9ae-a935c1d8cd7b": "__v",
+        "46226dba-34b7-4f59-b8ff-3eabe4891136": "logs",
+        "74181116-707e-4f29-ba98-1be341acace0": "_id",
+        "bc6890a2-efe2-452d-bf8f-1943819a2b4c": "id",
+        "49528b05-1b92-4465-8eb9-14ec5f93b460": "title",
+        "1ae19051-b2f0-4823-90a2-e63356d9ab46": "description",
+        "9fcc68e0-4d1b-4431-9133-fb57b1a57dbd": "price",
+        "9498082a-e4ae-48a0-ae29-cabd9e03250c": "discountPercentage",
+        "c643ee20-ca9c-4b1f-8ccc-80fc18e3e20b": "rating",
+        "a5c0f5a1-6521-49ab-ad5b-67358fb38e95": "stock",
+        "6ec0a620-1fd7-4edb-8e5a-12b1e9a9abf8": "brand",
+        "517db265-19ed-485c-9425-951ab0248605": "category",
+        "9021a070-efb4-4fcc-8b19-23e89ca75cc4": "thumbnail",
+        "ee4493d1-139d-49bd-bb50-dfdf836c1052": "images",
+        "15b3c836-e530-48b5-a02e-35bd0161c62d": "products",
+        "08ba539f-943d-4bcb-8b58-b9bd8ce7975b": "_id",
+        "d21f30e3-55eb-435e-bfee-49322561c01f": "firstname",
+        "4998dd16-9b0a-4e76-bf55-d99fd4fbb09a": "lastname",
+        "775897e0-fcb7-450e-b423-eb3b40e206bd": "username",
+        "469d8e64-853e-40ce-b817-4b213f533eae": "password",
+        "a3d32c29-a0d2-4297-9130-359a6955ee97": "role",
+        "a9f3ff71-5b79-4605-bbc8-14a9983b844a": "email",
+        "ac44c06e-c01a-4d1e-be42-62361598dafe": "address",
+        "207726ba-424b-404f-99d8-6a0d8cf9a8d8": "country",
+        "59c1e885-8a11-404f-b022-1d29ae5f5ecc": "street",
+        "5f5939d6-ec29-4184-a96d-ac636f2d9a5c": "suite",
+        "959aa8ce-fe36-40ae-8201-f646f27c91b1": "city",
+        "7c670e76-b200-4f19-9e7b-c099c1dda55c": "zipcode",
+        "f24e29a2-831b-4229-a07e-b1f52bfbfa3a": "phone",
+        "ca38b93c-a881-4c04-b057-7aa41ff33ff0": "__v",
+        "0d3bf818-6c82-4876-8db1-ad1607186bd0": "users",
+        "bc5ac569-ac8c-4d4e-a44a-7fec3a282985": "fk users._id to baskets.user_id",
+        "9dfc62f9-b417-475f-9026-b0162645110a": "fk products._id to baskets.products.0",
+        "24182ab5-a93f-4bcb-a5cf-35b417401e78": "fk products._id to comments.product_id",
+        "b2e658c1-ee17-4447-a93a-f261200d2248": "fk users._id to comments.customer_id",
+        "98b93418-2878-434f-a81e-642c0f89976f": "fk users._id to comments.comments.0.userid",
+        "6f007539-0c7f-4918-a07b-7813d4f1a7db": "fk users._id to logs.user_id",
+        "caedfec7-5377-4dda-9588-d6fb928673e9": "fk brands._id to products.brand",
+        "86d72f93-8cf9-44de-ae2b-be3af42d8ca2": "Shop-Database-View"
+    },
+    "definitions": {
+        "type": "definitions",
+        "properties": [],
+        "GUID": "f3962b17-86fd-4f5e-b7eb-1f46d4aabe7c"
+    },
+    "polyglotDefinitions": {
+        "type": "polyglotDefinitions",
+        "properties": [],
+        "GUID": "c9fc5832-5c54-4fb1-9ba8-696d5918c3d9"
+    },
+    "externalDefinitions": {
+        "type": "externalDefinitions",
+        "properties": [],
+        "GUID": "2604622d-619b-4757-854b-385e9966f14f"
+    },
+    "sources": [],
+    "decorativeSymbols": [],
+    "dbVersion": "v7.0",
+    "dbVendor": "MongoDB",
+    "appTarget": "MONGODB",
+    "creationTS": "2024-06-13T21:21:47.639Z",
+    "GUID": "d9036f30-0f09-4c29-9f9b-3519fb3aea67",
+    "isLineageEnabled": false,
+    "lastModifTS": "2024-06-13T21:26:13.875Z",
+    "persistenceSchemaVersion": "7",
+    "isCreatedByPlugin": true,
+    "pluginInformation": {
+        "pluginEngineVersion": "1.0.0"
+    },
+    "applicationInformation": {
+        "version": "7.4.7"
+    },
+    "settings": {
+        "centralPane": {
+            "dbLevel": {
+                "erd": [
+                    {
+                        "GUID": "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                        "x": 1659,
+                        "y": 1859.9999990463257,
+                        "width": 299,
+                        "height": 264,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                        "x": 1670.3333333333333,
+                        "y": 1050,
+                        "width": 275,
+                        "height": 354,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                        "x": 1334,
+                        "y": 1859.9999990463257,
+                        "width": 285,
+                        "height": 246,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "46226dba-34b7-4f59-b8ff-3eabe4891136",
+                        "x": 1050,
+                        "y": 1859.9999990463257,
+                        "width": 244,
+                        "height": 120,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                        "x": 1656.3333333333333,
+                        "y": 1468,
+                        "width": 303,
+                        "height": 264,
+                        "color": {}
+                    },
+                    {
+                        "GUID": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                        "x": 1123.2,
+                        "y": 1444,
+                        "width": 244,
+                        "height": 300,
+                        "color": {}
+                    }
+                ],
+                "erdDefinitions": {
+                    "erd": [],
+                    "rootPath": [],
+                    "entities": [],
+                    "decorativeSymbols": []
+                },
+                "buckets": [
+                    {
+                        "x": 1000,
+                        "y": 1000,
+                        "GUID": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055"
+                    }
+                ],
+                "collapsedNodes": [],
+                "activeRelationship": "",
+                "activeRelationshipFields": {
+                    "childField": [],
+                    "parentField": []
+                },
+                "selectedCollections": [],
+                "displayColorPicker": false,
+                "graphView": {
+                    "erd": [],
+                    "buckets": [],
+                    "decorativeSymbols": [],
+                    "forceLayout": true,
+                    "defaultLinkLength": 300
+                },
+                "diagramViews": [
+                    {
+                        "GUID": "86d72f93-8cf9-44de-ae2b-be3af42d8ca2",
+                        "entities": [
+                            {
+                                "GUID": "925ee183-9ff2-45c9-8ab8-11ca140349f8",
+                                "x": 1653.0610169534632,
+                                "y": 1763.4915245400987,
+                                "width": 299,
+                                "height": 264,
+                                "color": {}
+                            },
+                            {
+                                "GUID": "452bf444-c3cf-4c33-91c8-5ec7cf625376",
+                                "x": 1465.4384182278045,
+                                "y": 1044.061016953463,
+                                "width": 275,
+                                "height": 354,
+                                "color": {}
+                            },
+                            {
+                                "GUID": "cfa2fda7-5577-4c81-97b0-5e699a009dd6",
+                                "x": 1259.7627119182869,
+                                "y": 1904.5423718953534,
+                                "width": 285,
+                                "height": 246,
+                                "color": {}
+                            },
+                            {
+                                "GUID": "46226dba-34b7-4f59-b8ff-3eabe4891136",
+                                "x": 1006.9423729126065,
+                                "y": 1757.5525414935616,
+                                "width": 244,
+                                "height": 120,
+                                "color": {}
+                            },
+                            {
+                                "GUID": "15b3c836-e530-48b5-a02e-35bd0161c62d",
+                                "x": 1488.5570622686614,
+                                "y": 1445.7288135754861,
+                                "width": 303,
+                                "height": 264,
+                                "color": {}
+                            },
+                            {
+                                "GUID": "0d3bf818-6c82-4876-8db1-ad1607186bd0",
+                                "x": 1028.176271255407,
+                                "y": 1074.2983053530684,
+                                "width": 244,
+                                "height": 300,
+                                "color": {}
+                            }
+                        ],
+                        "buckets": [
+                            {
+                                "x": 966.9423729126065,
+                                "y": 1004.061016953463,
+                                "GUID": "79ada4b4-f98f-43c0-8b28-7ce3d6f2e055"
+                            }
+                        ],
+                        "graphView": {
+                            "erd": [],
+                            "buckets": [],
+                            "decorativeSymbols": [],
+                            "forceLayout": true,
+                            "defaultLinkLength": 300
+                        },
+                        "displayOptions": {},
+                        "relationships": [
+                            {
+                                "GUID": "9dfc62f9-b417-475f-9026-b0162645110a",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "top",
+                                    "bottom"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1802.5610169534632,
+                                        "y": 1763.4915245400987
+                                    },
+                                    {
+                                        "x": 1802.5610169534632,
+                                        "y": 1736.6101690577925
+                                    },
+                                    {
+                                        "x": 1690.5570622686614,
+                                        "y": 1736.6101690577925
+                                    },
+                                    {
+                                        "x": 1690.5570622686614,
+                                        "y": 1709.7288135754861
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "24182ab5-a93f-4bcb-a5cf-35b417401e78",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "top",
+                                    "bottom"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1473.5127119182869,
+                                        "y": 1904.5423718953534
+                                    },
+                                    {
+                                        "x": 1473.5127119182869,
+                                        "y": 1807.1355927354198
+                                    },
+                                    {
+                                        "x": 1640.0570622686614,
+                                        "y": 1807.1355927354198
+                                    },
+                                    {
+                                        "x": 1640.0570622686614,
+                                        "y": 1709.7288135754861
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "caedfec7-5377-4dda-9588-d6fb928673e9",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "right",
+                                    "right"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1791.5570622686614,
+                                        "y": 1577.7288135754861
+                                    },
+                                    {
+                                        "x": 1816.5570622686614,
+                                        "y": 1577.7288135754861
+                                    },
+                                    {
+                                        "x": 1816.5570622686614,
+                                        "y": 1221.061016953463
+                                    },
+                                    {
+                                        "x": 1740.4384182278045,
+                                        "y": 1221.061016953463
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "bc5ac569-ac8c-4d4e-a44a-7fec3a282985",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "left",
+                                    "right"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1653.0610169534632,
+                                        "y": 1895.4915245400987
+                                    },
+                                    {
+                                        "x": 1462.6186441044351,
+                                        "y": 1895.4915245400987
+                                    },
+                                    {
+                                        "x": 1462.6186441044351,
+                                        "y": 1224.2983053530684
+                                    },
+                                    {
+                                        "x": 1272.176271255407,
+                                        "y": 1224.2983053530684
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "b2e658c1-ee17-4447-a93a-f261200d2248",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "top",
+                                    "bottom"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1402.2627119182869,
+                                        "y": 1904.5423718953534
+                                    },
+                                    {
+                                        "x": 1402.2627119182869,
+                                        "y": 1639.420338624211
+                                    },
+                                    {
+                                        "x": 1211.176271255407,
+                                        "y": 1639.420338624211
+                                    },
+                                    {
+                                        "x": 1211.176271255407,
+                                        "y": 1374.2983053530684
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "98b93418-2878-434f-a81e-642c0f89976f",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "top",
+                                    "bottom"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1331.0127119182869,
+                                        "y": 1904.5423718953534
+                                    },
+                                    {
+                                        "x": 1331.0127119182869,
+                                        "y": 1639.420338624211
+                                    },
+                                    {
+                                        "x": 1150.176271255407,
+                                        "y": 1639.420338624211
+                                    },
+                                    {
+                                        "x": 1150.176271255407,
+                                        "y": 1374.2983053530684
+                                    }
+                                ]
+                            },
+                            {
+                                "GUID": "6f007539-0c7f-4918-a07b-7813d4f1a7db",
+                                "autoPositioning": true,
+                                "sides": [
+                                    "top",
+                                    "bottom"
+                                ],
+                                "shape": [
+                                    {
+                                        "x": 1128.9423729126065,
+                                        "y": 1757.5525414935616
+                                    },
+                                    {
+                                        "x": 1128.9423729126065,
+                                        "y": 1565.925423423315
+                                    },
+                                    {
+                                        "x": 1089.176271255407,
+                                        "y": 1565.925423423315
+                                    },
+                                    {
+                                        "x": 1089.176271255407,
+                                        "y": 1374.2983053530684
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "decorativeSymbols": [],
+                "nestedCollectionsLayout": "horizontal",
+                "options": [],
+                "relationshipUpdateDisabled": false,
+                "displayOptions": {}
+            },
+            "collectionLevel": {},
+            "changed": false
+        },
+        "dtDiagram": {
+            "collapsedNodes": [],
+            "shouldDistributeCollections": false
+        }
+    }
+}

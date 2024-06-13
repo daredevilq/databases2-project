@@ -1,0 +1,230 @@
+[{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "firstname": "Ervin",
+  "lastname": "Howell",
+  "username": "Antonette",
+  "password": "$2b$10$ARZw9AcYC0cat.csewnl/eNbRf/LKKkxTFRLi0dDSJ7PlIgWqP7oW",
+  "role": "customer",
+  "email": "Shanna@melissa.tv",
+  "address": {
+    "country": "France",
+    "street": "Victor Plains",
+    "suite": "Suite 879",
+    "city": "Wisokyburgh",
+    "zipcode": "90566-7771"
+  },
+  "phone": "010-692-6593 x09125"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "firstname": "Patricia",
+  "lastname": "Lebsack",
+  "username": "Karianne",
+  "email": "Julianne.OConner@kory.org",
+  "password": "$2b$10$GN64sJIktzqRsmhCXOMzXu0PMGfWRjKKIEh2bFZYwn8J8usJZRxPO",
+  "role": "customer",
+  "address": {
+    "country": "Poland",
+    "street": "Hoeger Mall",
+    "suite": "Apt. 692",
+    "city": "South Elvis",
+    "zipcode": "53919-4257"
+  },
+  "phone": "493-170-9623 x156"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf1"
+  },
+  "firstname": "Chelsey",
+  "lastname": "Dietrich",
+  "username": "Kamren",
+  "email": "Lucio_Hettingerannie@.ca",
+  "password": "$2b$10$xBJZ.hFUwA8GQEIhS0Y4ZeO33IccjF/w6vXgG5Cn7oStdP4UO2Xcq",
+  "role": "customer",
+  "address": {
+    "country": "Germany",
+    "street": "Skiles Walks",
+    "suite": "Suite 351",
+    "city": "Roscoeview",
+    "zipcode": "33263"
+  },
+  "phone": "(254)954-1289"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf2"
+  },
+  "firstname": "Mrs. Dennis",
+  "lastname": "Schulist",
+  "username": "Leopoldo_Corkery",
+  "email": "Karley_Dach@jasper.info",
+  "password": "$2b$10$iRDsFWFEK0whVZ63I3f9POvtQ2p8qkMh7M5TrCKbDG.ojQqbZ9/S2",
+  "role": "customer",
+  "address": {
+    "country": "Sweden",
+    "street": "Norberto Crossing",
+    "suite": "Apt. 950",
+    "city": "South Christy",
+    "zipcode": "23505-1337"
+  },
+  "phone": "1-477-935-8478 x6430"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabed"
+  },
+  "firstname": "Leanne",
+  "lastname": "Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "password": "$2b$10$g.qE3owPbgmL9LOvG/CIA.Zoolyxct2Sy1Dd7RhXxB0viE7Z.1Lty",
+  "role": "user",
+  "address": {
+    "country": "United States",
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "city": "Gwenborough",
+    "zipcode": "92998-3874"
+  },
+  "phone": "1-770-736-8031 x56442"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabef"
+  },
+  "firstname": "Clementine",
+  "lastname": "Bauch",
+  "username": "Samantha",
+  "email": "Nathan@yesenia.net",
+  "password": "$2b$10$kGv5tUdUUu/vgFz6l7lXIuiWQqm6MHmG4A8MqOegHf70nX1Jxcazm",
+  "role": "customer",
+  "address": {
+    "country": "Poland",
+    "street": "Douglas Extension",
+    "suite": "Suite 847",
+    "city": "McKenziehaven",
+    "zipcode": "59590-4157"
+  },
+  "phone": "1-463-123-4447"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf3"
+  },
+  "firstname": "Kurtis",
+  "lastname": "Weissnat",
+  "username": "Elwyn.Skiles",
+  "email": "Telly.Hoeger@billy.biz",
+  "password": "$2b$10$UPFXSn43cd6dX7lgyCdLYeq3OdYrKk.Zln9cWAJuAPUO8Eo/8GTSy",
+  "role": "customer",
+  "address": {
+    "country": "France",
+    "street": "Rex Trail",
+    "suite": "Suite 280",
+    "city": "Howemouth",
+    "zipcode": "58804-1099"
+  },
+  "phone": "210.067.6132"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf4"
+  },
+  "firstname": "Kurtis",
+  "lastname": "Runolfsdottir",
+  "username": "Maxime_Nienow",
+  "email": "Sherwood@rosamond.me",
+  "password": "$2b$10$PGtIbGprvN7mgPm6lXqSAegpparNTV2kyH68NVhC1TscfSW1TLom6",
+  "role": "customer",
+  "address": {
+    "country": "Germany",
+    "street": "Ellsworth Summit",
+    "suite": "Suite 729",
+    "city": "Aliyaview",
+    "zipcode": "45169"
+  },
+  "phone": "586.493.6943 x140"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "firstname": "Glenna",
+  "lastname": "Reichert",
+  "username": "Delphine",
+  "email": "Chaim_McDermott@dana.io",
+  "password": "$2b$10$H0MHY.ZUX4POtRhGjLNCEOimp2YtSgbfBwIE/V4uhkslJCWv374wy",
+  "role": "customer",
+  "address": {
+    "country": "Poland",
+    "street": "Dayna Park",
+    "suite": "Suite 449",
+    "city": "Bartholomebury",
+    "zipcode": "76495-3109"
+  },
+  "phone": "(775)976-6794 x41206"
+},
+{
+  "_id": {
+    "$oid": "661ee379a881e0b8999aabf6"
+  },
+  "firstname": "Clementina",
+  "lastname": "DuBuque",
+  "username": "Moriah.Stanton",
+  "email": "Rey.Padberg@karina.biz",
+  "password": "$2b$10$7o5gZCPHdPnRGpmhQ3OG0e6o7gsqMy3a/KfIfmeAwybh5TE9D0oCq",
+  "role": "customer",
+  "address": {
+    "country": "Austria",
+    "street": "Kattie Turnpike",
+    "suite": "Suite 198",
+    "city": "Lebsackbury",
+    "zipcode": "31428-2261"
+  },
+  "phone": "024-648-3804"
+},
+{
+  "_id": {
+    "$oid": "666072a38c8f9f61c47ac25e"
+  },
+  "firstname": "Bogdan",
+  "lastname": "Liżmo",
+  "username": "bogdanek15",
+  "email": "boskiBogdan@wp.pl",
+  "password": "$2b$10$NpnhKJsilgB1JN0CPexEZOwNi5e9AjqiOiF8tXXyB195MOiLJBio2",
+  "role": "customer",
+  "address": {
+    "country": "Poland",
+    "street": "Fiołkowa",
+    "suite": "66",
+    "city": "Kraków",
+    "zipcode": "30-389"
+  },
+  "phone": "5765676456",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6660c095e621e15a45c34d38"
+  },
+  "firstname": "Piotr",
+  "lastname": "Śmiałek",
+  "username": "admin",
+  "email": "admin@admin.pl",
+  "password": "$2b$10$N5asukdGBEjKaMOAsX82PODSHfbfpgizgo5mWSOWojiuWNy7/qIxS",
+  "role": "admin",
+  "address": {
+    "country": "Poland",
+    "street": "Bartla",
+    "suite": "80g",
+    "city": "Kraków",
+    "zipcode": "30-389"
+  },
+  "phone": "666-666-666",
+  "__v": 0
+}]

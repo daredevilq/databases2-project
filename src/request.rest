@@ -9,4 +9,18 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc
 
 
 ###
-GET http://localhost:8000/customers-around-world
+POST http://localhost:8000/createbasket/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkRheW5hIFBhcmsiLCJzdWl0ZSI6IlN1aXRlIDQ0OSIsImNpdHkiOiJCYXJ0aG9sb21lYnVyeSIsInppcGNvZGUiOiI3NjQ5NS0zMTA5In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmNSIsImZpcnN0bmFtZSI6IkdsZW5uYSIsImxhc3RuYW1lIjoiUmVpY2hlcnQiLCJ1c2VybmFtZSI6IkRlbHBoaW5lIiwiZW1haWwiOiJDaGFpbV9NY0Rlcm1vdHRAZGFuYS5pbyIsInBhc3N3b3JkIjoiJDJiJDEwJEgwTUhZLlpVWDRQT3RSaEdqTE5DRU9pbXAyWXRTZ2JmQndJRS9WNHVoa3NsSkNXdjM3NHd5Iiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiIoNzc1KTk3Ni02Nzk0IHg0MTIwNiJ9LCJpYXQiOjE3MTgxMzcyNDcsImV4cCI6MTcxODEzODQ0N30.x7yihXtr0TmqXAe_fWHG91Lfjex7IXj5HS99ZNjBH-4
+Content-Type: application/json
+
+{
+  "products": "661edcb6a881e0b8999aabe2;661edcb6a881e0b8999aabd7",
+  "currency": "USD",
+  "payment_method": "Credit Card",
+  "status": "completed",
+  "delivery_status": "order_placed"
+}
+
+
+###
+GET http://localhost:8000/usersnumber/

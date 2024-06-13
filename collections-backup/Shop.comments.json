@@ -1,0 +1,139 @@
+[{
+  "_id": {
+    "$oid": "663fd5879d51de47edb6f0cf"
+  },
+  "product_id": {
+    "$oid": "661edcb6a881e0b8999aabe2"
+  },
+  "customer_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "rating": 4.5,
+  "review": "Bardzo dobry produkt, spełnił moje oczekiwania.",
+  "date": {
+    "$date": "2023-05-01T12:00:00.000Z"
+  },
+  "comments": [
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabf0"
+      },
+      "comment": "Również jestem bardzo zadowolony z tego produktu!"
+    },
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabf1"
+      },
+      "comment": "Też mam ten produkt i polecam go innym!"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "663fd5879d51de47edb6f0d0"
+  },
+  "product_id": {
+    "$oid": "661edcb6a881e0b8999aabe4"
+  },
+  "customer_id": {
+    "$oid": "661ee379a881e0b8999aabf5"
+  },
+  "rating": 5,
+  "review": "Świetny produkt! Polecam każdemu.",
+  "date": {
+    "$date": "2023-05-02T10:30:00.000Z"
+  },
+  "comments": [
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabf4"
+      },
+      "comment": "Zgadzam się, produkt jest naprawdę świetny!"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "663fd5879d51de47edb6f0d1"
+  },
+  "product_id": {
+    "$oid": "661edcb6a881e0b8999aabde"
+  },
+  "customer_id": {
+    "$oid": "661ee379a881e0b8999aabed"
+  },
+  "rating": 3,
+  "review": "Produkt był OK, ale spodziewałem się lepszej jakości.",
+  "date": {
+    "$date": "2023-05-03T15:45:00.000Z"
+  },
+  "comments": [
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabef"
+      },
+      "comment": "Może warto zwrócić uwagę na szczegóły jakościowe."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "663fd5879d51de47edb6f0d2"
+  },
+  "product_id": {
+    "$oid": "661edcb6a881e0b8999aabd1"
+  },
+  "customer_id": {
+    "$oid": "661ee379a881e0b8999aabf0"
+  },
+  "rating": 1,
+  "review": "Produkt jest beznadziejny!!!.",
+  "date": {
+    "$date": "2023-05-03T15:45:00.000Z"
+  },
+  "comments": [
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabf0"
+      },
+      "comment": "Tez mi sie wydaje ze produkt jest słaby."
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "665cc9700263fbb3b2f79b38"
+  },
+  "product_id": {
+    "$oid": "661edcb6a881e0b8999aabe2"
+  },
+  "customer_id": {
+    "$oid": "661ee379a881e0b8999aabee"
+  },
+  "rating": 2.5,
+  "review": "Kupilem go ponownie i jakość znacząco spadla względem wcześniejszego zakupu",
+  "date": {
+    "$date": "2024-06-02T19:35:12.954Z"
+  },
+  "comments": [
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabed"
+      },
+      "comment": "NIe zgadzam sie z ta opinia, u wszystko jest w porzadku!!!",
+      "_id": {
+        "$oid": "665ccd5c01b697f932e229e0"
+      }
+    },
+    {
+      "userid": {
+        "$oid": "661ee379a881e0b8999aabed"
+      },
+      "comment": "Zmieniam zdanie! Miał pan racje, produkt nie spelnia wymagan",
+      "_id": {
+        "$oid": "665ccdc9b44a40a6224935af"
+      }
+    }
+  ],
+  "__v": 2
+}]

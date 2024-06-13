@@ -23,7 +23,10 @@ userRoutes.get("/allusers", authorization.authenticateToken, authorization.autho
 
 
 
-userRoutes.get("/searchuser", (req, res) => {
+
+
+
+userRoutes.get("/searchuser", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),(req, res) => {
 	const { firstname, lastname, username, email, city, zipcode, country } = req.query;
 
 	const searchCriteria = {};
@@ -47,7 +50,8 @@ userRoutes.get("/searchuser", (req, res) => {
 });
 
 
-userRoutes.get("/userbaskets/:userId", async (req, res) => {
+userRoutes.get("/userbaskets/:userId",authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),async (req, res) => {
+	
 	const { userId } = req.params;
 	const aggregationPipeline =
 	aggregationPipelines.matchAllBasketsWithGivenUserID(userId);
@@ -88,7 +92,7 @@ userRoutes.get("/userbasketsdetails", async (req, res) => {
 			}
 		});
 	}
-	
+
 	if (numberofproducts) {
 		pipeline.push({
 			$match: {
@@ -133,11 +137,16 @@ userRoutes.get("/userbasketsdetails", async (req, res) => {
 });
 
 
-userRoutes.post("/createbasket/:userId", async (req, res) => {
+userRoutes.post("/createbasket/", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]) ,async (req, res) => {
 	// format for sending products is: products:id_1;id_2;id_2
 	// as you see we are using const productIds = products.split(';');
-	const { userId } = req.params;
+	const userId = req.user.user._id
 	const {products, currency, payment_method,status, delivery_status } = req.body;
+
+	if(!products){
+		res.status(500).json({ message: "You must provide products" });
+	}
+
 	const productsArr = products.split(';');
 	try {
 
@@ -179,7 +188,7 @@ userRoutes.post("/createbasket/:userId", async (req, res) => {
 
 
 
-userRoutes.put("/updatebasket/:basketId", async (req, res) => {
+userRoutes.put("/updatebasket/:basketId", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),async (req, res) => {
 	const { basketId } = req.params;
 	const { products, delivery_status, transaction_status } = req.body;
 
@@ -217,7 +226,7 @@ userRoutes.put("/updatebasket/:basketId", async (req, res) => {
 
 
 
-userRoutes.post('/change-user-password', async (req, res) =>{
+userRoutes.post('/change-user-password', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) =>{
 	try{
 		const { email, newPassword } = req.body;
 
@@ -300,7 +309,7 @@ userRoutes.post('/register-user', async (req, res) => {
 
 
 
-userRoutes.post('/register-admin', async (req, res) => {
+userRoutes.post('/register-admin',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
 	try {
 		const {
 			firstname,

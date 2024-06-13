@@ -1,3 +1,4 @@
+const { ObjectId } = require("mongodb");
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
@@ -30,7 +31,7 @@ const productSchema = new mongoose.Schema({
 		required: true,
 	},
 	brand: {
-		type: String,
+		type: ObjectId,
 		required: true,
 	},
 	category: {

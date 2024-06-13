@@ -1,0 +1,236 @@
+[{
+  "_id": {
+    "$oid": "664e5c311322d1e99418db69"
+  },
+  "name": "Huawei",
+  "location": {
+    "country": "China",
+    "city": "Shenzhen"
+  },
+  "contact": {
+    "email": "contact@huawei.com",
+    "phone": "+86-755-28780808"
+  },
+  "description": "Huawei is a leading global provider of information and communications technology (ICT) infrastructure and smart devices.",
+  "website": "https://www.huawei.com",
+  "established_year": 1987,
+  "social_media": {
+    "facebook": "https://www.facebook.com/Huawei",
+    "twitter": "https://twitter.com/Huawei"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5c311322d1e99418db6a"
+  },
+  "name": "Samsung",
+  "location": {
+    "country": "South Korea",
+    "city": "Seoul"
+  },
+  "contact": {
+    "email": "contact@samsung.com",
+    "phone": "+82-2-2255-0114"
+  },
+  "description": "Samsung is a South Korean multinational conglomerate headquartered in Samsung Town, Seoul.",
+  "website": "https://www.samsung.com",
+  "established_year": 1938,
+  "social_media": {
+    "facebook": "https://www.facebook.com/Samsung",
+    "twitter": "https://twitter.com/Samsung"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5c311322d1e99418db6b"
+  },
+  "name": "Flying Wooden",
+  "location": {
+    "country": "France",
+    "city": "Bordeaux"
+  },
+  "contact": {
+    "email": "contact@flyingwooden.com",
+    "phone": "123-456-7890"
+  },
+  "description": "Flying Wooden offers a variety of handcrafted wooden home decor items.",
+  "website": "",
+  "established_year": 2010,
+  "social_media": {}
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db6d"
+  },
+  "name": "Apple",
+  "location": {
+    "country": "United States",
+    "city": "Cupertino"
+  },
+  "contact": {
+    "email": "contact@apple.com",
+    "phone": "+1-800-275-2273"
+  },
+  "description": "Apple Inc. designs, manufactures, and markets mobile communication and media devices, personal computers, and portable digital music players.",
+  "website": "https://www.apple.com",
+  "established_year": 1976,
+  "social_media": {
+    "facebook": "https://www.facebook.com/Apple",
+    "twitter": "https://twitter.com/Apple"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db6e"
+  },
+  "name": "Lord - Al-Rehab",
+  "location": {
+    "country": "Saudi Arabia",
+    "city": "Jeddah"
+  },
+  "contact": {
+    "email": "contact@al-rehab.com",
+    "phone": "+966-12-6690661"
+  },
+  "description": "Al-Rehab is a leading manufacturer of perfumes, based in Jeddah, Saudi Arabia.",
+  "website": "http://www.al-rehab.com",
+  "established_year": 1999,
+  "social_media": {}
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db6f"
+  },
+  "name": "Infinix",
+  "location": {
+    "country": "China",
+    "city": "Hongkong"
+  },
+  "contact": {
+    "email": "contact@infinixmobility.com",
+    "phone": "123-456-7890"
+  },
+  "description": "Infinix is a Hong Kong-based smartphone manufacturer, offering a range of devices with innovative technology.",
+  "website": "https://www.infinixmobility.com",
+  "established_year": 2013,
+  "social_media": {
+    "facebook": "https://www.facebook.com/InfinixMobile",
+    "twitter": "https://twitter.com/Infinix_Mobile"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db70"
+  },
+  "name": "ROREC White Rice",
+  "location": {
+    "country": "Vietnam",
+    "city": "Hanoi"
+  },
+  "contact": {
+    "email": "contact@roreccosmetics.com",
+    "phone": "123-456-7890"
+  },
+  "description": "ROREC offers a variety of cosmetics products, including their popular White Rice range.",
+  "website": "",
+  "established_year": 2007,
+  "social_media": {}
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db71"
+  },
+  "name": "LED Lights",
+  "location": {
+    "country": "Germany",
+    "city": "Berlin"
+  },
+  "contact": {
+    "email": "contact@ledlights.com",
+    "phone": "123-456-7890"
+  },
+  "description": "LED Lights provides a range of LED lighting solutions for various applications.",
+  "website": "",
+  "established_year": 2009,
+  "social_media": {}
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db72"
+  },
+  "name": "Golden",
+  "location": {
+    "country": "Sweden",
+    "city": "Malmo"
+  },
+  "contact": {
+    "email": "contact@golden.com",
+    "phone": "123-456-7890"
+  },
+  "description": "Golden provides a wide range of quality products across various categories.",
+  "website": "https://www.golden-company.com",
+  "established_year": 2021,
+  "social_media": {
+    "instagram": "https://www.instagram.com/golden_company/"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db73"
+  },
+  "name": "Al Munakh",
+  "location": {
+    "country": "Saudi Arabia",
+    "city": "Rijad"
+  },
+  "contact": {
+    "email": "contact@almunakh.com",
+    "phone": "123-456-7890"
+  },
+  "description": "Al Munakh offers a variety of high-quality food products.",
+  "website": "",
+  "established_year": 2017,
+  "social_media": {}
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db74"
+  },
+  "name": "Hemani Tea",
+  "location": {
+    "country": "Pakistan",
+    "city": "Karachi"
+  },
+  "contact": {
+    "email": "contact@hemaniherbals.com",
+    "phone": "+92-21-111-436-264"
+  },
+  "description": "Hemani Tea offers a variety of herbal and traditional teas.",
+  "website": "https://www.hemaniherbals.com",
+  "established_year": 1964,
+  "social_media": {
+    "facebook": "https://www.facebook.com/HemaniHerbals",
+    "twitter": "https://twitter.com/HemaniHerbals"
+  }
+},
+{
+  "_id": {
+    "$oid": "664e5eec1322d1e99418db75"
+  },
+  "name": "Fair & Clear",
+  "location": {
+    "country": "Spain",
+    "city": "Madrit"
+  },
+  "contact": {
+    "email": "contact@fairandclear.com",
+    "phone": "123-456-7890"
+  },
+  "description": "Fair & Clear",
+  "website": "https://www.fairandclear.com",
+  "established_year": 1987,
+  "social_media": {
+    "facebook": "https://www.facebook.com/fairandclear",
+    "twitter": "https://instagram.com/HemaniHerbals"
+  }
+}]
