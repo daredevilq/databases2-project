@@ -4,7 +4,7 @@ const aggregationPipelines = require("./aggregation_pipelines");
 const Brand = require("./models/brand");
 
 
-brandRoutes.get("/allbrands", (req, res) => {
+brandRoutes.get("/all-brands", (req, res) => {
 	Brand.find()
 		.then((result) => {
 			res.send(result);
@@ -15,7 +15,7 @@ brandRoutes.get("/allbrands", (req, res) => {
 });
 
 
-brandRoutes.get("/searchbrands", async (req, res) =>{
+brandRoutes.get("/search-brands", async (req, res) =>{
  try {
 		const {
 			name,

@@ -17,7 +17,7 @@ const brandRoutes = require("./brand_routes");
 const commentRoutes = require('./comment_routes');
 const adminRoutes = require('./admin_reports_routes');
 const authenticationRoutes = require('./authentication_routes')
-
+const logsRoutes = require('./routes/logs_routes')
 const bodyParser = require('body-parser');
 
 // Middleware
@@ -48,6 +48,7 @@ app.use("/", userRoutes);
 app.use("/", productRoutes);
 app.use("/", brandRoutes);
 app.use("/", commentRoutes)
+app.use("/", logsRoutes)
 app.use("/", adminRoutes)
 app.use("/", authenticationRoutes)
 

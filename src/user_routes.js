@@ -65,48 +65,59 @@ userRoutes.get("/userbaskets/:userId",authorization.authenticateToken, authoriza
 });
 
 
-userRoutes.get("/userbasketsdetails", async (req, res) => {
+userRoutes.post("/my-shopping", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]),async (req, res) => {
 	const {
-		userId,
-		mintotalvalue,
-		maxtotalvalue,
-		numberofproducts,
-		deliverystatus,
+		minTotalValue,
+		maxTotalValue,
+		numberOfProducts,
+		deliveryStatus,
 		status,
 		timestamp,
 		title,
-		brand,
-		category,
-	} = req.query;
+		category
+	} = req.body;
+	
+	const userId = req.user.user._id;
 
-	let pipeline = aggregationPipelines.matchAllBasketsDetailed(userId, title, brand, category);
+	let pipeline = aggregationPipelines.matchAllBasketsDetailed(userId, title, category);
 
 	// Additional filters
-	if (mintotalvalue || maxtotalvalue) {
+	if (minTotalValue) {
 		pipeline.push({
 			$match: {
 				totalValue: {
-					...(mintotalvalue ? { $gte: parseFloat(mintotalvalue) } : {}),
-					...(maxtotalvalue ? { $lte: parseFloat(maxtotalvalue) } : {})
+					$gte: parseFloat(minTotalValue) 
 				}
 			}
 		});
 	}
 
-	if (numberofproducts) {
+	if (maxTotalValue) {
+		pipeline.push({
+			$match: {
+				totalValue: {
+					$lte: parseFloat(maxTotalValue) 
+				}
+			}
+		});
+	}
+
+
+
+	if (numberOfProducts) {
 		pipeline.push({
 			$match: {
 				'baskets.products': {
-					$size: parseInt(numberofproducts, 10)
+					$size: parseInt(numberOfProducts, 10)
 				}
 			}
 		});
 	}
 	
-	if (deliverystatus) {
+	if (deliveryStatus) {
 		pipeline.push({
 			$match: {
-				'baskets.delivery_status': deliverystatus
+				'baskets.delivery_status': deliveryStatus
 			}
 		});
 	}
@@ -128,6 +139,7 @@ userRoutes.get("/userbasketsdetails", async (req, res) => {
 		});
 	}
 	
+	
 	try {
 		const result = await Basket.aggregate(pipeline);
 		res.json(result);
@@ -137,11 +149,12 @@ userRoutes.get("/userbasketsdetails", async (req, res) => {
 });
 
 
-userRoutes.post("/createbasket/", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]) ,async (req, res) => {
+userRoutes.post("/create-basket", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]) ,async (req, res) => {
 	// format for sending products is: products:id_1;id_2;id_2
 	// as you see we are using const productIds = products.split(';');
 	const userId = req.user.user._id
-	const {products, currency, payment_method,status, delivery_status } = req.body;
+	const {products, currency, payment_method,status } = req.body;
+	const delivery_status = "order_placed";
 
 	if(!products){
 		res.status(500).json({ message: "You must provide products" });

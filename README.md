@@ -15,7 +15,7 @@
 - **bcrypt** - Biblioteka pomagająca w haszowaniu haseł.
 - **jsonwebtoken** - biblioteka służąca do tworzenia i weryfikacji tokenów sieciowych JSON (JWT).
 - **moongose** - to narzędzie do modelowania obiektów MongoDB zaprojektowane do pracy w środowisku asynchronicznym. Mongoose obsługuje Node.js i Deno (alfa).
-
+- **mongodb-js/charts-embed-dom** 
 **Wykonali:**
 
 **Piotr Śmiałek** -  piotrsmia@student.agh.edu.pl
@@ -221,6 +221,7 @@ Kolekcja zawiera wszsytkie produkty dostępne w sklepie
 **Validation rules - dla kolekcji products**
 
 ```js
+
 {
   $jsonSchema: {
     additionalProperties: true,
@@ -795,3 +796,81 @@ kolekcja zawierająca proste informacje na temat logowania / wylogowywania się 
   }
 }
 ```
+
+# Logowanie
+
+
+Każdy użytkownik w tabeli users posiada email i zahaszowane hasło. Do każdego użytkownika jest także przypisana rola, jest ich dwie: admin i customer. Większość endpointów na serwerze jest chrononych ( tylko niektóre są dostępne dla gości). 
+
+Logowanie odbywa się przez endpoint:
+
+**POST /login** w body podajemy password
+
+```js
+POST http://localhost:8000/login
+Content-Type: application/json
+
+{
+  "email": "Julianne.OConner@kory.org",
+  "password": "haslo123"
+}
+```
+
+W odpowiedzi dostajemy token, którego używamy przy chronionych endpointach.
+
+Logowanie jest realizowane przy pomocy jwt token'a, przy pomocy middleware.
+
+```js
+function authenticateToken(req, res, next){
+		const authHeader = req.headers['authorization']
+		// we split because its: BEARER <token>
+		const token = authHeader && authHeader.split(' ')[1]
+	
+		if(token == null){
+				res.status(400)
+		}
+		jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) =>{
+			if(err) return res.sendStatus(403)
+	
+			req.user = user;
+			next()
+		})
+	}
+	
+	function authorizeRoles(allowedRoles) {
+		return (req, res, next) => {
+			if (!allowedRoles.includes(req.user.user.role)) {
+				return res.status(403).send('Access forbidden: insufficient rights');
+			}
+			next();
+		}
+	}
+```
+
+
+
+
+# Admin 
+
+Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów customera i guesta)
+
+
+
+
+# Customer
+
+Enpointy do jakich ma dostęp customer (dodatkowo ma dostęp do endpointów guesta):
+
+**POST /create-basket**
+**POST /my-shopping**
+**GET /search-products**
+**GET /products/:productId/all-reviews**
+**GET /all-products**
+**POST /add-review**
+**GET /all-brands**
+**GET /search-brands**
+**GET /my-reviews**
+**GET /my-logs**
+
+
+

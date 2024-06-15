@@ -2,3 +2,4 @@ Hasła wszystkich użytkowników poza adminem to: haslo123, są one zahashowane 
 
 Hasła adminów to admin123
 email : admin@admin.pl
+ 

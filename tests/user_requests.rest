@@ -1,0 +1,52 @@
+POST http://localhost:8000/login
+Content-Type: application/json
+
+{
+  "email": "Julianne.OConner@kory.org",
+  "password": "haslo123"
+}
+
+###
+
+GET http://localhost:8000/my-reviews
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkhvZWdlciBNYWxsIiwic3VpdGUiOiJBcHQuIDY5MiIsImNpdHkiOiJTb3V0aCBFbHZpcyIsInppcGNvZGUiOiI1MzkxOS00MjU3In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmMCIsImZpcnN0bmFtZSI6IlBhdHJpY2lhIiwibGFzdG5hbWUiOiJMZWJzYWNrIiwidXNlcm5hbWUiOiJLYXJpYW5uZSIsImVtYWlsIjoiSnVsaWFubmUuT0Nvbm5lckBrb3J5Lm9yZyIsInBhc3N3b3JkIjoiJDJiJDEwJEdONjRzSklrdHpxUnNtaENYT016WHUwUE1HZldSaktLSUVoMmJGWll3bjhKOHVzSlpSeFBPIiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiI0OTMtMTcwLTk2MjMgeDE1NiJ9LCJpYXQiOjE3MTg0NjE4ODcsImV4cCI6MTcxODQ2MzA4N30.ZDymPAib0eKlE4ZgCWA-3eSUxA5nXLa1Pday_rtDgfo  
+
+
+###
+GET http://localhost:8000/my-logs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkhvZWdlciBNYWxsIiwic3VpdGUiOiJBcHQuIDY5MiIsImNpdHkiOiJTb3V0aCBFbHZpcyIsInppcGNvZGUiOiI1MzkxOS00MjU3In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmMCIsImZpcnN0bmFtZSI6IlBhdHJpY2lhIiwibGFzdG5hbWUiOiJMZWJzYWNrIiwidXNlcm5hbWUiOiJLYXJpYW5uZSIsImVtYWlsIjoiSnVsaWFubmUuT0Nvbm5lckBrb3J5Lm9yZyIsInBhc3N3b3JkIjoiJDJiJDEwJEdONjRzSklrdHpxUnNtaENYT016WHUwUE1HZldSaktLSUVoMmJGWll3bjhKOHVzSlpSeFBPIiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiI0OTMtMTcwLTk2MjMgeDE1NiJ9LCJpYXQiOjE3MTg0NjkwMDQsImV4cCI6MTcxODQ3MDIwNH0.57lVkb43gp3sRAEItxZbN3gHBSC0quxLexbDuY5nkws
+
+###
+POST http://localhost:8000/register-user
+Content-Type: application/json
+
+{
+    "firstname" : "",
+    "lastname" : "",
+    "username" : "",
+    "email" : "",
+    "password": "haslo123",
+    "country" : "",
+    "street" : "",
+    "suite" : "",
+    "city" : "",
+    "zipcode": ""
+}
+
+###
+POST http://localhost:8000/register-user
+Content-Type: application/json
+
+{
+    "firstname": "Christopher",
+    "lastname": "Wilson",
+    "username": "christopherwilson",
+    "email": "christopherwilson07548@example.com",
+    "password": "haslo123",
+    "country": "Spain",
+    "street": "Gran Via",
+    "suite": "Apt 12",
+    "city": "Madrid",
+    "zipcode": "28013",
+    "phone": "656-445-453"
+}

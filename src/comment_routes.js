@@ -4,10 +4,13 @@ const Product = require("./models/product");
 const aggregationPipelines = require("./aggregation_pipelines")
 const Comments =  require("./models/comment")
 const mongoose = require("mongoose");
+const helperFunctions = require('./helper_functions')
+const authorization = require('./authorization')
+const ROLES = require('./roles_list')
 
 commentRoutes.use(express.json())
 
-commentRoutes.get("/usercomments/:userId", async (req, res) =>{
+commentRoutes.get("/user-comments/:userId", async (req, res) =>{
 		const { userId } = req.params;
 
 		const aggregationPipeline = aggregationPipelines.searchAllUserComments(userId)
@@ -21,8 +24,22 @@ commentRoutes.get("/usercomments/:userId", async (req, res) =>{
 		}
 })
 
+commentRoutes.get("/my-reviews", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) =>{
+	
+	const userId = req.user.user._id;
+	const aggregationPipeline = aggregationPipelines.searchAllUserComments(userId)
+	try{
+			const answ = await Comments.aggregate(aggregationPipeline)
 
-commentRoutes.post('/addreview', async (req, res) => {
+			res.json(answ)
+	}catch(error){
+			console.error(error);
+			res.status(500).json({ message: "Wystąpił błąd serwera" });
+	}
+})
+
+
+commentRoutes.post('/add-review', async (req, res) => {
 		const { product_id, customer_id, rating, review } = req.body;
 		try {
 			const newReview = new Comments({
@@ -43,7 +60,7 @@ commentRoutes.post('/addreview', async (req, res) => {
 	});
 
 
-	commentRoutes.post('/addcomment/:reviewId', async (req, res) => {
+	commentRoutes.post('/add-comment/:reviewId', async (req, res) => {
 		const { reviewId } =req.params;
 		const objectReviewId =  new mongoose.Types.ObjectId(reviewId)
 		const { userid, comment } = req.body

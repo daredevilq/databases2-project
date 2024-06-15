@@ -3,7 +3,7 @@ const productRoutes = express.Router();
 const Product = require("./models/product");
 const aggregationPipelines = require("./aggregation_pipelines")
 const Comments =  require("./models/comment")
-productRoutes.get("/allproducts", (req, res) => {
+productRoutes.get("/all-products", (req, res) => {
 	Product.find()
 		.then((result) => {
 			res.send(result);
@@ -14,7 +14,7 @@ productRoutes.get("/allproducts", (req, res) => {
 });
 
 //BRAND TO DO
-productRoutes.get("/searchproducts", async (req, res) => {
+productRoutes.get("/search-products", async (req, res) => {
 	try {
 		const {
 			title,
@@ -61,7 +61,7 @@ productRoutes.get("/searchproducts", async (req, res) => {
 });
 
 
-productRoutes.post("/addproduct", async (req, res) => {
+productRoutes.post("/add-product", async (req, res) => {
 	try {
 		const productData = req.body; 
 		const newProduct = new Product(productData); 
@@ -77,7 +77,7 @@ productRoutes.post("/addproduct", async (req, res) => {
 });
 
 
-productRoutes.get("/products/:productId/allreviews", async (req, res) => {
+productRoutes.get("/products/:productId/all-reviews", async (req, res) => {
 	const { productId } = req.params;
 
 	try {

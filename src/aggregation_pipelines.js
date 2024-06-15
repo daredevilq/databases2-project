@@ -77,94 +77,116 @@ function matchAllBasketsWithGivenUserID(userID){
 }
 
 
-function matchAllBasketsDetailed(userId, title, brand, category){
+function matchAllBasketsDetailed(userId, title, category){
+    const userObjectId = new ObjectId(userId);
+    const productSearchCriteria = [];
 
+    if (title) productSearchCriteria.push({ 'productDetails.title': { $regex: title, $options: "i" } });
+    if (category) productSearchCriteria.push({ 'productDetails.category': { $regex: category, $options: "i" } });
 
-	const userObjectId = new ObjectId(userId);
-	const productSearchCriteria = [];
+    const pipeline = [
+        { $match: { user_id: userObjectId } },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user_id',
+                foreignField: '_id',
+                as: 'user'
+            }
+        },
+        { $unwind: '$user' },
+        {
+            $lookup: {
+                from: 'products',
+                localField: 'products',
+                foreignField: '_id',
+                as: 'productDetails'
+            }
+        },
+        // Lookup to join the brand details
+        {
+            $lookup: {
+                from: 'brands',
+                localField: 'productDetails.brand',
+                foreignField: '_id',
+                as: 'brandDetails'
+            }
+        },
+        {
+            $addFields: {
+                productDetails: {
+                    $map: {
+                        input: '$productDetails',
+                        as: 'product',
+                        in: {
+                            $mergeObjects: [
+                                '$$product',
+                                { brandDetails: { $arrayElemAt: ['$brandDetails', { $indexOfArray: ['$brandDetails._id', '$$product.brand'] }] } }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $addFields: {
+                totalValue: { $sum: '$productDetails.price' },
+                matchingProducts: {
+                    $filter: {
+                        input: '$productDetails',
+                        as: 'product',
+                        cond: {
+                            $or: productSearchCriteria.length > 0
+                                ? productSearchCriteria.map(criteria => ({
+                                        $regexMatch: {
+                                            input: `$$product.${Object.keys(criteria)[0].split('.')[1]}`,
+                                            regex: Object.values(criteria)[0].$regex,
+                                            options: Object.values(criteria)[0].$options
+                                        }
+                                    }))
+                                : [true] // nie filtrujemy jesli nie ma search criteria 
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $match: {
+                $expr: {
+                    $gt: [{ $size: '$matchingProducts' }, 0]
+                }
+            }
+        },
+        {
+            $project: {
+                _id: 0,
+                firstname: '$user.firstname',
+                lastname: '$user.lastname',
+                baskets: {
+                    _id: '$_id',
+                    date_time: '$date_time',
+                    products: {
+                        $map: {
+                            input: '$productDetails',
+                            as: 'product',
+                            in: {
+                                _id: '$$product._id',
+                                title: '$$product.title',
+                                price: '$$product.price',
+                                brand: '$$product.brandDetails.name', 
+                                category: '$$product.category'
+                            }
+                        }
+                    },
+                    transaction: '$transaction',
+                    delivery_status: '$delivery_status'
+                },
+                totalValue: 1
+            }
+        }
+    ];
 
-	if (title) productSearchCriteria.push({ 'productDetails.title': { $regex: title, $options: "i" } });
-	if (brand) productSearchCriteria.push({ 'productDetails.brand': { $regex: brand, $options: "i" } });
-	if (category) productSearchCriteria.push({ 'productDetails.category': { $regex: category, $options: "i" } });
-
-	const pipeline = [
-		{ $match: { user_id: userObjectId } },
-		{
-			$lookup: {
-				from: 'users',
-				localField: 'user_id',
-				foreignField: '_id',
-				as: 'user'
-			}
-		},
-		{ $unwind: '$user' },
-		{
-			$lookup: {
-				from: 'products',
-				localField: 'products',
-				foreignField: '_id',
-				as: 'productDetails'
-			}
-		},
-		{
-			$addFields: {
-				totalValue: { $sum: '$productDetails.price' },
-				matchingProducts: {
-					$filter: {
-						input: '$productDetails',
-						as: 'product',
-						cond: {
-							$or: productSearchCriteria.length > 0
-								? productSearchCriteria.map(criteria => ({
-										$regexMatch: {
-											input: `$$product.${Object.keys(criteria)[0].split('.')[1]}`,
-											regex: Object.values(criteria)[0].$regex,
-											options: Object.values(criteria)[0].$options
-										}
-									}))
-								: [true] // nie filtrujemy jesli nie ma search criteria 
-						}
-					}
-				}
-			}
-		},
-		{
-			$match: {
-				$expr: {
-					$gt: [{ $size: '$matchingProducts' }, 0]
-				}
-			}
-		},
-		{
-			$project: {
-				_id: 0,
-				firstname: '$user.firstname',
-				lastname: '$user.lastname',
-				baskets: {
-					_id: '$_id',
-					date_time: '$date_time',
-					products: {
-						$map: {
-							input: '$productDetails',
-							as: 'product',
-							in: {
-								_id: '$$product._id',
-								title: '$$product.title',
-								price: '$$product.price',
-								brand: '$$product.brand',
-								category: '$$product.category'
-							}
-						}
-					},
-					transaction: '$transaction',
-					delivery_status: '$delivery_status'
-				},
-				totalValue: 1
-			}
-		}
-	];
-
-	return pipeline;
+    return pipeline;
 }
 
 
@@ -284,6 +306,7 @@ function searchAllUserComments(userId){
 				firstname: "$user_info.firstname",
 				lastname: "$user_info.lastname",
 				product_title: "$product_info.title",
+				rating: "$rating",
 				review: "$review",
 				date: "$date"
 			}
@@ -568,7 +591,38 @@ function ordersMonthly(){
 	  ]
 }
 
+function getLogsForUser(userId) {
+    const userObjectId = new ObjectId(userId);
 
+    const pipeline = [
+        { 
+            $match: { user_id: userObjectId } 
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'user_id',
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        },
+        { 
+            $unwind: '$userDetails' 
+        },
+        {
+            $project: {
+                _id: 0,
+                user_id: 1,
+                action_type: 1,
+                time: 1,
+                firstname: '$userDetails.firstname',
+                lastname: '$userDetails.lastname'
+            }
+        }
+    ];
+
+    return pipeline;
+}
 
 module.exports = {
 	matchAllProductsWithGivenID,
@@ -580,6 +634,7 @@ module.exports = {
 	countCoustomersInCountries,
 	ordersWeekly,
 	ordersMonthlyPeriodic,
-	ordersMonthly
+	ordersMonthly,
+	getLogsForUser
 };
 

@@ -14,7 +14,7 @@ const ChartsEmbedSDK = require('@mongodb-js/charts-embed-dom').default;
 
 
 
-adminRoutes.get("/financialreportusers", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),async (req, res) =>{
+adminRoutes.get("/financial-report-users", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),async (req, res) =>{
 	const pipeline = aggregationPipelines.financialReportUsers()
 	try {
 		const result = await Basket.aggregate(pipeline);
