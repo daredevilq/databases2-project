@@ -367,7 +367,7 @@ Kolekcja zawiera wszystkie marki, których produkty są dostępne na stanie
 
 
 
-**<h3>**Validation rules - dla kolekcji products**
+**Validation rules - dla kolekcji products**
 
 ```js
 {
