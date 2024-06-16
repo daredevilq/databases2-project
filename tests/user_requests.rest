@@ -37,8 +37,34 @@ Content-Type: application/json
 
 
 ###
+
+POST http://localhost:8000/create-basket
+Authorization: Bearer
+Content-Type: application/json
+
+{
+    "products" : "661edcb6a881e0b8999aabcb",
+    "currency" : "PLN",
+    "payment_method" : "PayPal"
+}
+
+###
+
+POST http://localhost:8000/my-shopping
+Authorization: Bearer 
+Content-Type: application/json
+
+{
+    "minTotalValue" : 1,
+    "maxTotalValue" : 1000,
+   "numberOfProducts": 3,
+   "title" : "Huawei P30",
+   "category" : "smartphones"
+}
+
+###
 POST http://localhost:8000/add-review
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkhvZWdlciBNYWxsIiwic3VpdGUiOiJBcHQuIDY5MiIsImNpdHkiOiJTb3V0aCBFbHZpcyIsInppcGNvZGUiOiI1MzkxOS00MjU3In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmMCIsImZpcnN0bmFtZSI6IlBhdHJpY2lhIiwibGFzdG5hbWUiOiJMZWJzYWNrIiwidXNlcm5hbWUiOiJLYXJpYW5uZSIsImVtYWlsIjoiSnVsaWFubmUuT0Nvbm5lckBrb3J5Lm9yZyIsInBhc3N3b3JkIjoiJDJiJDEwJEdONjRzSklrdHpxUnNtaENYT016WHUwUE1HZldSaktLSUVoMmJGWll3bjhKOHVzSlpSeFBPIiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiI0OTMtMTcwLTk2MjMgeDE1NiJ9LCJpYXQiOjE3MTg0ODIzNjYsImV4cCI6MTcxODQ4MzU2Nn0.KEaqGssFXvU0wIByEYyr2sFPjF_grLGJpKPg5YjND5Y
+Authorization: Bearer 
 Content-Type: application/json
 
 {
@@ -58,3 +84,47 @@ Content-Type: application/json
     "comment" : "Zgadzam sie z tobą ;)"
 }
 
+
+
+###
+POST http://localhost:8000/search-products
+Content-Type: application/json
+
+{
+    "title": "",
+    "category": "lap",
+    "minPrice": 0,
+    "maxPrice": 10000,
+    "minRating": 0,
+    "maxRating": 5,
+    "minDiscountPercentage": 0,
+    "maxDiscountPercentage": 100,
+    "minStock": 0,
+    "maxStock": 100
+}
+
+###
+
+POST http://localhost:8000/search-brands
+Content-Type: application/json
+
+{
+    "name": "",
+    "country": "fra",
+    "city": "",
+    "email": "",
+    "phone": "",
+    "website": "",
+    "establishedYearMin": null,
+    "establishedYearMax": null
+}
+
+###
+//GET http://localhost:8000/products/:productId/all-reviews
+GET http://localhost:8000/products/661edcb6a881e0b8999aabde/all-reviews
+
+###
+GET http://localhost:8000/all-products
+
+###
+GET http://localhost:8000/all-brands

@@ -42,28 +42,6 @@ adminRoutes.get('/customers-around-world', authorization.authenticateToken, auth
 })
 
 
-adminRoutes.get('/orders-weekTODO', async (req, res) => {
-	try {
-	const sdk = new ChartsEmbedSDK({
-		baseUrl: 'https://charts.mongodb.com/charts-data-bases2-project-byelmxs',
-	});
-	
-	const chart = sdk.createChart({
-		chartId: '665e333d-22bc-4575-81c1-3e8617de4d6e',
-	});
-
-	   
-		chart.render(document.getElementById('chart'));
-		console.log('Attempting to get data from chart with ID:', chart.chartId);
-		const data = await chart.getData();
-		console.log('Data received:', data);
-		res.send(data);
-	} catch (error) {
-		console.error('Failed to get data from chart:', error.message);
-		console.error('Stack trace:', error.stack);
-		res.status(500).send('Failed to get data from chart');
-	}
-});
 
 adminRoutes.get('/orders-week',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
 	try {
@@ -145,6 +123,80 @@ adminRoutes.get('/traffic', authorization.authenticateToken, authorization.autho
 		res.status(500).send('Failed to get data from chart');
 	}
 })
+
+
+
+adminRoutes.get('/most-profitable-products', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async(req ,res)=>{
+	try{
+		
+		const pipeline = aggregationPipelines.mostProfitableProducts()
+		const data = await Basket.aggregate(pipeline)
+		
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=666ef3ea-703f-4a90-89a2-35fc6e4a059e&maxDataAge=300&theme=light&autoRefresh=true`
+
+		data.push({chartLink: link})
+
+		res.send(data)
+		
+	}catch{
+		console.error('Failed to get data ', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data ');
+	}
+
+})
+
+
+
+adminRoutes.get('/most-profitable-categories', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async(req ,res)=>{
+	try{
+		
+		const pipeline = aggregationPipelines.mostProfitableCategories()
+		const data = await Basket.aggregate(pipeline)
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=666eef9a-4471-403d-81a1-2fc39328cd8c&maxDataAge=300&theme=light&autoRefresh=true`
+		
+		data.push({chartLink: link})
+		res.send(data)
+		
+	}catch{
+		console.error('Failed to get data ', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data ');
+	}
+
+})
+
+
+adminRoutes.get('/profit-weekly', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+	try {
+		const pipeline = aggregationPipelines.profitWeekly(); 
+		const data = await Basket.aggregate(pipeline);
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=666efdb9-264f-43e4-8077-9279bfcfb71b&maxDataAge=300&theme=light&autoRefresh=true`;
+
+		data.push({chartLink: link});
+		res.send(data);
+	} catch (error) {  
+		console.error('Failed to get data ', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data');
+	}
+});
+
+adminRoutes.get('/most-profitable-brands', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+	try {
+		const pipeline = aggregationPipelines.mostProfitableBrands(); 
+		const data = await Basket.aggregate(pipeline);
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=666ef60c-ddd5-4462-892e-c64ff7edc087&maxDataAge=300&theme=light&autoRefresh=true`;
+
+		data.push({chartLink: link});
+		res.send(data);
+	} catch (error) {  
+		console.error('Failed to get data ', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data');
+	}
+});
+
 
 
 

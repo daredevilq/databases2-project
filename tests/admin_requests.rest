@@ -12,6 +12,24 @@ Content-Type: application/json
 GET http://localhost:8000/financial-report-users
 Authorization: Bearer 
 
+###
+
+GET http://localhost:8000/most-profitable-products
+Authorization: Bearer 
+
+
+###
+GET http://localhost:8000/most-profitable-brands
+Authorization: Bearer 
+
+
+###
+GET http://localhost:8000/profit-weekly
+Authorization: Bearer 
+
+###
+GET http://localhost:8000/most-profitable-categories
+Authorization: Bearer 
 
 ###
 GET http://localhost:8000/orders-week

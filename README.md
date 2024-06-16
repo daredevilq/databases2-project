@@ -1,13 +1,12 @@
-<h1>Bazy danych 2</h1>
+<h1>Bazy danych 2 - Projekt</h1>
 
 <img src="./docs/1200px-Znak_graficzny_AGH.svg.png">
 
 ## Temat: CRUD API sklepu internetowego
 
 ## Technologie:
-- **Node.js**
-- **Express**
-- **MongoDB**
+- **Node.js -> Express**
+- **MongoDB -> MongoDB Atlas + MongoDB Charts**
 
 
 
@@ -18,6 +17,7 @@
 - **mongodb-js/charts-embed-dom** 
 - **nodemailer** - biblioteka pomocna przy wysylaniu maili
 - **mailgen** - biblioteka generujaca templatki do maili
+
 
 **Wykonali:**
 
@@ -1049,26 +1049,369 @@ authenticationRoutes.post('/login', async (req, res) => {
 
 Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów customera i guesta)
 
+**GET /profit-weekly**
+
+- zwraca listę dochodów z podziałem na tygodnie od początku działania sklepu internetowego z podziałem na tygodnie
+
+<img src="./docs/profit-weekly.png">
+
+- aggregation pipe:
+```js
+[
+		{
+		  "$match": {
+			"transaction.status": { "$in": ["completed", "in_progress"] }
+		  }
+		},
+		{
+		  "$unwind": "$products"
+		},
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"week": { "$week": "$date_time" },
+			"year": { "$year": "$date_time" },
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": { "year": "$year", "week": "$week" },
+			"totalProfit": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "_id.year": 1, "_id.week": 1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"year": "$_id.year",
+			"week": "$_id.week",
+			"totalProfit": 1
+		  }
+		}
+	  ]
+```
+
+
 **GET /customers-around-world**
 - zwraca zarejestrowanych użytkowników w danych krajach i interaktywna mapke, która mozna osadzić na forncie
 
 <img src="./docs/customers-around.png">
 
-**GET /orders-week**
-- zwraca liczbe zamówien dla danego dnia tygodnia i link do interaktywnego wykresu
 
-<img src="./docs/orders-week.png">
+**GET /most-profitable-products**
+
+- zwraca listę produktów i przychód jakie one wygenerowały dla sklepu, lista jest posortowana od produktów, które wygenerowały najwięcej przychodu to tych, które wygenreowały najmniej
+
+<img src="./docs/most-profitable-products.png">
+
+- aggregation pipe:
+```js
+[
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"product_id": "$productDetails._id",
+			"title": "$productDetails.title",
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": "$product_id",
+			"title": { "$first": "$title" },
+			"totalValue": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "totalValue": -1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"product_id": "$_id",
+			"title": 1,
+			"totalValue": 1
+		  }
+		}
+	  ]
+```
+
+
+**GET /most-profitable-categories**
+
+- zwraca listę kategorii i przychodów jakie one wygenerowały dla sklepu, pokazuję, posortowana liste, które kategorie wygenerowały najwięcej, a które najmniej przychodów.
+
+<img src="./docs/most-profitable-categories.png">
+
+```js
+[
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"category": "$productDetails.category",
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": "$category",
+			"totalValue": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "totalValue": -1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"category": "$_id",
+			"totalValue": 1
+		  }
+		}
+	  ]
+```
+
+
 
 **GET /orders-month-periodic**
 -zwraca liczbe zamówien z podziałem na poszczególne miesiące + wykres kolumnowy
 
 <img src="./docs/months-periodic.png">
 
+
+```js
+[
+		{
+		  "$addFields": {
+			"date_time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$date_time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$date_time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$date_time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"x": "$__alias_0",
+			"y": "$__alias_1",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		},
+		{
+			$project:{
+				"month": "$x.month",
+				"quantity": "$y"
+			}
+		}
+	  ]
+```
+
+**GET /financial-report-users**
+
+- pokazuje sprawozdanie finansowe dla kazdego uzytkownika (ile przychodu wygenerowal dla sklepu)
+
+
+
 **GET /orders-month** 
 - zwraca liczbe zamówien dla każdego miesiąca od początku działania sklepu internetowego + zwraca wykres kolumnowy
 
 
 <img src="./docs/orders-monthly.png">
+
+
+
+
+**GET /orders-week**
+- zwraca liczbe zamówien dla danego dnia tygodnia i link do interaktywnego wykresu
+
+<img src="./docs/orders-week.png">
+
+```js
+[
+		{
+			"$addFields": {
+				"date_time": {
+					"$cond": {
+						"if": {
+							"$eq": [
+								{
+									"$type": "$date_time"
+								},
+								"date"
+							]
+						},
+						"then": "$date_time",
+						"else": null
+					}
+				}
+			}
+		},
+		{
+			"$addFields": {
+				"dayOfWeek": {
+					"$add": [
+						{
+							"$dayOfWeek": "$date_time"
+						},
+						-1
+					]
+				}
+			}
+		},
+		{
+			"$group": {
+				"_id": "$dayOfWeek",
+				"numberOfOrders": {
+					"$sum": 1
+				}
+			}
+		},
+		{
+			"$sort": {
+				"_id": 1
+			}
+		},
+		{
+			"$project": {
+				"dayOfWeek": "$_id",
+				"numberOfOrders": 1,
+				"_id": 0
+			}
+		}
+	];
+```
 
 
 **GET /users-number**
@@ -1080,6 +1423,79 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 <img src="./docs/traffic.png">
 
 
+```js
+[
+		{
+		  "$addFields": {
+			"time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "year": {
+				"$year": "$time"
+			  },
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"amount": "$__alias_1",
+			"date": "$__alias_0",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.year": 1,
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		}
+	  ]
+```
+
 **GET /dashboard**
 - zwraca panel z wszystkimi wykresami
 
@@ -1087,9 +1503,26 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 **GET /user-comments/:userId"**
 - zwraca wytawione opinie danego użytkownika o podanym id
 
+**GET /searchuser**
+
+- endpoint pozwalazacy wyszukac usera o podanych kryteriach
 
 
+**POST /add-product**
 
+- endpoint dodaje nowy produkt do bazy danych 
+
+**POST /update-discount**
+
+- aktualizuje żniżke dla porduktu, jeśli zniżka będzie mniejsza od 20%, wyzwalany jest trigger który wysyła maile do użytkowników
+
+
+**POST /change-user-password**
+
+- zmieniamy haslo użytkownika o podanym Id
+
+
+**POST /register-admin**
 
 # Customer
 
@@ -1098,19 +1531,42 @@ Enpointy do jakich ma dostęp customer (dodatkowo ma dostęp do endpointów gues
 **POST /create-basket**
 - pozwala na stworzenie koszyka z produktami
 
-
-
-
-
 **POST /my-shopping**
+- sprawdzenie jakie swoich zakupów i podliczenie ile się za to zapłaciło
+
 **GET /search-products**
+- mozemy wyszukiwać produktów użytwając do tego róznych filtrów
+
 **GET /products/:productId/all-reviews**
+- listuje wszystkie opinie o danym produkcie
+
+
 **GET /all-products**
+- listuje wszustkie produkty 
+
 **POST /add-review**
+
+- możemy dodać opinie do jakiegos produktu
+
 **GET /all-brands**
+
+- listuje wszyskie marki 
+
+
 **GET /search-brands**
+- listuje marki wedlug podanych kryteriów 
+
 **GET /my-reviews**
+
+- zwraca wszystkie opinie wystawione przez zalogowanego uzytkownika
+
 **GET /my-logs**
+
+- zwraca logi zalogowanego uzytkownika
+
 **POST /add-comment/:reviewId**
 
+- dodaje komentarz do opinii wystawionej przez kogos na tematu produktu
 
+
+**POST /register-user**

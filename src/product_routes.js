@@ -7,6 +7,7 @@ const authorization = require('./authorization')
 const ROLES = require('./roles_list')
 const mailSender = require('./mail_sender');
 const sendingMail = require("./mail_sender");
+const { default: mongoose } = require("mongoose");
 
 
 productRoutes.get("/all-products", (req, res) => {
@@ -20,8 +21,9 @@ productRoutes.get("/all-products", (req, res) => {
 });
 
 //BRAND TO DO
-productRoutes.get("/search-products", async (req, res) => {
+productRoutes.post("/search-products", async (req, res) => {
 	try {
+		console.log(req.body)
 		const {
 			title,
 			//brand,
@@ -34,7 +36,7 @@ productRoutes.get("/search-products", async (req, res) => {
 			maxDiscountPercentage,
 			minStock,
 			maxStock,
-		} = req.query;
+		} = req.body;
 
 		const searchCriteria = {};
 
@@ -90,9 +92,11 @@ productRoutes.post("/add-product", authorization.authenticateToken, authorizatio
 productRoutes.get("/products/:productId/all-reviews", async (req, res) => {
 	const { productId } = req.params;
 
+	const objectProductId = new mongoose.Types.ObjectId(productId)
+
 	try {
 		const aggregationPipeline =
-			aggregationPipelines.matchAllProductsWithGivenID(productId);
+			aggregationPipelines.matchAllProductsWithGivenID(objectProductId);
 		
 		console.log(aggregationPipeline);
 		const result = await Comments.aggregate(aggregationPipeline);

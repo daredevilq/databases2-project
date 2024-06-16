@@ -694,6 +694,260 @@ function websiteTraffic(){
 	  ]
 }
 
+function mostProfitableProducts(){
+	return [
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"product_id": "$productDetails._id",
+			"title": "$productDetails.title",
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": "$product_id",
+			"title": { "$first": "$title" },
+			"totalValue": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "totalValue": -1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"product_id": "$_id",
+			"title": 1,
+			"totalValue": 1
+		  }
+		}
+	  ]
+	  
+}
+
+
+function mostProfitableCategories(){
+	return [
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"category": "$productDetails.category",
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": "$category",
+			"totalValue": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "totalValue": -1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"category": "$_id",
+			"totalValue": 1
+		  }
+		}
+	  ]
+	  
+}
+
+
+
+function profitWeekly(){
+	return [
+		{
+		  "$match": {
+			"transaction.status": { "$in": ["completed", "in_progress"] }
+		  }
+		},
+		{
+		  "$unwind": "$products"
+		},
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"week": { "$week": "$date_time" },
+			"year": { "$year": "$date_time" },
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": { "year": "$year", "week": "$week" },
+			"totalProfit": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "_id.year": 1, "_id.week": 1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"year": "$_id.year",
+			"week": "$_id.week",
+			"totalProfit": 1
+		  }
+		}
+	  ]
+}
+
+
+function mostProfitableBrands(){
+	return [
+
+		{
+		  "$unwind": "$products"
+		},
+		{
+		  "$lookup": {
+			"from": "products",
+			"localField": "products",
+			"foreignField": "_id",
+			"as": "productDetails"
+		  }
+		},
+		{
+		  "$unwind": "$productDetails"
+		},
+		{
+		  "$project": {
+			"product_id": "$productDetails._id",
+			"brand_id": "$productDetails.brand",
+			"price": "$productDetails.price",
+			"discountPercentage": "$productDetails.discountPercentage",
+			"finalPrice": {
+			  "$multiply": [
+				"$productDetails.price",
+				{
+				  "$subtract": [
+					1,
+					{
+					  "$divide": [
+						"$productDetails.discountPercentage",
+						100
+					  ]
+					}
+				  ]
+				}
+			  ]
+			}
+		  }
+		},
+		{
+		  "$lookup": {
+			"from": "brands",
+			"localField": "brand_id",
+			"foreignField": "_id",
+			"as": "brandDetails"
+		  }
+		},
+		{
+		  "$unwind": "$brandDetails"
+		},
+		{
+		  "$group": {
+			"_id": "$brandDetails.name",
+			"totalRevenue": { "$sum": "$finalPrice" }
+		  }
+		},
+		{
+		  "$sort": { "totalRevenue": -1 }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"brand": "$_id",
+			"totalRevenue": 1
+		  }
+		}
+	  ]
+}
 
 module.exports = {
 	matchAllProductsWithGivenID,
@@ -707,6 +961,10 @@ module.exports = {
 	ordersMonthlyPeriodic,
 	ordersMonthly,
 	getLogsForUser,
-	websiteTraffic
+	websiteTraffic,
+	mostProfitableProducts,
+	mostProfitableCategories,
+	profitWeekly,
+	mostProfitableBrands
 };
 

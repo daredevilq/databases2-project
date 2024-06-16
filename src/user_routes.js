@@ -152,9 +152,11 @@ userRoutes.post("/my-shopping", authorization.authenticateToken, authorization.a
 userRoutes.post("/create-basket", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]) ,async (req, res) => {
 	// format for sending products is: products:id_1;id_2;id_2
 	// as you see we are using const productIds = products.split(';');
+	console.log("------------------")
 	const userId = req.user.user._id
-	const {products, currency, payment_method,status } = req.body;
+	const {products, currency, payment_method } = req.body;
 	const delivery_status = "order_placed";
+	const status = "completed"
 
 	if(!products){
 		res.status(500).json({ message: "You must provide products" });
@@ -193,7 +195,7 @@ userRoutes.post("/create-basket", authorization.authenticateToken, authorization
 		res.status(201).json(savedBasket);
 	} catch (error) {
 		console.error(error);
-		res.status(500).json({ message: "Wystąpił błąd serwera" });
+		res.status(500).json({ message: "Server error" });
 	}
 });
 
