@@ -3,6 +3,12 @@ const productRoutes = express.Router();
 const Product = require("./models/product");
 const aggregationPipelines = require("./aggregation_pipelines")
 const Comments =  require("./models/comment")
+const authorization = require('./authorization')
+const ROLES = require('./roles_list')
+const mailSender = require('./mail_sender');
+const sendingMail = require("./mail_sender");
+
+
 productRoutes.get("/all-products", (req, res) => {
 	Product.find()
 		.then((result) => {
@@ -61,11 +67,15 @@ productRoutes.get("/search-products", async (req, res) => {
 });
 
 
-productRoutes.post("/add-product", async (req, res) => {
+productRoutes.post("/add-product", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
 	try {
 		const productData = req.body; 
 		const newProduct = new Product(productData); 
 		const savedProduct = await newProduct.save();
+
+		if(savedProduct.discountPercentage >= 20){
+			const answ = sendingMail.mailSenderToAll()
+		}
 
 		res.status(201).json(savedProduct); 
 	} catch (error) {
@@ -93,6 +103,31 @@ productRoutes.get("/products/:productId/all-reviews", async (req, res) => {
 	}
 });
 
+
+productRoutes.post('/update-discount',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+  const { productId, discountPercentage } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: { discountPercentage } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Produkt nie znaleziony' });
+    }
+
+	if (discountPercentage >= 20 && updatedProduct) {
+		await sendingMail(updatedProduct); 
+	  }
+  
+    res.json(updatedProduct); 
+  } catch (error) {
+    console.error('Error updating product discount:', error);
+    res.status(500).json({ message: 'Wystąpił błąd serwera podczas aktualizacji rabatu produktu' });
+  }
+});
 
 
 module.exports = productRoutes;

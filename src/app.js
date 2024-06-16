@@ -19,6 +19,7 @@ const adminRoutes = require('./admin_reports_routes');
 const authenticationRoutes = require('./authentication_routes')
 const logsRoutes = require('./routes/logs_routes')
 const bodyParser = require('body-parser');
+const sendingMail = require('./mail_sender')
 
 // Middleware
 app.use(bodyParser.json());
@@ -51,7 +52,7 @@ app.use("/", commentRoutes)
 app.use("/", logsRoutes)
 app.use("/", adminRoutes)
 app.use("/", authenticationRoutes)
-
+app.use("/", sendingMail)
 
 app.listen(PORT, ()=>{
 	console.log(`Local server opened on http://localhost:${PORT}/`);

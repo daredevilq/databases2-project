@@ -10,7 +10,7 @@ const ROLES = require('./roles_list')
 
 commentRoutes.use(express.json())
 
-commentRoutes.get("/user-comments/:userId", async (req, res) =>{
+commentRoutes.get("/user-comments/:userId", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) =>{
 		const { userId } = req.params;
 
 		const aggregationPipeline = aggregationPipelines.searchAllUserComments(userId)
@@ -39,8 +39,10 @@ commentRoutes.get("/my-reviews", authorization.authenticateToken, authorization.
 })
 
 
-commentRoutes.post('/add-review', async (req, res) => {
-		const { product_id, customer_id, rating, review } = req.body;
+commentRoutes.post('/add-review',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) => {
+		const { product_id, rating, review } = req.body;
+		const  customer_id = req.user.user._id
+
 		try {
 			const newReview = new Comments({
 				product_id: new mongoose.Types.ObjectId(product_id),
@@ -60,11 +62,11 @@ commentRoutes.post('/add-review', async (req, res) => {
 	});
 
 
-	commentRoutes.post('/add-comment/:reviewId', async (req, res) => {
+commentRoutes.post('/add-comment/:reviewId', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) => {
 		const { reviewId } =req.params;
 		const objectReviewId =  new mongoose.Types.ObjectId(reviewId)
-		const { userid, comment } = req.body
-
+		const { comment } = req.body
+		const userid = req.user.user._id
 		try {
 			const review = await Comments.findById(objectReviewId);
 			if (!review) {

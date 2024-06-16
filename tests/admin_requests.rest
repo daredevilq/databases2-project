@@ -1,3 +1,4 @@
+
 POST http://localhost:8000/login
 Content-Type: application/json
 
@@ -9,4 +10,47 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8000/financial-report-users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkJhcnRsYSIsInN1aXRlIjoiODBnIiwiY2l0eSI6IktyYWvDs3ciLCJ6aXBjb2RlIjoiMzAtMzg5In0sIl9pZCI6IjY2NjBjMDk1ZTYyMWUxNWE0NWMzNGQzOCIsImZpcnN0bmFtZSI6IlBpb3RyIiwibGFzdG5hbWUiOiLFmm1pYcWCZWsiLCJ1c2VybmFtZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5wbCIsInBhc3N3b3JkIjoiJDJiJDEwJE41YXN1a2RHQkVqS2FNT0FzWDgyUE9EU0hmYmZwZ2l6Z281bVdTT1dvaml1V055Ny9xSXhTIiwicm9sZSI6ImFkbWluIiwicGhvbmUiOiI2NjYtNjY2LTY2NiIsIl9fdiI6MH0sImlhdCI6MTcxODQ2NjExOSwiZXhwIjoxNzE4NDY3MzE5fQ.SuGh3Qk5d8AFkbNyfoYItH7cpqsH2PoU9JoSMNSQxu0
+Authorization: Bearer 
+
+
+###
+GET http://localhost:8000/orders-week
+Authorization: Bearer 
+###
+GET http://localhost:8000/orders-month-periodic
+Authorization: Bearer 
+
+###
+GET http://localhost:8000/orders-month
+Authorization: Bearer 
+###
+GET http://localhost:8000/users-number
+Authorization: Bearer 
+###
+GET http://localhost:8000/customers-around-world
+Authorization: Bearer 
+###
+
+
+GET http://localhost:8000/traffic
+Authorization: Bearer 
+
+###
+GET http://localhost:8000/dashboard
+Authorization: Bearer 
+
+
+###
+//http://localhost:8000/user-comments/:userId
+GET http://localhost:8000/user-comments/661ee379a881e0b8999aabee
+Authorization: Bearer 
+
+###
+POST http://localhost:8000/update-discount
+Authorization: Bearer 
+Content-Type: application/json
+
+{
+    "productId": "661edcb6a881e0b8999aabcb", 
+    "discountPercentage": 21
+}

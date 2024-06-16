@@ -14,7 +14,6 @@ function matchAllProductsWithGivenID(productID){
 function matchAllBasketsWithGivenUserID(userID){
 	const userObjectId = new mongoose.Types.ObjectId(userID)
 	return  [
-		// Znajdź koszyki dla danego użytkownika
 		{ $match: { user_id: userObjectId } },
 		{
 			$lookup: {
@@ -26,7 +25,6 @@ function matchAllBasketsWithGivenUserID(userID){
 		},
 		{ $unwind: '$user' },
 
-		// Lookup produktów
 		{
 			$lookup: {
 				from: 'products',
@@ -35,7 +33,6 @@ function matchAllBasketsWithGivenUserID(userID){
 				as: 'productDetails'
 			}
 		},
-		// Projektowanie produktów z wybranymi atrybutami
 		{
 			$project: {
 				user: 1,
@@ -103,7 +100,6 @@ function matchAllBasketsDetailed(userId, title, category){
                 as: 'productDetails'
             }
         },
-        // Lookup to join the brand details
         {
             $lookup: {
                 from: 'brands',
@@ -624,6 +620,81 @@ function getLogsForUser(userId) {
     return pipeline;
 }
 
+
+function websiteTraffic(){
+	return [
+		{
+		  "$addFields": {
+			"time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "year": {
+				"$year": "$time"
+			  },
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"amount": "$__alias_1",
+			"date": "$__alias_0",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.year": 1,
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		}
+	  ]
+}
+
+
 module.exports = {
 	matchAllProductsWithGivenID,
 	matchAllBasketsWithGivenUserID,
@@ -635,6 +706,7 @@ module.exports = {
 	ordersWeekly,
 	ordersMonthlyPeriodic,
 	ordersMonthly,
-	getLogsForUser
+	getLogsForUser,
+	websiteTraffic
 };
 

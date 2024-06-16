@@ -16,6 +16,9 @@
 - **jsonwebtoken** - biblioteka służąca do tworzenia i weryfikacji tokenów sieciowych JSON (JWT).
 - **moongose** - to narzędzie do modelowania obiektów MongoDB zaprojektowane do pracy w środowisku asynchronicznym. Mongoose obsługuje Node.js i Deno (alfa).
 - **mongodb-js/charts-embed-dom** 
+- **nodemailer** - biblioteka pomocna przy wysylaniu maili
+- **mailgen** - biblioteka generujaca templatki do maili
+
 **Wykonali:**
 
 **Piotr Śmiałek** -  piotrsmia@student.agh.edu.pl
@@ -797,6 +800,156 @@ kolekcja zawierająca proste informacje na temat logowania / wylogowywania się 
 }
 ```
 
+# Triggery
+
+**UpdateProductrating**
+
+- trigger aktualizuje rating produktu na podstawie wystawionych mu opinii. Odpala sie za każdym razem kiedy dodawany jest nowy dokument do kolekcji **comments**. Trigger zlicza średnia wartość ratingu w comments dla produktu, dla którego opinia została wytawiona i aktualizuję wartość w kolekcji products
+
+```js
+exports = async function(changeEvent) {
+  const serviceName = "Cluster0"; 
+  const databaseName = "Shop"; 
+  const productsCollectionName = "products";
+  const commentsCollectionName = "comments";
+
+  const database = context.services.get(serviceName).db(databaseName);;
+  if (!database) {
+    console.error(`Database ${databaseName} not found.`);
+    return;
+  }
+
+  const productsCollection = database.collection(productsCollectionName);
+  const commentsCollection = database.collection(commentsCollectionName);
+  
+  
+  if (changeEvent.operationType === "insert") {
+    const fullDocument = changeEvent.fullDocument;
+
+    const productId = fullDocument.product_id;
+    
+    console.log('productId ' + productId)
+
+    try {
+      const productComments = await commentsCollection.find({ "product_id": productId }).toArray();
+      const totalRating = productComments.reduce((sum, comment) => sum + parseFloat(comment.rating), 0);
+      const averageRating = parseFloat((totalRating / productComments.length).toFixed(2));
+      console.log('totalRating ' + totalRating)
+      console.log('averageRating ' + averageRating)
+      
+      await productsCollection.updateOne(
+        { "_id":  productId  },
+        { "$set": { "rating": averageRating } }
+      );
+
+      console.log(`Updated rating for product ${productId} to ${averageRating}`);
+    } catch (err) {
+      console.error(`Error updating rating for product ${productId}: ${err.message}`);
+    }
+  }
+};
+
+```
+
+
+**MailSender**
+- niestandardowy trigger, który uruchamia się kiedy admin aktualizuje procentowa zniżke na produkt w bazie danych (discountPercentage) - pod warunkiem, że ta procentowa znizka jest więszka lub równa 20%, wtedy wysyłana jest infoamcja z promocyjną ofertą do wszyskich użytkowników w bazie danych droga mailową
+
+Enpoint aktualizujący produkt:
+```js
+
+productRoutes.post('/update-discount',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+  const { productId, discountPercentage } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: { discountPercentage } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Produkt nie znaleziony' });
+    }
+
+	if (discountPercentage >= 20 && updatedProduct) {
+		await sendingMail(updatedProduct); 
+	  }
+  
+    res.json(updatedProduct); 
+  } catch (error) {
+    console.error('Error updating product discount:', error);
+    res.status(500).json({ message: 'Wystąpił błąd serwera podczas aktualizacji rabatu produktu' });
+  }
+});
+```
+
+
+Funcka wysyłjąca maile do użytkowników:
+
+```js
+async function mailSenderToAll(product) {
+	try {    
+	  let config = {
+		service: 'gmail',
+		auth: {
+		  user: process.env.EMAIL,
+		  pass: process.env.PASSWD 
+		}
+	  };
+	  
+	  let transporter = nodemailer.createTransport(config);
+	  let mailGenerator = new Mailgen({
+		theme: "default",
+		product: {
+		  name: "Mailgen",
+		  link: 'https://mailgen.js/'
+		}
+	  });
+	  
+	  const users = await User.find({});
+	  console.log(users);
+
+	  const productImgHtml = (product.images && product.images.length > 0) ? `<br><img src="${product.images[0]}" alt="${product.title}">` : '' 
+	  console.log(productImgHtml)
+	  for (let user of users) {
+		let response = {
+		  body: {
+			name: `${user.firstname} ${user.lastname}`,
+			intro: `We have a special offer for you on ${product.title}!`,
+			table: {
+			  data: [
+				{
+					item: product.title,
+					description: product.description,
+					price: product.price,
+					discount: `${product.discountPercentage} %`
+				}
+			  ]
+			},
+			outro: `Looking forward to doing more business with you. ${productImgHtml}`,
+		  }
+		};
+	
+		let mail = mailGenerator.generate(response);
+	
+		let message = {
+		  from: process.env.EMAIL,
+		  to: user.email,
+		  subject: "SPECIAL OFFER",
+		  html: mail
+		};
+	
+		const res = await transporter.sendMail(message);
+		console.log(`Email sent to ${user.email}: ` + res.response);
+	  }
+	  
+	} catch (err) {
+	  console.log("Error performing email send: ", err.message);
+	}
+  }
+```
+
 # Logowanie
 
 
@@ -847,12 +1000,93 @@ function authenticateToken(req, res, next){
 	}
 ```
 
+Endpoint realizujacy logowanie:
+
+```js
+
+authenticationRoutes.post('/login', async (req, res) => {
+		try {
+			const { email, password} = req.body;
+			console.log(email)
+			console.log(password)
+			const user = await User.findOne({ email: email });
+			if (user == null) {
+				return res.status(400).send('Cannot find user with given email');
+			}
+	
+			if (!await bcrypt.compare(password, user.password)) {
+				return res.status(400).send('Wrong password');
+			}
+	
+			const accessToken = jwt.sign(
+				{ user : user },
+				process.env.ACCESS_TOKEN_SECRET,
+				{ expiresIn: '20m' }
+			);
+			
+			console.log(new Date())
+
+			const newLog = new Logs({
+				user_id: user._id, 
+				action_type: 'login',
+				time: new Date()
+			});
+			
+
+			const savedLog = await newLog.save();
+			console.log(savedLog)
+			res.status(201).json({ accessToken: accessToken });
+		} catch (error) {
+			console.error("Error during login:", error);
+			res.status(500).send('An error occurred during login');
+		}
+	});
+```
 
 
 
 # Admin 
 
 Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów customera i guesta)
+
+**GET /customers-around-world**
+- zwraca zarejestrowanych użytkowników w danych krajach i interaktywna mapke, która mozna osadzić na forncie
+
+<img src="./docs/customers-around.png">
+
+**GET /orders-week**
+- zwraca liczbe zamówien dla danego dnia tygodnia i link do interaktywnego wykresu
+
+<img src="./docs/orders-week.png">
+
+**GET /orders-month-periodic**
+-zwraca liczbe zamówien z podziałem na poszczególne miesiące + wykres kolumnowy
+
+<img src="./docs/months-periodic.png">
+
+**GET /orders-month** 
+- zwraca liczbe zamówien dla każdego miesiąca od początku działania sklepu internetowego + zwraca wykres kolumnowy
+
+
+<img src="./docs/orders-monthly.png">
+
+
+**GET /users-number**
+- zwraca liczbe użytkowników w bazie danych
+
+
+**GET /traffic**
+- zwraca informacje o liosci logowan na nasza strone internetowa, dodatkowo zwraca wykres logowan w czasie
+<img src="./docs/traffic.png">
+
+
+**GET /dashboard**
+- zwraca panel z wszystkimi wykresami
+
+
+**GET /user-comments/:userId"**
+- zwraca wytawione opinie danego użytkownika o podanym id
+
 
 
 
@@ -862,6 +1096,12 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 Enpointy do jakich ma dostęp customer (dodatkowo ma dostęp do endpointów guesta):
 
 **POST /create-basket**
+- pozwala na stworzenie koszyka z produktami
+
+
+
+
+
 **POST /my-shopping**
 **GET /search-products**
 **GET /products/:productId/all-reviews**
@@ -871,6 +1111,6 @@ Enpointy do jakich ma dostęp customer (dodatkowo ma dostęp do endpointów gues
 **GET /search-brands**
 **GET /my-reviews**
 **GET /my-logs**
-
+**POST /add-comment/:reviewId**
 
 

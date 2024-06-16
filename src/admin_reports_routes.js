@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const authorization = require("./authorization")
 const ROLES = require("./roles_list")
+const Logs = require("./models/log")
 
 //const chartsSDK = require('@mongodb-js/charts-embed-dom')
 //import ChartsEmbedSDK from '@mongodb-js/charts-embed-dom';
@@ -79,7 +80,7 @@ adminRoutes.get('/orders-week',authorization.authenticateToken, authorization.au
 });
 
 
-adminRoutes.get('/orders-month-periodic', async (req, res) =>{
+adminRoutes.get('/orders-month-periodic', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),async (req, res) =>{
 	try{
 		const link = "https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=6668bae5-325c-45ec-8dc8-308c05c8aaca&maxDataAge=300&theme=light&autoRefresh=true"
 
@@ -97,7 +98,7 @@ adminRoutes.get('/orders-month-periodic', async (req, res) =>{
 
 
 
-adminRoutes.get('/orders-month', async (req, res) =>{
+adminRoutes.get('/orders-month', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) =>{
 	try{
 		const link = "https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=6668bf57-0dc0-4b69-8eaf-3a41f25b836d&maxDataAge=300&theme=light&autoRefresh=true"
 
@@ -114,7 +115,7 @@ adminRoutes.get('/orders-month', async (req, res) =>{
 })
 
 
-adminRoutes.get('/usersnumber', async (req, res)=>{
+adminRoutes.get('/users-number', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res)=>{
 	try{
 		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=6668c275-6ca1-4125-8fcf-c8c74c59a5b0&maxDataAge=300&theme=light&autoRefresh=true`
 		
@@ -128,6 +129,24 @@ adminRoutes.get('/usersnumber', async (req, res)=>{
 		res.status(500).send('Failed to get data from chart');
 	}
 })
+
+adminRoutes.get('/traffic', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res)=>{
+	try{
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=666dc09c-8492-4b8e-8ce7-8e01d4bccf78&maxDataAge=300&theme=light&autoRefresh=true`
+		
+		const pipeline = aggregationPipelines.websiteTraffic()
+		const data = await Logs.aggregate(pipeline)
+		data.push({chartLink: link})
+		res.send(data)
+		
+	}catch{
+		console.error('Failed to get data from chart:', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data from chart');
+	}
+})
+
+
 
 adminRoutes.get('/dashboard', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), (req, res) =>{
 	const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/public/dashboards/665ddbee-7ec1-418e-8b22-c4ebd96d3c04`
