@@ -164,7 +164,7 @@ userRoutes.post("/create-basket", authorization.authenticateToken, authorization
 
 	const productsArr = products.split(';');
 	try {
-
+		
 		const productsAvailbility = await helperFunctions.checkWhetherProductsAreAvailable(productsArr) 
 		if(!productsAvailbility){
 			res.status(500).json({ message: "One of the products is not available" });

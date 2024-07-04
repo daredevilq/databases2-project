@@ -802,7 +802,7 @@ kolekcja zawierająca proste informacje na temat logowania / wylogowywania się 
 
 # Triggery
 
-**UpdateProductrating**
+**UpdateProductRating**
 
 - trigger aktualizuje rating produktu na podstawie wystawionych mu opinii. Odpala sie za każdym razem kiedy dodawany jest nowy dokument do kolekcji **comments**. Trigger zlicza średnia wartość ratingu w comments dla produktu, dla którego opinia została wytawiona i aktualizuję wartość w kolekcji products
 
@@ -885,7 +885,7 @@ productRoutes.post('/update-discount',authorization.authenticateToken, authoriza
 ```
 
 
-Funcka wysyłjąca maile do użytkowników:
+Funcka wysyłająca maile do użytkowników:
 
 ```js
 async function mailSenderToAll(product) {
@@ -949,6 +949,47 @@ async function mailSenderToAll(product) {
 	}
   }
 ```
+
+**LogsTrigger**
+
+Podczas logowania lub wylogowywania, dodajemy to kolekcji logs informacje o o akcji jaką podją użytkownik i o dokładnym czasie podjecia tej akcji
+
+Endpoint wylogowywania w którym dodajemy 
+
+```js
+authenticationRoutes.get('/logout',authorization.authenticateToken, async (req, res) => {
+		try {
+		
+				const denyToken =jwt.sign(
+				{ user : req.user.user },
+				process.env.DENY_TOKEN_SECRET,
+				{ expiresIn: '2s' }
+			);
+
+
+			const newLog = new Logs({
+				user_id: req.user.user._id, 
+				action_type: 'logout',
+				time: new Date()
+			});
+
+
+			const savedLog = await newLog.save()
+
+			const toSend = {
+				logut : savedLog,
+				deny: denyToken
+			}
+
+			res.status(201).send(toSend);
+		} catch (error) {
+			console.error("Error during logout:", error);
+			res.status(500).send('An error occurred during logout');
+		}
+	});
+```
+
+
 
 # Logowanie
 
@@ -1057,7 +1098,10 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 - aggregation pipe:
 ```js
-[
+
+
+function profitWeekly(){
+	return [
 		{
 		  "$match": {
 			"transaction.status": { "$in": ["completed", "in_progress"] }
@@ -1119,13 +1163,39 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 		  }
 		}
 	  ]
+}
 ```
+
+
 
 
 **GET /customers-around-world**
 - zwraca zarejestrowanych użytkowników w danych krajach i interaktywna mapke, która mozna osadzić na forncie
 
 <img src="./docs/customers-around.png">
+
+```js
+ 
+function countCoustomersInCountries(){
+	return [
+		{
+			$group: {
+				_id: "$address.country",
+				userCount: { $sum: 1 }
+			}
+		},
+		{
+			$sort: { userCount: -1 }
+		},{
+			$project:{
+				country: "$_id",
+				_id:0,
+				userCount: "$userCount"
+			}
+		}
+	]
+}
+```
 
 
 **GET /most-profitable-products**
@@ -1136,7 +1206,9 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 - aggregation pipe:
 ```js
-[
+
+function mostProfitableProducts(){
+	return [
 		{
 		  "$lookup": {
 			"from": "products",
@@ -1191,6 +1263,8 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 		  }
 		}
 	  ]
+	  
+}
 ```
 
 
@@ -1257,6 +1331,7 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 
 
+
 **GET /orders-month-periodic**
 -zwraca liczbe zamówien z podziałem na poszczególne miesiące + wykres kolumnowy
 
@@ -1264,7 +1339,9 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 
 ```js
-[
+
+function ordersMonthlyPeriodic(){
+	return [
 		{
 		  "$addFields": {
 			"date_time": {
@@ -1336,12 +1413,63 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 			}
 		}
 	  ]
+}
 ```
 
 **GET /financial-report-users**
 
 - pokazuje sprawozdanie finansowe dla kazdego uzytkownika (ile przychodu wygenerowal dla sklepu)
 
+```js
+
+function financialReportUsers(){
+	const pipeline = [
+		
+		{ $unwind: "$products" },
+		{
+			$lookup: {
+				from: "products",
+				localField: "products",
+				foreignField: "_id",
+				as: "productInfo"
+			}
+		},
+		
+		{ $unwind: "$productInfo" },
+		
+		{
+			$group: {
+				_id: "$user_id",
+				totalAmount: { $sum: "$productInfo.price" }
+			}
+		},
+		
+		{
+			$lookup: {
+				from: "users",
+				localField: "_id",
+				foreignField: "_id",
+				as: "userInfo"
+			}
+		},
+		
+		{ $unwind: "$userInfo" },
+		
+		// prrojektowanie końcowego wyniku
+		{
+			$project: {
+				_id: 0,
+				userId: "$_id",
+				firstname: "$userInfo.firstname",
+				lastname: "$userInfo.lastname",
+				totalAmount: "$totalAmount"
+			}
+		}
+	];
+
+	return pipeline
+}
+```
 
 
 **GET /orders-month** 
@@ -1350,7 +1478,81 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 <img src="./docs/orders-monthly.png">
 
+```js
 
+function ordersMonthly(){
+	return [
+		{
+		  "$addFields": {
+			"date_time": {
+			  "$cond": {
+				"if": {
+				  "$eq": [
+					{
+					  "$type": "$date_time"
+					},
+					"date"
+				  ]
+				},
+				"then": "$date_time",
+				"else": null
+			  }
+			}
+		  }
+		},
+		{
+		  "$addFields": {
+			"__alias_0": {
+			  "year": {
+				"$year": "$date_time"
+			  },
+			  "month": {
+				"$subtract": [
+				  {
+					"$month": "$date_time"
+				  },
+				  1
+				]
+			  }
+			}
+		  }
+		},
+		{
+		  "$group": {
+			"_id": {
+			  "__alias_0": "$__alias_0"
+			},
+			"__alias_1": {
+			  "$sum": 1
+			}
+		  }
+		},
+		{
+		  "$project": {
+			"_id": 0,
+			"__alias_0": "$_id.__alias_0",
+			"__alias_1": 1
+		  }
+		},
+		{
+		  "$project": {
+			"x": "$__alias_0",
+			"y": "$__alias_1",
+			"_id": 0
+		  }
+		},
+		{
+		  "$sort": {
+			"x.year": 1,
+			"x.month": 1
+		  }
+		},
+		{
+		  "$limit": 5000
+		}
+	  ]
+}
+```
 
 
 **GET /orders-week**
@@ -1359,7 +1561,8 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 <img src="./docs/orders-week.png">
 
 ```js
-[
+function ordersWeekly(){
+	return [
 		{
 			"$addFields": {
 				"date_time": {
@@ -1411,6 +1614,7 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 			}
 		}
 	];
+}
 ```
 
 
@@ -1418,13 +1622,33 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 - zwraca liczbe użytkowników w bazie danych
 
 
+```js
+
+adminRoutes.get('/users-number', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res)=>{
+	try{
+		const link = `https://charts.mongodb.com/charts-data-bases2-project-byelmxs/embed/charts?id=6668c275-6ca1-4125-8fcf-c8c74c59a5b0&maxDataAge=300&theme=light&autoRefresh=true`
+		
+		const data = await User.aggregate([{$count: "totalUsers"}])
+		data.push({chartLink: link})
+		res.send(data)
+		
+	}catch{
+		console.error('Failed to get data from chart:', error.message);
+		console.error('Stack trace:', error.stack);
+		res.status(500).send('Failed to get data from chart');
+	}
+})
+```
+
 **GET /traffic**
 - zwraca informacje o liosci logowan na nasza strone internetowa, dodatkowo zwraca wykres logowan w czasie
 <img src="./docs/traffic.png">
 
 
 ```js
-[
+
+function websiteTraffic(){
+	return [
 		{
 		  "$addFields": {
 			"time": {
@@ -1494,6 +1718,7 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 		  "$limit": 5000
 		}
 	  ]
+}
 ```
 
 **GET /dashboard**
@@ -1503,18 +1728,115 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 **GET /user-comments/:userId"**
 - zwraca wytawione opinie danego użytkownika o podanym id
 
+```js
+
+commentRoutes.get("/user-comments/:userId", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) =>{
+		const { userId } = req.params;
+
+		const aggregationPipeline = aggregationPipelines.searchAllUserComments(userId)
+		try{
+				const answ = await Comments.aggregate(aggregationPipeline)
+
+				res.json(answ)
+		}catch(error){
+				console.error(error);
+				res.status(500).json({ message: "Wystąpił błąd serwera" });
+		}
+})
+```
+
+
 **GET /searchuser**
 
 - endpoint pozwalazacy wyszukac usera o podanych kryteriach
 
 
+```js
+
+
+userRoutes.get("/searchuser", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]),(req, res) => {
+	const { firstname, lastname, username, email, city, zipcode, country } = req.query;
+
+	const searchCriteria = {};
+
+	if (firstname) searchCriteria.firstname = firstname;
+	if (lastname) searchCriteria.lastname = lastname;
+	if (username) searchCriteria.username = username;
+	if (email) searchCriteria.email = email;
+	if (city) searchCriteria["address.city"] = city;
+	if (zipcode) searchCriteria["address.zipcode"] = zipcode;
+	if (country) searchCriteria["address.country"] = country;
+
+	User.find(searchCriteria)
+		.then((users) => {
+			res.send(users);
+		})
+		.catch((error) => {
+			console.log(error);
+			res.status(500).send("Wystąpił błąd podczas wyszukiwania użytkowników.");
+		});
+});
+```
+
 **POST /add-product**
 
 - endpoint dodaje nowy produkt do bazy danych 
 
+
+```js
+
+productRoutes.post("/add-product", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+	try {
+		const productData = req.body; 
+		const newProduct = new Product(productData); 
+		const savedProduct = await newProduct.save();
+
+		if(savedProduct.discountPercentage >= 20){
+			const answ = sendingMail.mailSenderToAll()
+		}
+
+		res.status(201).json(savedProduct); 
+	} catch (error) {
+		console.error("Error creating product:", error);
+		res
+			.status(500)
+			.json({ message: "Wystąpił błąd serwera podczas tworzenia produktu" });
+	}
+});
+```
+
 **POST /update-discount**
 
 - aktualizuje żniżke dla porduktu, jeśli zniżka będzie mniejsza od 20%, wyzwalany jest trigger który wysyła maile do użytkowników
+
+```js
+
+
+productRoutes.post('/update-discount',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+  const { productId, discountPercentage } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      { $set: { discountPercentage } },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: 'Produkt nie znaleziony' });
+    }
+
+	if (discountPercentage >= 20 && updatedProduct) {
+		await sendingMail(updatedProduct); 
+	  }
+  
+    res.json(updatedProduct); 
+  } catch (error) {
+    console.error('Error updating product discount:', error);
+    res.status(500).json({ message: 'Wystąpił błąd serwera podczas aktualizacji rabatu produktu' });
+  }
+});
+```
 
 
 **POST /change-user-password**
@@ -1522,7 +1844,93 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 - zmieniamy haslo użytkownika o podanym Id
 
 
+```js
+
+userRoutes.post('/change-user-password', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) =>{
+	try{
+		const { email, newPassword } = req.body;
+
+		if (!email || !newPassword) {
+			return res.status(400).send('Email and password are required');
+		}
+
+		const user = await User.findOne({email: email})
+		
+		if (!user) {
+			return res.status(404).send('User not found');
+		}
+		
+		const salt = await bcrypt.genSalt()
+		const hashedPassword = await bcrypt.hash(newPassword, salt)
+		
+		user.password = hashedPassword;
+		await user.save();
+		res.status(200).send('Password updated successfully');
+	}
+	catch(error){
+		console.error("Error updating password:", error);
+		res.status(500).send('An error occurred while updating the password');
+	}
+})
+
+```
+
 **POST /register-admin**
+
+- rejestruje nowego admina w bazie danych 
+
+```js
+userRoutes.post('/register-admin',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN]), async (req, res) => {
+	try {
+		const {
+			firstname,
+			lastname,
+			username,
+			email,
+			password,
+			country, street, suite, city, zipcode,
+			phone
+		} = req.body;
+		const role = ROLES.ADMIN
+		if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
+			return res.status(400).send('All required fields must be provided');
+		}
+
+		const existingUser = await User.findOne({ email: email });
+		const existingUserUsername = await User.findOne({username: username})
+		if (existingUser || existingUserUsername) {
+			return res.status(409).send('User with this email already exists');
+		}
+
+
+		const salt = await bcrypt.genSalt();
+		const hashedPassword = await bcrypt.hash(password, salt);
+
+		const newUser = new User({
+			firstname,
+			lastname,
+			username,
+			email,
+			password: hashedPassword,
+			role: role,
+			address: {
+				country,
+				street,
+				suite,
+				city,
+				zipcode
+			},
+			phone
+		});
+		await newUser.save();
+
+		res.status(201).send('User created successfully');
+	} catch (error) {
+		console.error("Error creating user:", error);
+		res.status(500).send('An error occurred while creating the user');
+	}
+});
+```
 
 # Customer
 
@@ -1531,42 +1939,469 @@ Enpointy do jakich ma dostęp customer (dodatkowo ma dostęp do endpointów gues
 **POST /create-basket**
 - pozwala na stworzenie koszyka z produktami
 
+```js
+
+userRoutes.post("/create-basket", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]) ,async (req, res) => {
+	// format for sending products is: products:id_1;id_2;id_2
+	// as you see we are using const productIds = products.split(';');
+	console.log("------------------")
+	const userId = req.user.user._id
+	const {products, currency, payment_method } = req.body;
+	const delivery_status = "order_placed";
+	const status = "completed"
+
+	if(!products){
+		res.status(500).json({ message: "You must provide products" });
+	}
+
+	const productsArr = products.split(';');
+	try {
+
+		const productsAvailbility = await helperFunctions.checkWhetherProductsAreAvailable(productsArr) 
+		if(!productsAvailbility){
+			res.status(500).json({ message: "One of the products is not available" });
+		}
+
+		const decreasingResult = await helperFunctions.decreaseProductQuantity(productsArr)
+
+		if(!decreasingResult){
+			res.status(500).json({ message: "Cant decrese products quantity" });
+		}
+
+		const newBasket = new Basket({
+			user_id: new mongoose.Types.ObjectId(userId),
+			date_time: new Date(),
+			products: productsArr.map(productId => new mongoose.Types.ObjectId(productId)),
+			transaction: {
+				currency,
+				payment_method,
+				status,
+				timestamp: new Date(),
+			},
+			delivery_status,
+		});
+
+
+		const savedBasket = await newBasket.save();
+
+		res.status(201).json(savedBasket);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+```
+
 **POST /my-shopping**
 - sprawdzenie jakie swoich zakupów i podliczenie ile się za to zapłaciło
 
-**GET /search-products**
+```js
+
+userRoutes.post("/my-shopping", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]),async (req, res) => {
+	const {
+		minTotalValue,
+		maxTotalValue,
+		numberOfProducts,
+		deliveryStatus,
+		status,
+		timestamp,
+		title,
+		category
+	} = req.body;
+	
+	const userId = req.user.user._id;
+
+	let pipeline = aggregationPipelines.matchAllBasketsDetailed(userId, title, category);
+
+	// Additional filters
+	if (minTotalValue) {
+		pipeline.push({
+			$match: {
+				totalValue: {
+					$gte: parseFloat(minTotalValue) 
+				}
+			}
+		});
+	}
+
+	if (maxTotalValue) {
+		pipeline.push({
+			$match: {
+				totalValue: {
+					$lte: parseFloat(maxTotalValue) 
+				}
+			}
+		});
+	}
+
+
+	if (numberOfProducts) {
+		pipeline.push({
+			$match: {
+				'baskets.products': {
+					$size: parseInt(numberOfProducts, 10)
+				}
+			}
+		});
+	}
+	
+	if (deliveryStatus) {
+		pipeline.push({
+			$match: {
+				'baskets.delivery_status': deliveryStatus
+			}
+		});
+	}
+	
+	if (status) {
+		pipeline.push({
+			$match: {
+				'baskets.transaction.status': status
+			}
+		});
+	}
+	
+	if (timestamp) {
+		const date = new Date(timestamp);
+		pipeline.push({
+			$match: {
+				'transaction.timestamp': { $gte: date }
+			}
+		});
+	}
+	
+	try {
+		const result = await Basket.aggregate(pipeline);
+		res.json(result);
+	} catch (err) {
+		res.status(500).json({ message: err.message });
+	}
+});
+
+```
+
+**GET /search-products (GUEST ma także dostęp)** 
 - mozemy wyszukiwać produktów użytwając do tego róznych filtrów
 
-**GET /products/:productId/all-reviews**
+```js
+
+
+productRoutes.post("/search-products", async (req, res) => {
+	try {
+		console.log(req.body)
+		const {
+			title,
+			//brand,
+			category,
+			minPrice,
+			maxPrice,
+			minRating,
+			maxRating,
+			minDiscountPercentage,
+			maxDiscountPercentage,
+			minStock,
+			maxStock,
+		} = req.body;
+
+		const searchCriteria = {};
+
+		if (title) searchCriteria.title = { $regex: title, $options: "i" };
+		//if (brand) searchCriteria.brand = { $regex: brand, $options: "i" };
+		if (category) searchCriteria.category = { $regex: category, $options: "i" };
+		if (minPrice && maxPrice) {
+			searchCriteria.price = { $gte: minPrice, $lte: maxPrice };
+		} else if (minPrice) {
+			searchCriteria.price = { $gte: minPrice };
+		} else if (maxPrice) {
+			searchCriteria.price = { $lte: maxPrice };
+		}
+		if (minRating) searchCriteria.rating = { $gte: minRating };
+		if (maxRating) searchCriteria.rating = { $lte: maxRating };
+		if (minDiscountPercentage)
+			searchCriteria.discountPercentage = { $gte: minDiscountPercentage };
+		if (maxDiscountPercentage)
+			searchCriteria.discountPercentage = { $lte: maxDiscountPercentage };
+		if (minStock) searchCriteria.stock = { $gte: minStock };
+		if (maxStock) searchCriteria.stock = { $lte: maxStock };
+
+		const products = await Product.find(searchCriteria);
+		
+		res.json(products);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Wystąpił błąd serwera" });
+	}
+});
+```
+
+
+
+**GET /products/:productId/all-reviews (GUEST ma także dostęp)**
 - listuje wszystkie opinie o danym produkcie
 
+```js
 
-**GET /all-products**
+productRoutes.get("/products/:productId/all-reviews", async (req, res) => {
+	const { productId } = req.params;
+
+	const objectProductId = new mongoose.Types.ObjectId(productId)
+
+	try {
+		const aggregationPipeline =
+			aggregationPipelines.matchAllProductsWithGivenID(objectProductId);
+		
+		console.log(aggregationPipeline);
+		const result = await Comments.aggregate(aggregationPipeline);
+		res.json(result);
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Wystąpił błąd serwera" });
+	}
+});
+```
+
+
+**GET /all-products (GUEST ma także dostęp)**
 - listuje wszustkie produkty 
 
+
+```js
+
+productRoutes.get("/all-products", (req, res) => {
+	Product.find()
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+```
 **POST /add-review**
 
 - możemy dodać opinie do jakiegos produktu
 
-**GET /all-brands**
+```js
+
+
+commentRoutes.post('/add-review',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) => {
+		const { product_id, rating, review } = req.body;
+		const  customer_id = req.user.user._id
+
+		try {
+			const newReview = new Comments({
+				product_id: new mongoose.Types.ObjectId(product_id),
+				customer_id: new mongoose.Types.ObjectId(customer_id),
+				rating,
+				review,
+				date: new Date(),
+				comments: [],
+			});
+	
+			const savedReview = await newReview.save();
+			res.status(201).json(savedReview);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ message: "Wystąpił błąd serwera" });
+		}
+	});
+```
+
+
+**GET /all-brands (GUEST ma także dostęp)**
 
 - listuje wszyskie marki 
 
+```js
 
-**GET /search-brands**
+brandRoutes.get("/all-brands", (req, res) => {
+	Brand.find()
+		.then((result) => {
+			res.send(result);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
+```
+
+**GET /search-brands  (GUEST ma także dostęp)**
 - listuje marki wedlug podanych kryteriów 
+
+```js
+
+brandRoutes.post("/search-brands", async (req, res) => {
+    try {
+        console.log(req.body);
+        const {
+            name,
+            country,
+            city,
+            email,
+            phone,
+            website,
+            establishedYearMin,
+            establishedYearMax,
+        } = req.body;
+
+        // $options: "i" means that regex is case insensitive
+        const searchCriteria = {};
+        if (name) searchCriteria.name = { $regex: name, $options: "i" };
+        if (country) searchCriteria["location.country"] = { $regex: country, $options: "i" };
+        if (city) searchCriteria["location.city"] = { $regex: city, $options: "i" };
+        if (email) searchCriteria["contact.email"] = { $regex: email, $options: "i" };
+        if (phone) searchCriteria["contact.phone"] = { $regex: phone, $options: "i" };
+        if (website) searchCriteria.website = { $regex: website, $options: "i" };
+        if (establishedYearMin !== null && establishedYearMax !== null) {
+            searchCriteria.established_year = { $gte: establishedYearMin, $lte: establishedYearMax };
+        } else if (establishedYearMin !== null) {
+            searchCriteria.established_year = { $gte: establishedYearMin };
+        } else if (establishedYearMax !== null) {
+            searchCriteria.established_year = { $lte: establishedYearMax };
+        }
+
+        console.log(searchCriteria);
+        const companies = await Brand.find(searchCriteria);
+        res.json(companies);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Wystąpił błąd serwera" });
+    }
+});
+
+```
+
 
 **GET /my-reviews**
 
 - zwraca wszystkie opinie wystawione przez zalogowanego uzytkownika
 
+```js
+commentRoutes.get("/my-reviews", authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) =>{
+	
+	const userId = req.user.user._id;
+	const aggregationPipeline = aggregationPipelines.searchAllUserComments(userId)
+	try{
+			const answ = await Comments.aggregate(aggregationPipeline)
+
+			res.json(answ)
+	}catch(error){
+			console.error(error);
+			res.status(500).json({ message: "Wystąpił błąd serwera" });
+	}
+})
+
+```
+
+
 **GET /my-logs**
 
 - zwraca logi zalogowanego uzytkownika
+
+
+```js
+logsRoutes.get('/my-logs',authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res)=>{
+
+	const userId = req.user.user._id;
+	const aggregationPipeline = aggregationPipelines.getLogsForUser(userId)
+	try{
+			const answ = await Logs.aggregate(aggregationPipeline)
+			res.json(answ)
+	}catch(error){
+			console.error(error);
+			res.status(500).json({ message: "Wystąpił błąd serwera" });
+	}
+
+})
+
+```
 
 **POST /add-comment/:reviewId**
 
 - dodaje komentarz do opinii wystawionej przez kogos na tematu produktu
 
+```js
+
+commentRoutes.post('/add-comment/:reviewId', authorization.authenticateToken, authorization.authorizeRoles([ROLES.ADMIN, ROLES.CUSTOMER]), async (req, res) => {
+		const { reviewId } =req.params;
+		const objectReviewId =  new mongoose.Types.ObjectId(reviewId)
+		const { comment } = req.body
+		const userid = req.user.user._id
+		try {
+			const review = await Comments.findById(objectReviewId);
+			if (!review) {
+				return res.status(404).json({ message: "Recenzja nie została znaleziona" });
+			}
+	
+			review.comments.push({
+				userid,
+				comment
+			});
+	
+			const updatedReview = await review.save();
+			res.status(201).json(updatedReview);
+		} catch (error) {
+			console.error(error);
+			res.status(500).json({ message: "Wystąpił błąd serwera" });
+		}
+	});
+
+```
+
 
 **POST /register-user**
+
+```js
+
+userRoutes.post('/register-user', async (req, res) => {
+	try {
+		const {
+			firstname,
+			lastname,
+			username,
+			email,
+			password,
+			country, street, suite, city, zipcode,
+			phone
+		} = req.body;
+		const role = ROLES.CUSTOMER
+		if (!firstname || !lastname || !username || !email || !password || !country || !street || !city || !zipcode || !phone) {
+			return res.status(400).send('All required fields must be provided');
+		}
+
+		const existingUser = await User.findOne({ email: email });
+		const existingUserUsername = await User.findOne({username: username})
+		if (existingUser || existingUserUsername) {
+			return res.status(409).send('User with this email already exists');
+		}
+
+
+		const salt = await bcrypt.genSalt();
+		const hashedPassword = await bcrypt.hash(password, salt);
+
+		const newUser = new User({
+			firstname,
+			lastname,
+			username,
+			email,
+			password: hashedPassword,
+			role: role,
+			address: {
+				country,
+				street,
+				suite,
+				city,
+				zipcode
+			},
+			phone
+		});
+		await newUser.save();
+
+		res.status(201).send('User created successfully');
+	} catch (error) {
+		console.error("Error creating user:", error);
+		res.status(500).send('An error occurred while creating the user');
+	}
+});
+
+```

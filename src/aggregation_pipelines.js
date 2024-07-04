@@ -342,10 +342,9 @@ function financialReportUsers(){
 			}
 		},
 		
-		// Rozpakowanie tablicy userInfo
 		{ $unwind: "$userInfo" },
 		
-		// Projektowanie końcowego wyniku
+		// prrojektowanie końcowego wyniku
 		{
 			$project: {
 				_id: 0,

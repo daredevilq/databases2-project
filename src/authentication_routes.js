@@ -14,8 +14,6 @@ const authorization = require('./authorization')
 authenticationRoutes.post('/login', async (req, res) => {
 		try {
 			const { email, password} = req.body;
-			console.log(email)
-			console.log(password)
 			const user = await User.findOne({ email: email });
 			if (user == null) {
 				return res.status(400).send('Cannot find user with given email');

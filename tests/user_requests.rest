@@ -39,11 +39,11 @@ Content-Type: application/json
 ###
 
 POST http://localhost:8000/create-basket
-Authorization: Bearer
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkhvZWdlciBNYWxsIiwic3VpdGUiOiJBcHQuIDY5MiIsImNpdHkiOiJTb3V0aCBFbHZpcyIsInppcGNvZGUiOiI1MzkxOS00MjU3In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmMCIsImZpcnN0bmFtZSI6IlBhdHJpY2lhIiwibGFzdG5hbWUiOiJMZWJzYWNrIiwidXNlcm5hbWUiOiJLYXJpYW5uZSIsImVtYWlsIjoiSnVsaWFubmUuT0Nvbm5lckBrb3J5Lm9yZyIsInBhc3N3b3JkIjoiJDJiJDEwJEdONjRzSklrdHpxUnNtaENYT016WHUwUE1HZldSaktLSUVoMmJGWll3bjhKOHVzSlpSeFBPIiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiI0OTMtMTcwLTk2MjMgeDE1NiJ9LCJpYXQiOjE3MTg3OTkwODUsImV4cCI6MTcxODgwMDI4NX0.sxvN07CAVLqXy-mETqFTmRuUzHRvl_5yXVYNDY3prZM
 Content-Type: application/json
 
 {
-    "products" : "661edcb6a881e0b8999aabcb",
+    "products" : "661edcb6a881e0b8999aabcb;661edcb6a881e0b8999aabcb",
     "currency" : "PLN",
     "payment_method" : "PayPal"
 }
@@ -92,7 +92,7 @@ Content-Type: application/json
 
 {
     "title": "",
-    "category": "lap",
+    "category": "",
     "minPrice": 0,
     "maxPrice": 10000,
     "minRating": 0,
@@ -110,7 +110,7 @@ Content-Type: application/json
 
 {
     "name": "",
-    "country": "fra",
+    "country": "",
     "city": "",
     "email": "",
     "phone": "",
