@@ -1,0 +1,49 @@
+# DO NOT FORGET Bearer
+
+GET http://localhost:8000/allusers
+
+
+###
+GET http://localhost:8000/test
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IkF1c3RyaWEiLCJzdHJlZXQiOiJLYXR0aWUgVHVybnBpa2UiLCJzdWl0ZSI6IlN1aXRlIDE5OCIsImNpdHkiOiJMZWJzYWNrYnVyeSIsInppcGNvZGUiOiIzMTQyOC0yMjYxIn0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmNiIsImZpcnN0bmFtZSI6IkNsZW1lbnRpbmEiLCJsYXN0bmFtZSI6IkR1QnVxdWUiLCJ1c2VybmFtZSI6Ik1vcmlhaC5TdGFudG9uIiwiZW1haWwiOiJSZXkuUGFkYmVyZ0BrYXJpbmEuYml6IiwicGFzc3dvcmQiOiIkMmIkMTAkN281Z1pDUEhkUG5SR3BtaFEzT0cwZTZvN2dzcU15M2EvS2ZJZm1lQXd5Ymg1VEU5RDBvQ3EiLCJwaG9uZSI6IjAyNC02NDgtMzgwNCJ9LCJpYXQiOjE3MTc2MDAyMTEsImV4cCI6MTcxNzYwMTQxMX0.00BHQHZF6oCcwc4bsHTypI1nG684kQcA_VSgi9SOVAk
+
+
+###
+POST http://localhost:8000/createbasket/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkRheW5hIFBhcmsiLCJzdWl0ZSI6IlN1aXRlIDQ0OSIsImNpdHkiOiJCYXJ0aG9sb21lYnVyeSIsInppcGNvZGUiOiI3NjQ5NS0zMTA5In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmNSIsImZpcnN0bmFtZSI6IkdsZW5uYSIsImxhc3RuYW1lIjoiUmVpY2hlcnQiLCJ1c2VybmFtZSI6IkRlbHBoaW5lIiwiZW1haWwiOiJDaGFpbV9NY0Rlcm1vdHRAZGFuYS5pbyIsInBhc3N3b3JkIjoiJDJiJDEwJEgwTUhZLlpVWDRQT3RSaEdqTE5DRU9pbXAyWXRTZ2JmQndJRS9WNHVoa3NsSkNXdjM3NHd5Iiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiIoNzc1KTk3Ni02Nzk0IHg0MTIwNiJ9LCJpYXQiOjE3MTgxMzcyNDcsImV4cCI6MTcxODEzODQ0N30.x7yihXtr0TmqXAe_fWHG91Lfjex7IXj5HS99ZNjBH-4
+Content-Type: application/json
+
+{
+  "products": "661edcb6a881e0b8999aabe2;661edcb6a881e0b8999aabd7",
+  "currency": "USD",
+  "payment_method": "Credit Card",
+  "status": "completed",
+  "delivery_status": "order_placed"
+}
+
+
+###
+GET http://localhost:8000/usersnumber/
+
+
+### 
+
+POST http://localhost:8000/login
+Content-Type: application/json
+
+{
+  "email": "Julianne.OConner@kory.org",
+  "password": "haslo123"
+}
+
+
+###
+POST http://localhost:8000/my-shopping
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImFkZHJlc3MiOnsiY291bnRyeSI6IlBvbGFuZCIsInN0cmVldCI6IkhvZWdlciBNYWxsIiwic3VpdGUiOiJBcHQuIDY5MiIsImNpdHkiOiJTb3V0aCBFbHZpcyIsInppcGNvZGUiOiI1MzkxOS00MjU3In0sIl9pZCI6IjY2MWVlMzc5YTg4MWUwYjg5OTlhYWJmMCIsImZpcnN0bmFtZSI6IlBhdHJpY2lhIiwibGFzdG5hbWUiOiJMZWJzYWNrIiwidXNlcm5hbWUiOiJLYXJpYW5uZSIsImVtYWlsIjoiSnVsaWFubmUuT0Nvbm5lckBrb3J5Lm9yZyIsInBhc3N3b3JkIjoiJDJiJDEwJEdONjRzSklrdHpxUnNtaENYT016WHUwUE1HZldSaktLSUVoMmJGWll3bjhKOHVzSlpSeFBPIiwicm9sZSI6ImN1c3RvbWVyIiwicGhvbmUiOiI0OTMtMTcwLTk2MjMgeDE1NiJ9LCJpYXQiOjE3MTg0NTg5NDcsImV4cCI6MTcxODQ2MDE0N30.yb9E2YnVm5t0r6XvGnew-X8aPxtD0fuVj3Ui-gEdfzI
+Content-Type: application/json
+
+{
+  "minTotalValue" : 1,
+  "maxTotalValue" : 1000,
+  "numberOfProducts": 3
+}
