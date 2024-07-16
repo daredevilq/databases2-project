@@ -1,6 +1,6 @@
 <h1>Bazy danych 2 - Projekt</h1>
 
-<img src="./docs/1200px-Znak_graficzny_AGH.svg.png">
+<img src="./backend/docs/1200px-Znak_graficzny_AGH.svg.png">
 
 ## Temat: CRUD API sklepu internetowego
 
@@ -29,7 +29,7 @@
 
 diagram wygenerowany przy pomocy narządzia Hackolade
 
-<img src="./docs/diagram-model2.png">
+<img src="./backend/docs/diagram-model2.png">
 
 
 # Kolekcje
@@ -1094,7 +1094,7 @@ Endpointy do jakich ma dostęp Admin (dodatkowo ma dostęp do endpointów custom
 
 - zwraca listę dochodów z podziałem na tygodnie od początku działania sklepu internetowego z podziałem na tygodnie
 
-<img src="./docs/profit-weekly.png">
+<img src="./backend/docs/profit-weekly.png">
 
 - aggregation pipe:
 ```js
@@ -1172,7 +1172,7 @@ function profitWeekly(){
 **GET /customers-around-world**
 - zwraca zarejestrowanych użytkowników w danych krajach i interaktywna mapke, która mozna osadzić na forncie
 
-<img src="./docs/customers-around.png">
+<img src="./backend/docs/customers-around.png">
 
 ```js
  
@@ -1202,7 +1202,7 @@ function countCoustomersInCountries(){
 
 - zwraca listę produktów i przychód jakie one wygenerowały dla sklepu, lista jest posortowana od produktów, które wygenerowały najwięcej przychodu to tych, które wygenreowały najmniej
 
-<img src="./docs/most-profitable-products.png">
+<img src="./backend/docs/most-profitable-products.png">
 
 - aggregation pipe:
 ```js
@@ -1272,7 +1272,7 @@ function mostProfitableProducts(){
 
 - zwraca listę kategorii i przychodów jakie one wygenerowały dla sklepu, pokazuję, posortowana liste, które kategorie wygenerowały najwięcej, a które najmniej przychodów.
 
-<img src="./docs/most-profitable-categories.png">
+<img src="./backend/docs/most-profitable-categories.png">
 
 ```js
 [
@@ -1335,7 +1335,7 @@ function mostProfitableProducts(){
 **GET /orders-month-periodic**
 -zwraca liczbe zamówien z podziałem na poszczególne miesiące + wykres kolumnowy
 
-<img src="./docs/months-periodic.png">
+<img src="./backend/docs/months-periodic.png">
 
 
 ```js
@@ -1476,7 +1476,7 @@ function financialReportUsers(){
 - zwraca liczbe zamówien dla każdego miesiąca od początku działania sklepu internetowego + zwraca wykres kolumnowy
 
 
-<img src="./docs/orders-monthly.png">
+<img src="./backend/docs/orders-monthly.png">
 
 ```js
 
@@ -1558,7 +1558,7 @@ function ordersMonthly(){
 **GET /orders-week**
 - zwraca liczbe zamówien dla danego dnia tygodnia i link do interaktywnego wykresu
 
-<img src="./docs/orders-week.png">
+<img src="./backend/docs/orders-week.png">
 
 ```js
 function ordersWeekly(){
@@ -1642,7 +1642,7 @@ adminRoutes.get('/users-number', authorization.authenticateToken, authorization.
 
 **GET /traffic**
 - zwraca informacje o liosci logowan na nasza strone internetowa, dodatkowo zwraca wykres logowan w czasie
-<img src="./docs/traffic.png">
+<img src="./backend/docs/traffic.png">
 
 
 ```js
