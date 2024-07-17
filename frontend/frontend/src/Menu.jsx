@@ -17,6 +17,8 @@ function Menu() {
 
 						<Nav.Link href="/sign-in">Sign In</Nav.Link>
 
+						<Nav.Link href="/my-account"> My Account</Nav.Link>
+
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">
                                 Action

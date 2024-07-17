@@ -40,7 +40,9 @@ authenticationRoutes.post('/login', async (req, res) => {
 
 			const savedLog = await newLog.save();
 			console.log(savedLog)
-			res.status(201).json({ accessToken: accessToken });
+			res.status(201).json({ accessToken: accessToken,
+				user: user
+			 });
 		} catch (error) {
 			console.error("Error during login:", error);
 			res.status(500).send('An error occurred during login');

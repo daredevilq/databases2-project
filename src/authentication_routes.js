@@ -47,9 +47,6 @@ authenticationRoutes.post('/login', async (req, res) => {
 		}
 	});
 	
-authenticationRoutes.get('/tttest', async (req, res) =>{
-		res.send(await Logs.find())
-})
 
 
 authenticationRoutes.get('/logout',authorization.authenticateToken, async (req, res) => {
@@ -88,5 +85,8 @@ authenticationRoutes.get('/logout',authorization.authenticateToken, async (req, 
 	authenticationRoutes.get('/test', authorization.authenticateToken, authorization.authorizeRoles([ROLES.CUSTOMER]),(req, res) =>{
 		res.send(req.user)
 	})
+
+
+
 
 	module.exports = authenticationRoutes

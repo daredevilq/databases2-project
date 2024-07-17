@@ -15,4 +15,9 @@ const COUNTRIES = [
     "Poland",
 ];
 
-export default { API_URL, COUNTRIES };
+const ROLES = {
+    CUSTOMER: 'customer',
+    ADMIN: 'admin'
+};
+
+export default { API_URL, COUNTRIES, ROLES };
